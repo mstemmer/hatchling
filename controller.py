@@ -1,16 +1,20 @@
 import RPi.GPIO as GPIO
+from multiprocessing import Process, Queue
 import Adafruit_DHT
+import pidpy as PIDController
 import string
 import time
 import math
+import sys
 
 class BroodController():
 
-    def __init__(self, config):
+    def __init__(self, config, inc_program, q):
         GPIO.setmode(GPIO.BCM)       # Numbers GPIOs by physical location
         GPIO.setwarnings(False)
 
         self.sensor_1 = config['setup_pin']['sensor_1']
+        self.sensor_2 = config['setup_pin']['sensor_2']
         self.sensor = Adafruit_DHT.DHT22
 
         self.data_pin = config['setup_pin']['data']
@@ -28,82 +32,110 @@ class BroodController():
             GPIO.setup(p, GPIO.OUT)
         GPIO.output(self.heat_pin, GPIO.LOW)
 
-        self.set_temp = 37 # to config! create json files for species
-        self.set_humid = 55 # to config!
+        self.heat = GPIO.PWM(self.heat_pin, 200)
+        self.heat.start(0)
 
-        self.oor_temp_a = config['LED_status']['oor_temp'][0]
-        self.oor_temp_b = config['LED_status']['oor_temp'][1]
-        self.oor_temp_c = config['LED_status']['oor_temp'][2]
-        self.oor_temp_d = config['LED_status']['oor_temp'][3]
+        # init class
+        self.q = q
+        self.control()
 
-        self.oor_humid_a = config['LED_status']['oor_humid'][0]
-        self.oor_humid_b = config['LED_status']['oor_humid'][1]
-        self.oor_humid_c = config['LED_status']['oor_humid'][2]
-        self.oor_humid_d = config['LED_status']['oor_humid'][3]
+    def program(self):  ## continue here!!!
+        # config incubation program
+        self.set_humid = 55 # get from brood_lord via queue
+        self.set_temp = 37
 
-        self.sense_th()
+        self.oor_temp_high = []
+        self.oor_temp_low = []
+        self.oor_humid_high = []
+        self.oor_humid_low = []
+
+        for val in range(4):
+            temp_high = self.set_temp + self.config['LED_status']['oor_temp'][val]
+            temp_low = self.set_temp - self.config['LED_status']['oor_temp'][val]
+            humid_high = self.set_humid + self.config['LED_status']['oor_humid'][val]
+            humid_low = self.set_humid - self.config['LED_status']['oor_humid'][val]
+            self.oor_temp_high.append(temp_high)
+            self.oor_temp_low.append(temp_low)
+            self.oor_humid_high.append(humid_high)
+            self.oor_humid_low.append(humid_low)
+
 
     def status_read(self) :
-        if self.temp >= self.set_temp - self.oor_temp_a and self.temp <= self.set_temp + self.oor_temp_a and \
-            self.humid >= self.set_humid - self.oor_humid_a and self.humid <= self.set_humid + self.oor_humid_a:
+        if self.oor_temp_low[0] <= self.temp <= self.oor_temp_high[0] and \
+            self.oor_humid_low[0] <= self.humid <= self.oor_humid_high[0]:
             self.status = self.config['mode'][1]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_b and self.temp <= self.set_temp + self.oor_temp_b and \
-            self.humid >= self.set_humid - self.oor_humid_a and self.humid <= self.set_humid + self.oor_humid_a:
+
+        elif self.oor_temp_low[1] <= self.temp <= self.oor_temp_high[1] and \
+            self.oor_humid_low[0] <= self.humid <= self.oor_humid_high[0]:
             self.status = self.config['mode'][2]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_c and self.temp <= self.set_temp + self.oor_temp_c and \
-            self.humid >= self.set_humid - self.oor_humid_a and self.humid <= self.set_humid + self.oor_humid_a:
+
+        elif self.oor_temp_low[2] <= self.temp <= self.oor_temp_high[2] and \
+            self.oor_humid_low[0] <= self.humid <= self.oor_humid_high[0]:
             self.status = self.config['mode'][3]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_d and self.temp <= self.set_temp + self.oor_temp_d and \
-            self.humid >= self.set_humid - self.oor_humid_a and self.humid <= self.set_humid + self.oor_humid_a:
+
+        elif self.oor_temp_low[3] <= self.temp <= self.oor_temp_high[3] and \
+            self.oor_humid_low[0] <= self.humid <= self.oor_humid_high[0]:
             self.status = self.config['mode'][4]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_a and self.temp <= self.set_temp + self.oor_temp_a and \
-            self.humid >= self.set_humid - self.oor_humid_b and self.humid <= self.set_humid + self.oor_humid_b:
+
+        elif self.oor_temp_low[0] <= self.temp <= self.oor_temp_high[0] and \
+            self.oor_humid_low[1] <= self.humid <= self.oor_humid_high[1]:
             self.status = self.config['mode'][5]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_b and self.temp <= self.set_temp + self.oor_temp_b and \
-            self.humid >= self.set_humid - self.oor_humid_b and self.humid <= self.set_humid + self.oor_humid_b:
+
+        elif self.oor_temp_low[1] <= self.temp <= self.oor_temp_high[1] and \
+            self.oor_humid_low[1] <= self.humid <= self.oor_humid_high[1]:
             self.status = self.config['mode'][6]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_c and self.temp <= self.set_temp + self.oor_temp_c and \
-            self.humid >= self.set_humid - self.oor_humid_b and self.humid <= self.set_humid + self.oor_humid_b:
+
+        elif self.oor_temp_low[2] <= self.temp <= self.oor_temp_high[2] and \
+            self.oor_humid_low[1] <= self.humid <= self.oor_humid_high[1]:
             self.status = self.config['mode'][7]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_d and self.temp <= self.set_temp + self.oor_temp_d and \
-            self.humid >= self.set_humid - self.oor_humid_b and self.humid <= self.set_humid + self.oor_humid_b:
+
+        elif self.oor_temp_low[3] <= self.temp <= self.oor_temp_high[3] and \
+            self.oor_humid_low[1] <= self.humid <= self.oor_humid_high[1]:
             self.status = self.config['mode'][8]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_a and self.temp <= self.set_temp + self.oor_temp_a and \
-            self.humid >= self.set_humid - self.oor_humid_c and self.humid <= self.set_humid + self.oor_humid_c:
+
+        elif self.oor_temp_low[0] <= self.temp <= self.oor_temp_high[0] and \
+            self.oor_humid_low[2] <= self.humid <= self.oor_humid_high[2]:
             self.status = self.config['mode'][9]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_b and self.temp <= self.set_temp + self.oor_temp_b and \
-            self.humid >= self.set_humid - self.oor_humid_c and self.humid <= self.set_humid + self.oor_humid_c:
+
+        elif self.oor_temp_low[1] <= self.temp <= self.oor_temp_high[1] and \
+            self.oor_humid_low[2] <= self.humid <= self.oor_humid_high[2]:
             self.status = self.config['mode'][10]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_c and self.temp <= self.set_temp + self.oor_temp_c and \
-            self.humid >= self.set_humid - self.oor_humid_c and self.humid <= self.set_humid + self.oor_humid_c:
+
+        elif self.oor_temp_low[2] <= self.temp <= self.oor_temp_high[2] and \
+            self.oor_humid_low[2] <= self.humid <= self.oor_humid_high[2]:
             self.status = self.config['mode'][11]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_d and self.temp <= self.set_temp + self.oor_temp_d and \
-            self.humid >= self.set_humid - self.oor_humid_c and self.humid <= self.set_humid + self.oor_humid_c:
+
+        elif self.oor_temp_low[3] <= self.temp <= self.oor_temp_high[3] and \
+            self.oor_humid_low[2] <= self.humid <= self.oor_humid_high[2]:
             self.status = self.config['mode'][12]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_a and self.temp <= self.set_temp + self.oor_temp_a and \
-            self.humid >= self.set_humid - self.oor_humid_d and self.humid <= self.set_humid + self.oor_humid_d:
+
+        elif self.oor_temp_low[0] <= self.temp <= self.oor_temp_high[0] and \
+            self.oor_humid_low[3] <= self.humid <= self.oor_humid_high[3]:
             self.status = self.config['mode'][13]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_b and self.temp <= self.set_temp + self.oor_temp_b and \
-            self.humid >= self.set_humid - self.oor_humid_d and self.humid <= self.set_humid + self.oor_humid_d:
+
+        elif self.oor_temp_low[1] <= self.temp <= self.oor_temp_high[1] and \
+            self.oor_humid_low[3] <= self.humid <= self.oor_humid_high[3]:
             self.status = self.config['mode'][14]
             return self.status
-        elif self.temp >= self.set_temp - self.oor_temp_c and self.temp <= self.set_temp + self.oor_temp_c and \
-            self.humid >= self.set_humid - self.oor_humid_d and self.humid <= self.set_humid + self.oor_humid_d:
+
+        elif self.oor_temp_low[2] <= self.temp <= self.oor_temp_high[2] and \
+            self.oor_humid_low[3] <= self.humid <= self.oor_humid_high[3]:
             self.status = self.config['mode'][15]
             return self.status
+
         else :
             self.status = self.config['mode'][16]
             return self.status
@@ -121,20 +153,45 @@ class BroodController():
         GPIO.output(self.latch_pin,GPIO.HIGH) #Output high level to latchPin
         time.sleep(0.1)
 
-    def sense_th(self) :
-        while True :
-            try :
-                self.humidity, self.temperature = Adafruit_DHT.read_retry(self.sensor, self.sensor_1)
-                if math.isnan(self.humidity) == False and math.isnan(self.temperature) == False:
-                    self.humid = self.humidity
-                    self.temp = self.temperature
-                    self.status_out()
-                    print([self.humid,self.temp])
+    def heater(self):
+        # duty_cycle = pid.calcPID_reg4(self.temp, self.set_temp, True)
+        self.duty_cycle = 0
+        self.heat.ChangeDutyCycle(self.duty_cycle)
 
-                    time.sleep(2)
-                else :
-                    print('Read value is NaN! Trying again...')
-                    sleep(1)
-            except TypeError as e:
-                print("Reading from bme280 failure: ",e.args)
-                time.sleep(1)
+    def control(self):
+        try:
+            h_last, t_last = 30, 15 # need some start values
+            i = 0
+            while True:
+                i+=1
+                if i%2 == 0 : # test if dividable by 2, switch sensors for each cycle
+                    sens = self.sensor_1
+                else:
+                    sens = self.sensor_2
+
+                    try:
+                        h, t = Adafruit_DHT.read_retry(self.sensor, sens)
+                        # print('RAW', sens,h,t)
+                        if math.isnan(h) == False and math.isnan(t) == False:
+                            self.humid = round((h + h_last) / 2, 2) # make avg and round
+                            self.temp = round((t + t_last) / 2, 2)
+                            h_last, t_last = h, t # save current values for next sensor read
+                            print('AVG values', self.humid, self.temp)
+                            self.q.put([self.humid, self.temp])
+                            self.status_out()
+                            self.heater()
+                            time.sleep(1)
+
+                        else :
+                            print('Read value is NaN! Trying again...')
+                            sleep(2)
+
+                    except TypeError as e:
+                        print("Reading from DHT22 failure: ",e.args)
+                        time.sleep(2)
+
+        except KeyboardInterrupt:
+            self.heat.ChangeDutyCycle(0)
+            GPIO.output(self.heat_pin, GPIO.LOW)
+            print('Shutdown heater')
+            sys.exit('Close program')

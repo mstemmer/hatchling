@@ -1,0 +1,11 @@
+{
+"chicken":
+  {
+    "phases": 2,
+    "comment": ["humid", "temp"],
+    "phase_1": [55, 37.8],
+    "phase_2": [80, 37],
+    "day_next_temp": 18,
+    "day_next_humid": 20
+  }
+}
