@@ -8,8 +8,15 @@ import math
 import sys
 
 class BroodController():
+    """ Reads data from two DHT22 sensors in a while loop. Reading alternates
+    between the two sensors. Data is averaged over both, rounded and sent
+    out via Queue(). Read values are checked for being numbers and loop is
+    protected against read failures ocurring with DHT22 from time to time.
+    This function also sets the status LEDs and regulates the heater
+    automatically using a PID controller. The set_values are constantly
+    evaluated."""
 
-    def __init__(self, config, inc_program, q):
+    def __init__(self, config, q_prog, q_data):
         GPIO.setmode(GPIO.BCM)       # Numbers GPIOs by physical location
         GPIO.setwarnings(False)
 
@@ -36,13 +43,16 @@ class BroodController():
         self.heat.start(0)
 
         # init class
-        self.q = q
+        self.set_humid, self.set_temp = [55, 37]
+        self.q_data = q_data
+        self.q_prog = q_prog
         self.control()
 
-    def program(self):  ## continue here!!!
-        # config incubation program
-        self.set_humid = 55 # get from brood_lord via queue
-        self.set_temp = 37
+    def read_program(self): #read incubation program sent by BroodLord
+        if self.q_prog.empty() != True:
+            self.set_humid, self.set_temp = self.q_prog.get()
+        else:
+            pass
 
         self.oor_temp_high = []
         self.oor_temp_low = []
@@ -59,6 +69,51 @@ class BroodController():
             self.oor_humid_high.append(humid_high)
             self.oor_humid_low.append(humid_low)
 
+    def heater(self):
+        # duty_cycle = pid.calcPID_reg4(self.temp, self.set_temp, True)
+        self.duty_cycle = 0
+        self.heat.ChangeDutyCycle(self.duty_cycle)
+
+    def control(self):
+        try:
+            h_last, t_last = 30, 15 # need some start values
+            i = 0
+            while True:
+                self.read_program()
+                i+=1
+                if i%2 == 0 : # test if dividable by 2, switch sensors for each cycle
+                    sens = self.sensor_1
+                else:
+                    sens = self.sensor_2
+
+                    try:
+                        h, t = Adafruit_DHT.read_retry(self.sensor, sens)
+                        # print('RAW', sens,h,t)
+                        if math.isnan(h) == False and math.isnan(t) == False:
+                            self.humid = round((h + h_last) / 2, 2) # make avg and round
+                            self.temp = round((t + t_last) / 2, 2)
+                            h_last, t_last = h, t # save current values for next sensor read
+                            self.status_out()
+                            self.heater()
+                            self.q_data.put([self.humid, self.temp,
+                            self.set_humid, self.set_temp, self.duty_cycle])
+                            # print('AVG values read', self.humid, self.temp)
+                            # print('Set values:', self.set_temp, self.set_humid)
+                            time.sleep(1)
+
+                        else :
+                            print('Read value is NaN! Trying again...')
+                            sleep(2)
+
+                    except TypeError as e:
+                        print("Reading from DHT22 failure: ",e.args)
+                        time.sleep(2)
+
+        except KeyboardInterrupt:
+            self.heat.ChangeDutyCycle(0)
+            GPIO.output(self.heat_pin, GPIO.LOW)
+            print('Shutdown heater')
+            sys.exit('Close program')
 
     def status_read(self) :
         if self.oor_temp_low[0] <= self.temp <= self.oor_temp_high[0] and \
@@ -152,46 +207,3 @@ class BroodController():
         self.shift_out() #Send serial data to 74HC595
         GPIO.output(self.latch_pin,GPIO.HIGH) #Output high level to latchPin
         time.sleep(0.1)
-
-    def heater(self):
-        # duty_cycle = pid.calcPID_reg4(self.temp, self.set_temp, True)
-        self.duty_cycle = 0
-        self.heat.ChangeDutyCycle(self.duty_cycle)
-
-    def control(self):
-        try:
-            h_last, t_last = 30, 15 # need some start values
-            i = 0
-            while True:
-                i+=1
-                if i%2 == 0 : # test if dividable by 2, switch sensors for each cycle
-                    sens = self.sensor_1
-                else:
-                    sens = self.sensor_2
-
-                    try:
-                        h, t = Adafruit_DHT.read_retry(self.sensor, sens)
-                        # print('RAW', sens,h,t)
-                        if math.isnan(h) == False and math.isnan(t) == False:
-                            self.humid = round((h + h_last) / 2, 2) # make avg and round
-                            self.temp = round((t + t_last) / 2, 2)
-                            h_last, t_last = h, t # save current values for next sensor read
-                            print('AVG values', self.humid, self.temp)
-                            self.q.put([self.humid, self.temp])
-                            self.status_out()
-                            self.heater()
-                            time.sleep(1)
-
-                        else :
-                            print('Read value is NaN! Trying again...')
-                            sleep(2)
-
-                    except TypeError as e:
-                        print("Reading from DHT22 failure: ",e.args)
-                        time.sleep(2)
-
-        except KeyboardInterrupt:
-            self.heat.ChangeDutyCycle(0)
-            GPIO.output(self.heat_pin, GPIO.LOW)
-            print('Shutdown heater')
-            sys.exit('Close program')

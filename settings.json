@@ -1,5 +1,6 @@
 {
   "data_folder": "data_brood",
+  "data_file": "data",
 
   "setup_pin":
     {

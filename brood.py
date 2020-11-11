@@ -9,6 +9,8 @@ from multiprocessing import Process, Queue
 
 
 from controller import BroodController
+from brood_lord import BroodLord
+from output import Output
 
 
 if __name__ == '__main__':
@@ -40,23 +42,31 @@ if __name__ == '__main__':
             json.dump(time, time_file, indent=4)
         return time
 
-    def run_controller(config, inc_program, q):
-        BroodController(config, inc_program, q)
-        # bc.status_out()
+    def run_controller(config, q_prog, q_data):
+        BroodController(config, q_prog, q_data)
 
+    def run_brood_lord(inc_program, q_prog):
+        BroodLord(inc_program, q_prog)
 
+    def output(config, q_data):
+        Output(config, q_data)
+
+    # init config files
     config = config()
     inc_program = inc_program()
     time_init = time_init()
 
-    # run_controller(config)
+    # init processes
+    q_data = Queue()
+    q_prog = Queue()
 
-    q = Queue()
-    processes = []
-    p = Process(target=run_controller, args=(config, inc_program, q,) )
-    p.start()
-    p.join()
+    p1 = Process(target=run_controller, args=(config, q_prog, q_data,) )
+    p2 = Process(target=run_brood_lord, args=(inc_program, q_prog, ))
+    p3 = Process(target=output, args=(config, q_data, ))
+    processes = [p1, p2, p3]
 
-    # print(config)
-    # print(time_init)
-    # print(config['setup_pin']['latch'])
+    for p in processes:
+        p.start()
+
+    for p in processes:
+        p.join()
