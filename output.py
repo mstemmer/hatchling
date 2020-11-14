@@ -13,13 +13,15 @@ class Output():
         self.output()
 
     def output(self):
+        file = f'{str(datetime.now().date())}_{self.data_file}'
         while True:
 
-            self.humid, self.temp, self.set_humid, self.set_temp, self.duty_cycle = self.q_data.get()
-            print('Values received', self.humid, self.temp, self.set_humid, self.set_temp)
+            self.humid, self.temp, self.humid_raw, self.temp_raw, sens, \
+            self.set_humid, self.set_temp, self.duty_cycle = self.q_data.get()
+            print('Values received', self.humid, self.temp, self.set_humid, self.set_temp, self.duty_cycle)
             time_now = datetime.now().time().strftime('%H:%M:%S')
-            file = f'{self.data_file}_3'
-            row = [time_now, self.temp, self.humid, self.duty_cycle]
+            row = [time_now, self.temp, self.humid, self.temp_raw, self.humid_raw, sens,
+            self.set_humid, self.set_temp, self.duty_cycle]
             with open(os.path.join(self.data_folder, file), 'a', newline='') as csvfile:
                 dhtwriter = csv.writer(csvfile)
                 dhtwriter.writerow(row)

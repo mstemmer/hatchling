@@ -1,0 +1,12 @@
+
+in order to avoid annoying hardware issues at system boot,
+set your used pins to output and adjust their default status
+Pins as BCM format
+
+/boot/config.txt
+gpio=17,22,5,6,13,19,26,18,23,24,25,12,16,20,21=op,dl
+gpio=27=op,dh
+
+
+Install Adafruit_DHT library with pip:
+sudo pip3 install Adafruit_DHT
