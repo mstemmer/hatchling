@@ -1,7 +1,8 @@
 import RPi.GPIO as GPIO
 from multiprocessing import Process, Queue
 import Adafruit_DHT
-import pidpy as PIDController
+# import pidpy as PIDController
+from simple_pid import PID
 import string
 import time
 import math
@@ -39,18 +40,29 @@ class BroodController():
             GPIO.setup(p, GPIO.OUT)
         GPIO.output(self.heat_pin, GPIO.LOW)
 
+        print('Initializing parameters & PID controller')
+        self.pid = PID(100, 1, 0, setpoint=37) # init pid controller
+        self.pid.output_limits = (0, 100)
+        self.pid.sample_time = None
+        # self.pid.proportional_on_measurement = True
+
         self.heat = GPIO.PWM(self.heat_pin, 200)
         self.heat.start(0)
 
         # init class
-        self.set_humid, self.set_temp = [55, 37]
+        self.set_humid, self.set_temp = [55, 36]
         self.q_data = q_data
         self.q_prog = q_prog
         self.control()
 
     def read_program(self): #read incubation program sent by BroodLord
         if self.q_prog.empty() != True:
-            self.set_humid, self.set_temp, self.duty_cycle = self.q_prog.get() # dc just for troublshooting!!
+            self.set_humid, self.set_temp = self.q_prog.get() # dc just for troublshooting!!
+            self.pid = PID(100, 1, 0, setpoint=self.set_temp)
+            self.pid.output_limits = (0, 100)
+            self.pid.proportional_on_measurement = True
+            # print(self.pid.setpoint)
+            print('Updated parameters & PID controller')
         else:
             pass
 
@@ -69,15 +81,18 @@ class BroodController():
             self.oor_humid_high.append(humid_high)
             self.oor_humid_low.append(humid_low)
 
+
     def heater(self):
-        # duty_cycle = pid.calcPID_reg4(self.temp, self.set_temp, True)
-        # self.duty_cycle = 0
+        self.duty_cycle = self.pid(self.temp_pid)
+        # print(self.duty_cycle)
+        # duty_cycle = 0
+        p, i, d = self.pid.components
+        print(p, i, d)
         self.heat.ChangeDutyCycle(self.duty_cycle)
 
     def control(self):
         try:
             h_last, t_last = 30, 15 # need some start values
-            self.duty_cycle = 0 # just for troublshooting!!
             i = 0
             while True:
                 self.read_program()
@@ -91,10 +106,13 @@ class BroodController():
                     h, t = Adafruit_DHT.read_retry(self.sensor, sens)
                     # print('RAW', sens,h,t)
                     if math.isnan(h) == False and math.isnan(t) == False:
+
                         self.humid_raw = round(h,2)
                         self.temp_raw = round(t,2)
                         self.humid = round((h + h_last) / 2, 2) # make avg and round
-                        self.temp = round((t + t_last) / 2, 2)
+                        self.temp = round((t + t_last) / 2, 2) # should maybe move this rounding stuff to output
+                        self.temp_pid = (t + t_last) / 2
+                        # print(self.temp_pid)
                         h_last, t_last = h, t # save current values for next sensor read
                         self.status_out()
                         self.heater()

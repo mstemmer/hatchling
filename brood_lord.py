@@ -10,13 +10,15 @@ class BroodLord():
         self.inc_program = inc_program
         self.set_program()
 
-
+            # p_param = 179.6
+            # i_param = 88
+            # d_param = 22
 
     def set_program(self):
         # while True:
-        self.q_prog.put([55, 37, 0]) # set humidity , temperature
+        self.q_prog.put([55, 37]) # set humidity , temperature # 100, 1 , 0 worked best so far
             # print('Putting prog')
-        time.sleep(300)
-
-        self.q_prog.put([55, 37, 20])
+        # time.sleep(300)
+        #
+        # self.q_prog.put([55, 37])
         # time.sleep(20)
