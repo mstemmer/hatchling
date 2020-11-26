@@ -41,9 +41,11 @@ class BroodController():
         GPIO.output(self.heat_pin, GPIO.LOW)
 
         print('Initializing parameters & PID controller')
-        self.pid = PID(100, 1, 0, setpoint=37) # init pid controller
+
+        self.pid = PID(290, 70, 10, setpoint=37) # init pid controller
         self.pid.output_limits = (0, 100)
         self.pid.sample_time = None
+        self.pid.tunings = (config["PID_parameters"]) # update PID controller with config parameters
         # self.pid.proportional_on_measurement = True
 
         self.heat = GPIO.PWM(self.heat_pin, 200)
@@ -57,11 +59,8 @@ class BroodController():
 
     def read_program(self): #read incubation program sent by BroodLord
         if self.q_prog.empty() != True:
-            self.set_humid, self.set_temp = self.q_prog.get() # dc just for troublshooting!!
-            self.pid = PID(100, 1, 0, setpoint=self.set_temp)
-            self.pid.output_limits = (0, 100)
-            self.pid.proportional_on_measurement = True
-            # print(self.pid.setpoint)
+            self.set_humid, self.set_temp = self.q_prog.get()
+            self.pid.setpoint = self.set_temp # update set_temp within pid controller
             print('Updated parameters & PID controller')
         else:
             pass
@@ -81,13 +80,17 @@ class BroodController():
             self.oor_humid_high.append(humid_high)
             self.oor_humid_low.append(humid_low)
 
+    def preheat(self):
+        self.duty_cycle = 100
+        self.heat.ChangeDutyCycle(self.duty_cycle)
+        print('preheating')
 
-    def heater(self):
+    def pid_controller(self):
         self.duty_cycle = self.pid(self.temp_pid)
         # print(self.duty_cycle)
         # duty_cycle = 0
-        p, i, d = self.pid.components
-        print(p, i, d)
+        # p, i, d = self.pid.components
+        # print(p, i, d)
         self.heat.ChangeDutyCycle(self.duty_cycle)
 
     def control(self):
@@ -107,20 +110,23 @@ class BroodController():
                     # print('RAW', sens,h,t)
                     if math.isnan(h) == False and math.isnan(t) == False:
 
-                        self.humid_raw = round(h,2)
+                        self.humid_raw = round(h,2) # _raw values are not averaged
                         self.temp_raw = round(t,2)
-                        self.humid = round((h + h_last) / 2, 2) # make avg and round
-                        self.temp = round((t + t_last) / 2, 2) # should maybe move this rounding stuff to output
-                        self.temp_pid = (t + t_last) / 2
-                        # print(self.temp_pid)
+
+                        self.humid = round((h + h_last) / 2, 2) # make avg with last value and round
+                        self.temp = round((t + t_last) / 2, 2)
+
+                        self.temp_pid = (t + t_last) / 2 # not rounded for PID controller
+
                         h_last, t_last = h, t # save current values for next sensor read
+
                         self.status_out()
-                        self.heater()
+                        self.pid_controller()
+
                         self.q_data.put([self.humid, self.temp, self.humid_raw, self.temp_raw, sens,
                         self.set_humid, self.set_temp, self.duty_cycle])
-                        # print('AVG values read', self.humid, self.temp)
-                        # print('Set values:', self.set_temp, self.set_humid)
-                        time.sleep(1)
+
+                        time.sleep(1) # this way each sensor is read only every 2 seconds as per datasheet
 
                     else :
                         print('Read value is NaN! Trying again...')

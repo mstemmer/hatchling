@@ -19,7 +19,8 @@ class Output():
             self.humid, self.temp, self.humid_raw, self.temp_raw, sens, \
             self.set_humid, self.set_temp, self.duty_cycle = self.q_data.get()
             # print('Values received', self.humid, self.temp, self.set_humid, self.set_temp, self.duty_cycle)
-            print(f'Temp: {self.temp}   dc: {self.duty_cycle}')
+            print(f'Temp: {self.temp}   Humid: {self.humid}  dc: {self.duty_cycle}')
+
             time_now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             row = [time_now, self.temp, self.humid, self.temp_raw, self.humid_raw, sens,
             self.set_humid, self.set_temp, self.duty_cycle]

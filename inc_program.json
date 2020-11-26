@@ -1,4 +1,6 @@
 {
+"species": ["chicken", "duck", "elephant"],
+
 "chicken":
   {
     "phases": 2,
@@ -6,6 +8,7 @@
     "phase_1": [55, 37.8],
     "phase_2": [80, 37],
     "day_next_temp": 18,
-    "day_next_humid": 20
+    "day_next_humid": 20,
+    "move_eggs": 90
   }
 }
