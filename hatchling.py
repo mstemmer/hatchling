@@ -55,27 +55,26 @@ class Hatchling():
             sys.exit("--> Exiting program")
         elif self.args.species == 'chicken':
             inc_program = inc_program["chicken"]
-            print('Loaded incubation program: chicken')
+            print('Load incubation program: chicken')
             return inc_program
 
 
     def time_init(self):
-        if self.args.init == True:
+        if self.args.init == True: # decide if start new time or resume from file
             time = {}
-            time['time_init'] = str(datetime.now())
-            with open('time.json', 'w') as time_file:
+            time['time_init'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            with open('time_init.json', 'w') as time_file:
                 json.dump(time, time_file, indent=4)
             time = time["time_init"]
+            time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S') # make sure time is saved as datetime object
             return time
         else:
-            with open('time.json', 'r') as time_file:
+            with open('time_init.json', 'r') as time_file:
                 time = json.load(time_file)
                 time = time["time_init"]
+                time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S') # make sure time is saved as datetime object
                 print(f'Resuming from time point: {time}')
                 return time
-
-
-
 
 
 if __name__ == '__main__':

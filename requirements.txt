@@ -10,3 +10,9 @@ gpio=27=op,dh
 
 Install Adafruit_DHT library with pip:
 sudo pip3 install Adafruit_DHT
+
+
+pandas
+from apscheduler.schedulers.background import BlockingScheduler
+
+simple_pid

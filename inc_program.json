@@ -3,12 +3,15 @@
 
 "chicken":
   {
-    "phases": 2,
+    "phases": 3,
     "comment": ["humid", "temp"],
-    "phase_1": [55, 37.8],
-    "phase_2": [80, 37],
-    "day_next_temp": 18,
-    "day_next_humid": 20,
-    "move_eggs": 90
+    "default_phase": [55, 37.8],
+    "next_phase": [[55, 37], [80, 37]],
+
+    "phase_changes": [18, 20],
+
+    "activate_move_eggs": 1,
+    "days_move_eggs": 20,
+    "interval_move_eggs": 6
   }
 }

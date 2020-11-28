@@ -28,21 +28,18 @@ class BroodController():
         self.data_pin = config['setup_pin']['data']
         self.latch_pin = config['setup_pin']['latch']
         self.clock_pin = config['setup_pin']['clock']
-        self.step_pin = config['setup_pin']['step']
-        self.sleep_pin = config['setup_pin']['sleep']
+
         self.heat_pin = config['setup_pin']['heat']
         self.config = config
 
-        pins = [self.data_pin, self.latch_pin, self.clock_pin,
-        self.step_pin, self.sleep_pin, self.heat_pin]
+        pins = [self.data_pin, self.latch_pin, self.clock_pin, self.heat_pin]
 
         for p in pins :
             GPIO.setup(p, GPIO.OUT)
         GPIO.output(self.heat_pin, GPIO.LOW)
 
-        print('Initializing parameters & PID controller')
-
-        self.pid = PID(290, 70, 10, setpoint=37) # init pid controller
+        print('Initializing PID controller')
+        self.pid = PID(290, 70, 10, setpoint=37) # init pid controller 290, 70, 10
         self.pid.output_limits = (0, 100)
         self.pid.sample_time = None
         self.pid.tunings = (config["PID_parameters"]) # update PID controller with config parameters
@@ -61,7 +58,7 @@ class BroodController():
         if self.q_prog.empty() != True:
             self.set_humid, self.set_temp = self.q_prog.get()
             self.pid.setpoint = self.set_temp # update set_temp within pid controller
-            print('Updated parameters & PID controller')
+            print('Controller recieved updated parameters')
         else:
             pass
 
