@@ -16,16 +16,12 @@ class Hatchling():
         parser.add_argument('-s', '--species', metavar='', dest='species', type=str, help='Load species specific incubation program.')
         # parser.add_argument('--gene_names_off', dest='gn_off', action='store_true', default=False, help='Do not change gene_ID with gene_name.')
         self.args = parser.parse_args()
-        # print(args.species)
-
 
         self.config = self.config()
         self.inc_program = self.inc_program()
         self.time_init = self.time_init()
 
-
         SpawnHatchling(self.config, self.inc_program, self.time_init)
-
 
     def config(self):
         config_path = os.path.join(str(os.path.dirname(os.path.realpath(__file__)) ),"settings.json" )
@@ -48,7 +44,7 @@ class Hatchling():
         species_list = inc_program["species"]
 
         if self.args.species == None:
-            print('Species not specified')
+            print('Species not specified, please see --help')
             sys.exit("--> Exiting program")
         elif self.args.species not in species_list:
             print('Species not in list')
@@ -67,6 +63,7 @@ class Hatchling():
                 json.dump(time, time_file, indent=4)
             time = time["time_init"]
             time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S') # make sure time is saved as datetime object
+            print(f'Starting new incubation. Time: {time}')
             return time
         else:
             with open('time_init.json', 'r') as time_file:

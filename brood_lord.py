@@ -40,8 +40,6 @@ class BroodLord():
         self.inc_program = inc_program
         self.time_init = time_init
 
-        print(f'Time init: {time_init}')
-
         self.q_prog.put(inc_program["default_phase"])
         print("Setting controller to default parameters")
 
@@ -58,22 +56,15 @@ class BroodLord():
 
             # add phase jobs
             for p in range(phase_changes):
-                scheduler.add_job(self.next_phase, args=(p, ), trigger='date', next_run_time=phase_changes_time[p])
+                scheduler.add_job(self.next_phase, args=(p, ), trigger='date',
+                next_run_time=phase_changes_time[p])
 
 
-        #  define timepoints of egg moving relative to time_init
+        #  set scheduler to interval until end point of egg moving, relative to time_init
         if inc_program["activate_move_eggs"] == 1: # check if eggs should be moved
-            print("Turning eggs activated and loaded into scheduler")
-            egg_moves_per_day = 24 / inc_program["interval_move_eggs"]
-            egg_moves = int(inc_program["days_move_eggs"] * egg_moves_per_day)
-            egg_moves_time = []
-            for m in range(1, egg_moves + 1):
-                move = time_init + (timedelta(hours=inc_program["interval_move_eggs"]) * m)
-                egg_moves_time.append(move)
-
-            # add egg move jobs
-            for m in range(egg_moves):
-                scheduler.add_job(self.move_eggs, args=(m, ), trigger='date', next_run_time=egg_moves_time[m])
+            scheduler.add_job(self.move_eggs, trigger='interval',
+            hours = inc_program["interval_move_eggs"],
+            end_date= time_init + timedelta(days=inc_program["days_move_eggs"]))
 
         scheduler.start()
 
@@ -82,14 +73,11 @@ class BroodLord():
         set_prog = self.inc_program["next_phase"][p]
         self.q_prog.put(set_prog)
 
-    def next_move_eggs(self, m):
-        print('Moving eggs', m)
+    def test_move_eggs(self):
+        print('Moving eggs')
 
-
-
-
-    def move_eggs(self, m) :
-        print('Moving eggs', m)
+    def move_eggs(self) :
+        print('Moving eggs')
 
         GPIO.output(self.sleep_pin, GPIO.HIGH)
         sleep(0.2) # wakeup time is min. 1 millisecond

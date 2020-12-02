@@ -22,9 +22,9 @@
 
   "LED_status":
     {
-      "comment": ["green", "blue", "red", "red + buzzer"],
-      "oor_temp": [0.25, 0.5, 1.5, 3],
-      "oor_humid": [7, 12, 20, 40]
+      "comment": ["green", "blue", "red"],
+      "oor_temp": [0.25, 0.5, 1.5],
+      "oor_humid": [7, 12, 20]
 
     },
 

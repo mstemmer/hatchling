@@ -11,7 +11,7 @@
     "phase_changes": [18, 20],
 
     "activate_move_eggs": 1,
-    "days_move_eggs": 20,
+    "days_move_eggs": 17,
     "interval_move_eggs": 6
   }
 }
