@@ -1,4 +1,4 @@
-from spawn import SpawnHatchling
+from brood.spawn import SpawnHatchling
 import sys
 import os
 import json

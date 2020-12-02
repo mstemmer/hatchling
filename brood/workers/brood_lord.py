@@ -9,15 +9,11 @@ import RPi.GPIO as GPIO
 
 class BroodLord():
 
-    def __init__(self, inc_program, q_prog, time_init):
+    def __init__(self, config, inc_program, q_prog, time_init):
         GPIO.setmode(GPIO.BCM)       # Numbers GPIOs by physical location
         GPIO.setwarnings(False)
 
         # get pins for stepper
-        config_path = os.path.join(str(os.path.dirname(os.path.realpath(__file__)) ),"settings.json" )
-        with open(config_path) as config_file:
-            config = json.load(config_file)
-
         self.step_pin = config["setup_pin"]["step"]
         self.sleep_pin = config["setup_pin"]["sleep"]
 

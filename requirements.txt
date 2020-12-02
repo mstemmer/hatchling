@@ -8,11 +8,13 @@ gpio=17,22,5,6,13,19,26,18,23,24,25,12,16,20,21=op,dl
 gpio=27=op,dh
 
 
-Install Adafruit_DHT library with pip:
-sudo pip3 install Adafruit_DHT
 
-
-pandas
-from apscheduler.schedulers.background import BlockingScheduler
-
-simple_pid
+Adafruit-DHT==1.4.0 # for DHT-22 sensor
+APScheduler==3.6.3
+numpy==1.19.4
+pandas==1.1.4
+python-dateutil==2.8.1
+pytz==2020.4
+simple-pid==0.2.4
+six==1.15.0
+tzlocal==2.1

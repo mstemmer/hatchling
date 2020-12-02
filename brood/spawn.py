@@ -1,8 +1,8 @@
 from multiprocessing import Process, Queue
 
-from controller import BroodController
-from brood_lord import BroodLord
-from output import Output
+from brood.workers.controller import BroodController
+from brood.workers.brood_lord import BroodLord
+from brood.workers.output import Output
 
 
 class SpawnHatchling():
@@ -14,7 +14,7 @@ class SpawnHatchling():
 
         #init processes
         p1 = Process(target=self.run_controller, args=(config, q_prog, q_data,) )
-        p2 = Process(target=self.run_brood_lord, args=(inc_program, q_prog, time_init))
+        p2 = Process(target=self.run_brood_lord, args=(config, inc_program, q_prog, time_init))
         p3 = Process(target=self.run_output, args=(config, q_data, ))
         processes = [p1, p2, p3]
 
@@ -29,8 +29,8 @@ class SpawnHatchling():
     def run_controller(self, config, q_prog, q_data):
         BroodController(config, q_prog, q_data)
 
-    def run_brood_lord(self, inc_program, q_prog, time_init):
-        BroodLord(inc_program, q_prog, time_init)
+    def run_brood_lord(self, config, inc_program, q_prog, time_init):
+        BroodLord(config, inc_program, q_prog, time_init)
 
     def run_output(self, config, q_data):
         Output(config, q_data)
