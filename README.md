@@ -10,8 +10,8 @@ Features:
 * PID controlled temperature
 * simple status reporting of correct temperature & humidity via LEDs
 * accustic warning, when values are far off the set points
-* automatic turning of the eggs
+* automatic turning of eggs
 * easy to use via CLI
 * includes incubation programs for other species (e.g.: ducks, quails, ...)
-* run savely for days without burning down the house...
+* runs savely for days without burning down the house...
 * reports current values via dash (not yet implemented)
