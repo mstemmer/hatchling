@@ -106,25 +106,27 @@ class BroodController():
                     h, t = Adafruit_DHT.read_retry(self.sensor, sens)
                     # print('RAW', sens,h,t)
                     if math.isnan(h) == False and math.isnan(t) == False:
+                        if h < 100:
+                            humid_raw = round(h,2) # _raw values are not averaged
+                            temp_raw = round(t,2)
 
-                        self.humid_raw = round(h,2) # _raw values are not averaged
-                        self.temp_raw = round(t,2)
+                            self.humid = round((h + h_last) / 2, 2) # make avg with last value and round
+                            self.temp = round((t + t_last) / 2, 2)
 
-                        self.humid = round((h + h_last) / 2, 2) # make avg with last value and round
-                        self.temp = round((t + t_last) / 2, 2)
+                            self.temp_pid = (t + t_last) / 2 # not rounded for PID controller
 
-                        self.temp_pid = (t + t_last) / 2 # not rounded for PID controller
+                            h_last, t_last = h, t # save current values for next sensor read
 
-                        h_last, t_last = h, t # save current values for next sensor read
+                            self.status_out()
+                            self.pid_controller()
 
-                        self.status_out()
-                        self.pid_controller()
+                            self.q_data.put([self.humid, self.temp, humid_raw, temp_raw, sens,
+                            self.set_humid, self.set_temp, self.duty_cycle])
 
-                        self.q_data.put([self.humid, self.temp, self.humid_raw, self.temp_raw, sens,
-                        self.set_humid, self.set_temp, self.duty_cycle])
-
-                        time.sleep(1) # this way each sensor is read only every 2 seconds as per datasheet
-
+                            time.sleep(1) # this way each sensor is read only every 2 seconds as per datasheet
+                        else:
+                            print('Bad sensor read. Trying again...')
+                            sleep(2)
                     else :
                         print('Read value is NaN! Trying again...')
                         sleep(2)

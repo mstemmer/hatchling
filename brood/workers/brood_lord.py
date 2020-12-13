@@ -69,8 +69,8 @@ class BroodLord():
         set_prog = self.inc_program["next_phase"][p]
         self.q_prog.put(set_prog)
 
-    def test_move_eggs(self):
-        print('Moving eggs')
+    # def test_move_eggs(self):
+    #     print('Moving eggs')
 
     def move_eggs(self) :
         print('Moving eggs')

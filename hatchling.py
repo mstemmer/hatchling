@@ -12,8 +12,8 @@ class Hatchling():
 
         parser = argparse.ArgumentParser(prog='hatchling')
         # parser.add_argument('--samplesheet', dest='samples', metavar='', help='Please provide path to samplesheet (tsv format)')
-        parser.add_argument('-i', '--init', dest='init', action='store_true', default=False, help='Initialize incubation program.')
-        parser.add_argument('-s', '--species', metavar='', dest='species', type=str, help='Load species specific incubation program.')
+        parser.add_argument('-i', '--init', dest='init', action='store_true', default=False, help='Start new incubation. Default: resume last incubation program')
+        parser.add_argument('-s', '--species', metavar='', dest='species', type=str, help='Load species specific incubation program: chicken, quail, elephant')
         # parser.add_argument('--gene_names_off', dest='gn_off', action='store_true', default=False, help='Do not change gene_ID with gene_name.')
         self.args = parser.parse_args()
 
@@ -33,6 +33,10 @@ class Hatchling():
 
         config["data_folder"]=os.path.join(str(os.path.dirname(os.path.realpath(__file__))),config["data_folder"])
         config["mode"] = config["silent_mode"]
+        config["resume"] = None
+
+        if self.args.init == True: # decide if start new time or resume from file
+            config["resume"] = True
 
         return config
 

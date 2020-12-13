@@ -24,8 +24,6 @@ class SpawnHatchling():
         for p in processes:
             p.join()
 
-
-
     def run_controller(self, config, q_prog, q_data):
         BroodController(config, q_prog, q_data)
 
