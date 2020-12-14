@@ -15,3 +15,6 @@ Features:
 * includes incubation programs for other species (e.g.: ducks, quails, ...)
 * runs savely for days without burning down the house...
 * reports current values via dash (not yet implemented)
+
+
+Find all the detailed info about [here](https://github.com/mstemmer/hatchling/wiki)
