@@ -14,7 +14,7 @@ Features:
 * easy to use via CLI
 * includes incubation programs for other species (e.g.: ducks, quails, ...)
 * runs savely for days without burning down the house...
-* reports current values via dash (not yet implemented)
+* reports current values via dash
 
-
-Find all the detailed info about [here](https://github.com/mstemmer/hatchling/wiki)
+WIKI IS STILL UNDER CONSTRUCTION
+Find all the detailed info [here](https://github.com/mstemmer/hatchling/wiki)
