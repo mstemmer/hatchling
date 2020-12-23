@@ -1,23 +1,26 @@
 import time
 from datetime import datetime
-import pandas as pd
 import csv
 import os
+import pandas as pd
+# import brood.workers.test_dash as testdash
+
 
 class Output():
 
-    def __init__(self, config, q_data):
+    def __init__(self, config, q_data, time_init):
         self.data_folder = config["data_folder"]
         self.data_file = config["data_file"]
         self.config = config
+        self.time_init = time_init
         # print(self.data_folder)
         self.q_data = q_data
         self.output()
 
     def output(self):
-        file = f'{str(datetime.now().date())}_{self.data_file}.csv'
+        file = f'{str(self.time_init.date())}_{self.data_file}.csv'
         file_path = os.path.join(self.data_folder, file)
-        if os.path.exists(file_path) and self.config["resume"] == True: # delete data file if init == True
+        if os.path.exists(file_path) and self.config["init"] == True: # delete data file if init == True
             os.remove(file_path)
 
         list = []

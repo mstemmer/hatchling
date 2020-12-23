@@ -14,8 +14,8 @@ class SpawnHatchling():
 
         #init processes
         p1 = Process(target=self.run_controller, args=(config, q_prog, q_data,) )
-        p2 = Process(target=self.run_brood_lord, args=(config, inc_program, q_prog, time_init))
-        p3 = Process(target=self.run_output, args=(config, q_data, ))
+        p2 = Process(target=self.run_brood_lord, args=(config, inc_program, q_prog, time_init, ))
+        p3 = Process(target=self.run_output, args=(config, q_data, time_init, ))
         processes = [p1, p2, p3]
 
         for p in processes:
@@ -30,5 +30,5 @@ class SpawnHatchling():
     def run_brood_lord(self, config, inc_program, q_prog, time_init):
         BroodLord(config, inc_program, q_prog, time_init)
 
-    def run_output(self, config, q_data):
-        Output(config, q_data)
+    def run_output(self, config, q_data, time_init):
+        Output(config, q_data, time_init)

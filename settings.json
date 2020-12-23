@@ -28,6 +28,9 @@
 
     },
 
-  "PID_parameters": [290, 70, 10]
+  "PID_parameters": [290, 70, 10],
+
+  "comment": "Number_of_steps_for_stepper_motor",
+  "steps": 150
 
 }

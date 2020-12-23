@@ -106,7 +106,7 @@ class BroodController():
                     h, t = Adafruit_DHT.read_retry(self.sensor, sens)
                     # print('RAW', sens,h,t)
                     if math.isnan(h) == False and math.isnan(t) == False:
-                        if h < 100:
+                        if 0 > h < 100:
                             humid_raw = round(h,2) # _raw values are not averaged
                             temp_raw = round(t,2)
 
@@ -119,6 +119,7 @@ class BroodController():
 
                             self.status_out()
                             self.pid_controller()
+                            # print(self.temp)
 
                             self.q_data.put([self.humid, self.temp, humid_raw, temp_raw, sens,
                             self.set_humid, self.set_temp, self.duty_cycle])
@@ -126,10 +127,10 @@ class BroodController():
                             time.sleep(1) # this way each sensor is read only every 2 seconds as per datasheet
                         else:
                             print('Bad sensor read. Trying again...')
-                            sleep(2)
+                            time.sleep(2)
                     else :
                         print('Read value is NaN! Trying again...')
-                        sleep(2)
+                        time.sleep(2)
 
                 except TypeError as e:
                     print("Reading from DHT22 failure: ",e.args)

@@ -33,10 +33,10 @@ class Hatchling():
 
         config["data_folder"]=os.path.join(str(os.path.dirname(os.path.realpath(__file__))),config["data_folder"])
         config["mode"] = config["silent_mode"]
-        config["resume"] = None
+        config["init"] = None
 
         if self.args.init == True: # decide if start new time or resume from file
-            config["resume"] = True
+            config["init"] = True
 
         return config
 
