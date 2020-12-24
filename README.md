@@ -16,5 +16,16 @@ Features:
 * runs savely for days without burning down the house...
 * reports current values via dash
 
-WIKI IS STILL UNDER CONSTRUCTION
+WIKI IS STILL UNDER CONSTRUCTION  
 Find all the detailed info [here](https://github.com/mstemmer/hatchling/wiki)
+
+## Usage
+
+> usage: hatchling [-h] [-i] [-s]
+
+optional arguments:
+  -h, --help       show this help message and exit
+  -i, --init       Start new incubation. Default: resume last incubation
+                   program
+  -s , --species   Load species specific incubation program: chicken, quail,
+                   elephant
