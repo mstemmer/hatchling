@@ -21,7 +21,9 @@ Find all the detailed info [here](https://github.com/mstemmer/hatchling/wiki)
 
 ## Usage
 
-> usage: hatchling [-h] [-i] [-s]
+run `python hatchling.py`
+```
+usage: hatchling [-h] [-i] [-s]
 
 optional arguments:
   -h, --help       show this help message and exit
@@ -29,3 +31,4 @@ optional arguments:
                    program
   -s , --species   Load species specific incubation program: chicken, quail,
                    elephant
+```
