@@ -20,8 +20,10 @@ WIKI IS STILL UNDER CONSTRUCTION
 Find all the detailed info [here](https://github.com/mstemmer/hatchling/wiki)
 
 ## Quick start
+change default python to python3 (>= 3.7)  
+
 ```
-python3 -m venv hatch_env
+python -m venv hatch_env
 source hatch_env/bin/activate
 pip install -r requirements.txt
 ```
