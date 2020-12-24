@@ -19,9 +19,15 @@ Features:
 WIKI IS STILL UNDER CONSTRUCTION  
 Find all the detailed info [here](https://github.com/mstemmer/hatchling/wiki)
 
-## Usage
+## Quick start
+```
+python3 -m venv hatch_env
+source hatch_env/bin/activate
+pip install -r requirements.txt
+```
 
-run `python hatchling.py`
+run hatchling with:  
+`python hatchling.py`
 ```
 usage: hatchling [-h] [-i] [-s]
 
