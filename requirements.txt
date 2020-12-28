@@ -1,20 +1,28 @@
-
-in order to avoid annoying hardware issues at system boot,
-set your used pins to output and adjust their default status
-Pins as BCM format
-
-/boot/config.txt
-gpio=17,22,5,6,13,19,26,18,23,24,25,12,16,20,21=op,dl
-gpio=27=op,dh
-
-
-dash==1.18.1
-Adafruit-DHT==1.4.0 # for DHT-22 sensor
+Adafruit-DHT==1.4.0
 APScheduler==3.6.3
+Brotli==1.0.9
+click==7.1.2
+dash==1.18.1
+dash-core-components==1.14.1
+dash-daq==0.5.0
+dash-html-components==1.1.1
+dash-renderer==1.8.3
+dash-table==4.11.1
+Flask==1.1.2
+Flask-Compress==1.8.0
+future==0.18.2
+itsdangerous==1.1.0
+Jinja2==2.11.2
+MarkupSafe==1.1.1
 numpy==1.19.4
-pandas==1.1.4
+pandas==1.1.5
+pkg-resources==0.0.0
+plotly==4.14.1
 python-dateutil==2.8.1
 pytz==2020.4
+retrying==1.3.3
+RPi.GPIO==0.7.0
 simple-pid==0.2.4
 six==1.15.0
 tzlocal==2.1
+Werkzeug==1.0.1

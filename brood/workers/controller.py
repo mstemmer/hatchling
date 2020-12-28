@@ -106,7 +106,7 @@ class BroodController():
                     h, t = Adafruit_DHT.read_retry(self.sensor, sens)
                     # print('RAW', sens,h,t)
                     if math.isnan(h) == False and math.isnan(t) == False:
-                        if 0 > h < 100:
+                        if 0 < h < 100:
                             humid_raw = round(h,2) # _raw values are not averaged
                             temp_raw = round(t,2)
 
@@ -139,8 +139,9 @@ class BroodController():
         except KeyboardInterrupt:
             self.heat.ChangeDutyCycle(0)
             GPIO.output(self.heat_pin, GPIO.LOW)
-            status=self.config['mode'][0]
-            self.status_end(status)
+            self.temp = self.set_temp
+            self.humid = self.set_humid
+            self.status_out()
             print('Shutting down heater')
             sys.exit('Close program')
 
