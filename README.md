@@ -12,7 +12,7 @@ Features:
 * accustic warning, when values are far off the set points
 * automatic turning of eggs
 * easy to use via CLI
-* includes incubation programs for other species (e.g.: ducks, quails, ...)
+* flexible incubation programs for other species (e.g.: ducks, quails, ...)
 * runs savely for days without burning down the house...
 * reports current values via dash
 
