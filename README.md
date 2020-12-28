@@ -2,7 +2,7 @@
 
 This DIY project simply started off with wanting to learn python and basic hardware control with a raspberry pie and developed into a full blown chicken egg incubator. The idea was to build the controller as much as possible from scratch with cheap, but reliable parts. The python code should move the eggs periodically and control the temperature via a PID controller, report temperature, humidity and current duty cycle. On top, the controller should visually show the correct values via LEDs and warn, if there are problems arising. 
 
-<img align="right" src="chicken_control.png" width = 320 hight = 240>
+<img align="right" src="docs/chicken_control.png" width = 320 hight = 240>
 
 Features:
 * works on any raspberry pie & possibly other controllers
