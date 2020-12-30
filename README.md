@@ -40,3 +40,5 @@ optional arguments:
               elephant. See inc_program.json
   --silent    Deactivate the alarm buzzer
 ```
+
+Detailed information on usage, software, PID tuninh & hardware can be found [here](https://github.com/mstemmer/hatchling/wiki)
