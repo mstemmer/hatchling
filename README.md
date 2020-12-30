@@ -41,4 +41,4 @@ optional arguments:
   --silent    Deactivate the alarm buzzer
 ```
 
-**Detailed information on usage, software, PID tuninh & hardware can be found [here](https://github.com/mstemmer/hatchling/wiki)**
+**Detailed information on usage, software, PID tuning & hardware can be found [here](https://github.com/mstemmer/hatchling/wiki)**
