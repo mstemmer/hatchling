@@ -31,12 +31,12 @@ pip install -r requirements.txt
 run hatchling with:  
 `python hatchling.py`
 ```
-usage: hatchling [-h] [-i] [-s]
+usage: hatchling [-h] [--init] [--species] [--silent]
 
 optional arguments:
-  -h, --help       show this help message and exit
-  -i, --init       Start new incubation. Default: resume last incubation
-                   program
-  -s , --species   Load species specific incubation program: chicken, quail,
-                   elephant
+  -h, --help  show this help message and exit
+  --init      Start new incubation. Default: resume last incubation program
+  --species   Load species specific incubation program: chicken, quail,
+              elephant. See inc_program.json
+  --silent    Deactivate the alarm buzzer
 ```
