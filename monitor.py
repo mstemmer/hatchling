@@ -121,7 +121,7 @@ def make_chart(n):
     # print(df)
 
     df = df[["Temperature", "Humidity", "Set Point: Temperature", "Set Point: Humidity", "Duty Cycle"]]
-    df = df.tail(200000)
+    df = df.tail(20000)
 
     # print(df)
 

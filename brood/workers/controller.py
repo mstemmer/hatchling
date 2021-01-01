@@ -139,9 +139,7 @@ class BroodController():
         except KeyboardInterrupt:
             self.heat.ChangeDutyCycle(0)
             GPIO.output(self.heat_pin, GPIO.LOW)
-            self.temp = self.set_temp
-            self.humid = self.set_humid
-            self.status_out()
+            self.status_end()
             print('Shutting down heater')
             sys.exit('Close program')
 
@@ -235,10 +233,10 @@ class BroodController():
             return self.status
 
     def shift_out(self): #shift_out function, use bit serial transmission
-        self.val = self.status_read()
+        val = self.status_read()
         for i in range(0,8):
             GPIO.output(self.clock_pin,GPIO.LOW)
-            GPIO.output(self.data_pin,(0x01&(self.val>>i)==0x01) and GPIO.HIGH or GPIO.LOW)
+            GPIO.output(self.data_pin,(0x01&(val>>i)==0x01) and GPIO.HIGH or GPIO.LOW)
             GPIO.output(self.clock_pin,GPIO.HIGH)
 
     def status_out(self): #74HC595 will update the data to the parallel output port.
@@ -247,8 +245,16 @@ class BroodController():
         GPIO.output(self.latch_pin,GPIO.HIGH) #Output high level to latchPin
         time.sleep(0.1)
 
-    def status_end(self, status): #74HC595 will update the data to the parallel output port.
+    def shift_end(self): #shift_out function, use bit serial transmission
+        status = self.config['mode'][0]
+        val = status
+        for i in range(0,8):
+            GPIO.output(self.clock_pin,GPIO.LOW)
+            GPIO.output(self.data_pin,(0x01&(val>>i)==0x01) and GPIO.HIGH or GPIO.LOW)
+            GPIO.output(self.clock_pin,GPIO.HIGH)
+
+    def status_end(self): #74HC595 will update the data to the parallel output port.
         GPIO.output(self.latch_pin,GPIO.LOW)  #Output low level to latchPin
-        self.shift_out() #Send serial data to 74HC595
+        self.shift_end() #Send serial data to 74HC595
         GPIO.output(self.latch_pin,GPIO.HIGH) #Output high level to latchPin
         time.sleep(0.1)
