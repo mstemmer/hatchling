@@ -48,6 +48,9 @@ class BroodController():
         self.heat = GPIO.PWM(self.heat_pin, 200)
         self.heat.start(0)
 
+        if 'fixed_dc' in self.config: # check if exists
+            print(f'PID controller is deactivated and duty cycle fixed to {self.config["fixed_dc"]}')
+
         # init class
         self.set_humid, self.set_temp = [55, 36]
         self.q_data = q_data
@@ -83,7 +86,10 @@ class BroodController():
         print('preheating')
 
     def pid_controller(self):
-        self.duty_cycle = self.pid(self.temp_pid)
+        if 'fixed_dc' in self.config: # check if exists
+            self.duty_cycle = self.config["fixed_dc"]
+        else:
+            self.duty_cycle = self.pid(self.temp_pid)
         # print(self.duty_cycle)
         # duty_cycle = 0
         # p, i, d = self.pid.components
