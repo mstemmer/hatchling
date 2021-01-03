@@ -40,6 +40,7 @@ optional arguments:
 ```
 ## Run the data monitoring server (Optional)
 <img align="right" src="https://github.com/mstemmer/hatchling/blob/main/docs/images/dash_4.png" width = 640 hight = 480>
+Hatchling reports its status via the command line and the LED/buzzer on the controller. With dash you can extend the monitoring to all your end devices within your network.
  
 <br/><br/><br/><br/>
 Run the dash server with:  
