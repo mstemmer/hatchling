@@ -69,11 +69,29 @@ app.layout = html.Div(children=[
     ], className='six columns'),
     ], className="row"),
 
+    html.Div(children='''
+    Live update of last 20 data points
+    ''', style={
+    'textAlign': 'center',
+    }),
+
     dcc.Graph(id='chart'),
     dcc.Interval(id='interval-component', interval=2000, n_intervals=0), #2s
 
+    html.Div(children='''
+    Live update of last day
+    ''', style={
+    'textAlign': 'center',
+    }),
+
     dcc.Graph(id='chart_day'),
     dcc.Interval(id='interval-component_day', interval=600000, n_intervals=0), #10 min
+
+    html.Div(children='''
+    Live update of all data points so far
+    ''', style={
+    'textAlign': 'center',
+    }),
 
     dcc.Graph(id='chart_full'),
     dcc.Interval(id='interval-component_full', interval=3600000, n_intervals=0) # milliseconds # 3600000 1h
