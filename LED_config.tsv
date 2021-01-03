@@ -1,0 +1,39 @@
+												binary	hex	decimal						
+buzzer mode																				
+0	startup & shutdown	0	0	1	1	1	1	1	1			00111111	3F	63						* 1 for LEDs means off
+1	opt T / opt H	0	0	1	0	1	1	0	1		green/green	00101101	2D	45						* 1 for buzzer means on
+2	out1 T / opt H	0	0	1	1	0	1	0	1		blue/green	00110101	35	53						
+3	out2 T / opt H	0	0	0	1	1	1	0	1		red/green	00011101	1D	29						
+4	out3 T / opt H + B	0	1	0	1	1	1	0	1		red_B/green	01011101	5D	93						
+5	opt T / out1 H	0	0	1	0	1	0	1	1		green/blue	00101011	2B	43						
+6	out1 T / out1 H	0	0	1	1	0	0	1	1		blue/blue	00110011	33	51						
+7	out2 T / out1 H	0	0	0	1	1	0	1	1		red/blue	00011011	1B	27						
+8	out3 T / out1 H + B	0	1	0	1	1	0	1	1		red_B/blue	01011011	5B	91						
+9	opt T / out2 H	0	0	1	0	1	1	1	0		green/red	00101110	2E	46						
+10	out1 T / out2 H	0	0	1	1	0	1	1	0		blue/red	00110110	36	54						
+11	out2 T / out2 H	0	0	0	1	1	1	1	0		red/red	00011110	1E	30						
+12	out3 T / out2 H + B	0	1	0	1	1	1	1	0		red_B/red	01011110	5E	94						
+13	opt T / out3 H + B	0	1	1	0	1	1	1	0		green/red_B	01101110	6E	110						
+14	out1 T / out3 H + B	0	1	1	1	0	1	1	0		blue/red_B	01110110	76	118						
+15	out2 T / out3 H + B	0	1	0	1	1	1	1	0		red/red_B	01011110	5E	94						
+16	out3 T / out3 H + B	0	1	0	1	1	1	1	0		red_B/red_B	01011110	5E	94						
+																				
+silent mode																				
+state		0	B	TR	TG	TB	HB	HG	HR											
+0	startup & shutdown	0	0	1	1	1	1	1	1			00111111	3F	63						
+1	opt T / opt H	0	0	1	0	1	1	0	1		green/green	00101101	2D	45						
+2	out1 T / opt H	0	0	1	1	0	1	0	1		blue/green	00110101	35	53						
+3	out2 T / opt H	0	0	0	1	1	1	0	1		red/green	00011101	1D	29						
+4	out3 T / opt H + B	0	0	0	1	1	1	0	1		red_B/green	00011101	1D	29						
+5	opt T / out1 H	0	0	1	0	1	0	1	1		green/blue	00101011	2B	43						
+6	out1 T / out1 H	0	0	1	1	0	0	1	1		blue/blue	00110011	33	51						
+7	out2 T / out1 H	0	0	0	1	1	0	1	1		red/blue	00011011	1B	27						
+8	out3 T / out1 H + B	0	0	0	1	1	0	1	1		red_B/blue	00011011	1B	27						
+9	opt T / out2 H	0	0	1	0	1	1	1	0		green/red	00101110	2E	46						
+10	out1 T / out2 H	0	0	1	1	0	1	1	0		blue/red	00110110	36	54						
+11	out2 T / out2 H	0	0	0	1	1	1	1	0		red/red	00011110	1E	30						
+12	out3 T / out2 H + B	0	0	0	1	1	1	1	0		red_B/red	00011110	1E	30						
+13	opt T / out3 H + B	0	0	1	0	1	1	1	0		green/red_B	00101110	2E	46						
+14	out1 T / out3 H + B	0	0	1	1	0	1	1	0		blue/red_B	00110110	36	54						
+15	out2 T / out3 H + B	0	0	0	1	1	1	1	0		red/red_B	00011110	1E	30						
+16	out3 T / out3 H + B	0	0	0	1	1	1	1	0		red_B/red_B	00011110	1E	30						
