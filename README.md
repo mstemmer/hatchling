@@ -49,4 +49,5 @@ Run the dash server with:
 `python monitor.py --input <data-folder/data-file.csv>`
 The server is set up to run as local host. So in order to access the page, type the IP of your RaspberryPi in your browser of your end device and use port 8050 (e.g.: 192.169.168:8050). See more info under the [Software](./Software) section.
 
-## So far this has been running smoothly for me. Make sure though that everything is solderd and insulated correctly. Dont run hatchling when you are away! Keep an eye on the heating element!
+## Note 
+So far this has been running smoothly for me. Make sure though that everything is solderd and insulated correctly. Dont run hatchling when you are away! Keep an eye on the heating element!
