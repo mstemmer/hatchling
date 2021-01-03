@@ -45,4 +45,4 @@ Hatchling reports its status via the command line and the LED/buzzer on the cont
 <br/><br/><br/><br/>
 Run the dash server with:  
 `python monitor.py --input <data-folder/data-file.csv>`
-The server is set up to run as local host. So in order access the page, type the IP of your RaspberryPi in your browser of your end device and use port 8050 (e.g.: 192.169.168:8050). See more info under the [Software](./Software) section.
+The server is set up to run as local host. So in order to access the page, type the IP of your RaspberryPi in your browser of your end device and use port 8050 (e.g.: 192.169.168:8050). See more info under the [Software](./Software) section.
