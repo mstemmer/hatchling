@@ -56,8 +56,8 @@ class BroodLord():
                 # add job to scheduler
                 scheduler.add_job(self.next_phase, args=(p, ), trigger='date',
                 next_run_time=phase)
-                logging.info(f'Controller update will occur on datetime: {phase}')
-                print(f'Controller update will occur on datetime: {phase}')
+                logging.info(f'Controller update scheduled for: {phase}')
+                print(f'Controller update scheduled for: {phase}')
 
         #  set scheduler to interval until end point of egg moving, relative to time_init
         if inc_program["activate_move_eggs"] == 1: # check if eggs should be moved

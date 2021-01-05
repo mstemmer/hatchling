@@ -1,6 +1,6 @@
 import argparse
 import dash
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_daq as daq
@@ -9,10 +9,11 @@ import pandas as pd
 
 
 parser = argparse.ArgumentParser(prog='monitor')
-parser.add_argument('--input', dest='file', metavar='', help='file to be monitored')
+parser.add_argument('--input', dest='file', metavar='', help='specify the path and date of the data&log files to be monitored. E.g.: --input data_output/2021-01-05')
 args = parser.parse_args()
 
-file = args.file
+data_file = f'{args.file}_data.csv'
+log_file = f'{args.file}_log.txt'
 
 # file = "data_brood/2020-12-13_data.csv"
 
@@ -34,6 +35,20 @@ app.layout = html.Div(children=[
 
     html.Div(children='''
 
+    ''', style={
+    'textAlign': 'center',
+    'padding': 10
+    }),
+
+    html.Div(children='''
+    Log File
+    ''', style={
+    'textAlign': 'left',
+    }),
+
+    html.Div(id='log-div-output', style={'whiteSpace': 'pre-line', 'overflow-y': 'auto', 'height': '100px'}),
+
+    html.Div(children='''
     ''', style={
     'textAlign': 'center',
     'padding': 30
@@ -69,7 +84,7 @@ app.layout = html.Div(children=[
     ], className='six columns'),
     ], className="row"),
 
-    html.Div(children='''
+    html.H3(children='''
     Live update of last 20 data points
     ''', style={
     'textAlign': 'center',
@@ -78,7 +93,7 @@ app.layout = html.Div(children=[
     dcc.Graph(id='chart'),
     dcc.Interval(id='interval-component', interval=2000, n_intervals=0), #2s
 
-    html.Div(children='''
+    html.H3(children='''
     Live update of last day
     ''', style={
     'textAlign': 'center',
@@ -87,7 +102,7 @@ app.layout = html.Div(children=[
     dcc.Graph(id='chart_day'),
     dcc.Interval(id='interval-component_day', interval=600000, n_intervals=0), #10 min
 
-    html.Div(children='''
+    html.H3(children='''
     Live update of all data points so far
     ''', style={
     'textAlign': 'center',
@@ -97,6 +112,15 @@ app.layout = html.Div(children=[
     dcc.Interval(id='interval-component_full', interval=3600000, n_intervals=0) # milliseconds # 3600000 1h
 ])
 
+@app.callback(Output('log-div-output', 'children'),
+              [Input('interval-component','n_intervals')])
+
+def log_content(n):
+    log = open(log_file)
+    line = log.readlines()
+    return line
+
+
 # show only current snapshot of last 5 values
 @app.callback(Output('chart', 'figure'),
               Output('gauge-temp', 'value'),
@@ -105,7 +129,7 @@ app.layout = html.Div(children=[
 
 def update_graphs(n):
     headers = ["Time", "Humidity", "Temperature", "humid_raw", "temp_raw", "sensor", "Set Point: Humidity", "Set Point: Temperature", "Duty Cycle"]
-    df = pd.read_csv(file, names=headers, index_col=0)
+    df = pd.read_csv(data_file, names=headers, index_col=0)
     # df.columns = headers
     # print(df)
 
@@ -134,7 +158,7 @@ def update_graphs(n):
 
 def make_chart(n):
     headers = ["Time", "Humidity", "Temperature", "humid_raw", "temp_raw", "sensor", "Set Point: Humidity", "Set Point: Temperature", "Duty Cycle"]
-    df = pd.read_csv(file, names=headers, index_col=0)
+    df = pd.read_csv(data_file, names=headers, index_col=0)
     # df.columns = headers
     # print(df)
 
@@ -154,7 +178,7 @@ def make_chart(n):
 
 def make_chart(n):
     headers = ["Time", "Humidity", "Temperature", "humid_raw", "temp_raw", "sensor", "Set Point: Humidity", "Set Point: Temperature", "Duty Cycle"]
-    df = pd.read_csv(file, names=headers, index_col=0)
+    df = pd.read_csv(data_file, names=headers, index_col=0)
     # df.columns = headers
     # print(df)
 
