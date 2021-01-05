@@ -3,6 +3,7 @@ from datetime import datetime
 import csv
 import os
 import pandas as pd
+import logging
 # import brood.workers.test_dash as testdash
 
 
@@ -20,8 +21,6 @@ class Output():
     def output(self):
         file = f'{str(self.time_init.date())}_{self.data_file}.csv'
         file_path = os.path.join(self.data_folder, file)
-        if os.path.exists(file_path) and self.config["init"] == True: # delete data file if init == True
-            os.remove(file_path)
 
         list = []
 

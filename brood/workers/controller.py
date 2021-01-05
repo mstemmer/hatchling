@@ -7,6 +7,7 @@ import string
 import time
 import math
 import sys
+import logging
 
 class BroodController():
     """ Reads data from two DHT22 sensors in a while loop. Reading alternates
@@ -38,6 +39,7 @@ class BroodController():
             GPIO.setup(p, GPIO.OUT)
         GPIO.output(self.heat_pin, GPIO.LOW)
 
+        logging.info('Initializing PID controller')
         print('Initializing PID controller')
         self.pid = PID(290, 70, 10, setpoint=37) # init pid controller 290, 70, 10
         self.pid.output_limits = (0, 100)
@@ -49,6 +51,7 @@ class BroodController():
         self.heat.start(0)
 
         if 'fixed_dc' in self.config: # check if exists
+            logging.info(f'PID controller is deactivated and duty cycle fixed to {self.config["fixed_dc"]}')
             print(f'PID controller is deactivated and duty cycle fixed to {self.config["fixed_dc"]}')
 
         # init class
@@ -61,6 +64,7 @@ class BroodController():
         if self.q_prog.empty() != True:
             self.set_humid, self.set_temp = self.q_prog.get()
             self.pid.setpoint = self.set_temp # update set_temp within pid controller
+            logging.info('Controller recieved updated parameters')
             print('Controller recieved updated parameters')
         else:
             pass
@@ -79,11 +83,6 @@ class BroodController():
             self.oor_temp_low.append(temp_low)
             self.oor_humid_high.append(humid_high)
             self.oor_humid_low.append(humid_low)
-
-    def preheat(self):
-        self.duty_cycle = 100
-        self.heat.ChangeDutyCycle(self.duty_cycle)
-        print('preheating')
 
     def pid_controller(self):
         if 'fixed_dc' in self.config: # check if exists
@@ -132,20 +131,26 @@ class BroodController():
 
                             time.sleep(1) # this way each sensor is read only every 2 seconds as per datasheet
                         else:
+                            logging.error('Bad sensor read')
                             print('Bad sensor read. Trying again...')
                             time.sleep(2)
                     else :
+                        logging.error('Read value is NaN!')
                         print('Read value is NaN! Trying again...')
                         time.sleep(2)
 
                 except TypeError as e:
+                    logging.error("Reading from DHT22 failure!")
                     print("Reading from DHT22 failure: ",e.args)
                     time.sleep(2)
+                    continue
 
         except KeyboardInterrupt:
             self.heat.ChangeDutyCycle(0)
             GPIO.output(self.heat_pin, GPIO.LOW)
             self.status_end()
+            logging.info('Shutting down heater')
+            logging.info('Close program')
             print('Shutting down heater')
             sys.exit('Close program')
 

@@ -1,6 +1,7 @@
 {
   "data_folder": "data_output",
   "data_file": "data",
+  "log_file": "log",
 
   "setup_pin":
     {
@@ -27,8 +28,8 @@
       "oor_humid": [7, 12, 20]
 
     },
-
-  "PID_parameters": [290, 70, 10],
+  "standard_parameters": [290, 70, 10],
+  "PID_parameters": [260, 85, 12],
 
   "comment": "Number_of_steps_for_stepper_motor",
   "steps": 150
