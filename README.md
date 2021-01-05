@@ -13,6 +13,7 @@ Features:
 * automatic turning of eggs
 * easy to use via CLI
 * flexible incubation programs for other species (e.g.: ducks, quails, ...)
+* creates log and data files
 * reports current values via plotly dash
 
 Find all the details about the hardware & software in the [wiki](https://github.com/mstemmer/hatchling/wiki)!
