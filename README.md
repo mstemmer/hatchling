@@ -1,6 +1,6 @@
 # Hatchling - brooding chicken eggs the fancy way
 
-This DIY project started off with wanting to learn python and basic hardware control with a RaspberryPi and developed into a full blown chicken egg incubator. The idea was to build the controller as much as possible from scratch with cheap, but reliable parts. The python code should move the eggs periodically and control the temperature via a PID controller, report temperature, humidity and current duty cycle. On top, the controller should visually show the correct values via LEDs and warn acoustically, if there are problems arising. 
+This DIY project started off with wanting to experiment with python and basic hardware control with a RaspberryPi and developed into a full blown chicken egg incubator. The idea was to build the controller as much as possible from scratch with cheap, but reliable parts. The python code should move the eggs periodically and control the temperature via a PID controller, report temperature, humidity and current duty cycle. On top, the controller should visually show the correct values via LEDs and warn acoustically, if there are problems arising. 
 
 <img align="right" src="https://github.com/mstemmer/hatchling/blob/main/docs/chicken_control.png" width = 320 hight = 240>
 
