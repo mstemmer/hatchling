@@ -16,7 +16,7 @@ Features:
 * creates log and data files
 * reports current values via plotly dash
 
-Find all the details about the hardware & software in the [wiki](https://github.com/mstemmer/hatchling/wiki)!
+Find all the details about the hardware & software in the [Wiki](https://github.com/mstemmer/hatchling/wiki)!
 
 ## Quick start
 - make sure you run python3 (>=3.7)
