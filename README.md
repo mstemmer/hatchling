@@ -21,7 +21,7 @@ Find all the details about the hardware & software in the [Wiki](https://github.
 ## Quick start
 - make sure you run python3 (>=3.7)
 - will ony work, when RaspberryPi is configured and connected to the controller
-- Please see [Configuration](./Configuration) and the [Wiki](https://github.com/mstemmer/hatchling/wiki) in general
+- Please see [Configuration](https://github.com/mstemmer/hatchling/wiki/Configuration) and the [Wiki](https://github.com/mstemmer/hatchling/wiki) in general
 
 ```
 python -m venv hatch_env
