@@ -1,0 +1,18 @@
+2021-04-09 10:00:24 INFO: Load incubation program: chicken
+2021-04-09 10:00:24 INFO: Initializing PID controller
+2021-04-09 10:00:24 INFO: Setting controller to default parameters
+2021-04-09 10:00:24 INFO: Additional phases found and added to scheduler
+2021-04-09 10:00:24 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-09 10:00:24 INFO: Controller update scheduled for: 2021-04-27 10:00:24
+2021-04-09 10:00:24 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-09 10:00:24 INFO: Controller update scheduled for: 2021-04-29 10:00:24
+2021-04-09 10:00:24 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-09 10:00:24 INFO: Egg moving is activated and scheduled every 4 hours
+2021-04-09 10:00:24 INFO: Moving eggs
+2021-04-09 10:00:26 INFO: Controller recieved updated parameters
+2021-04-09 10:00:32 INFO: Added job "BroodLord.next_phase" to job store "default"
+2021-04-09 10:00:32 INFO: Added job "BroodLord.next_phase" to job store "default"
+2021-04-09 10:00:32 INFO: Added job "BroodLord.move_eggs" to job store "default"
+2021-04-09 10:00:32 INFO: Scheduler started
+2021-04-09 10:00:33 INFO: Shutting down heater
+2021-04-09 10:00:33 INFO: Close program

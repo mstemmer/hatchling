@@ -1,5 +1,5 @@
 {
-"species": ["chicken", "duck", "elephant"],
+"species": ["chicken", "duck", "elephant", "test_run"],
 
 "chicken":
   {

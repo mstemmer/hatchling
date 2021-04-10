@@ -1,0 +1,15 @@
+2021-04-10 08:59:18 INFO: Buzzer deactivated
+2021-04-10 08:59:18 INFO: Load incubation program: chicken
+2021-04-10 08:59:18 INFO: Initializing PID controller
+2021-04-10 08:59:18 INFO: Setting controller to default parameters
+2021-04-10 08:59:18 INFO: Additional phases found and added to scheduler
+2021-04-10 08:59:19 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-10 08:59:19 INFO: Controller update scheduled for: 2021-04-28 08:59:18
+2021-04-10 08:59:19 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-10 08:59:19 INFO: Controller update scheduled for: 2021-04-30 08:59:18
+2021-04-10 08:59:19 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-10 08:59:19 INFO: Egg moving is activated and scheduled every 4 hours
+2021-04-10 08:59:19 INFO: Moving eggs
+2021-04-10 08:59:20 INFO: Controller recieved updated parameters
+2021-04-10 08:59:25 INFO: Shutting down heater
+2021-04-10 08:59:25 INFO: Close program

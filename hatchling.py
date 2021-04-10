@@ -95,12 +95,11 @@ class Hatchling():
         elif self.args.species not in species_list:
             print('Species not in list')
             sys.exit("--> Exiting program")
-        elif self.args.species == 'chicken':
-            inc_program = inc_program["chicken"]
-            logging.info('Load incubation program: chicken')
-            print('Load incubation program: chicken')
+        elif self.args.species in species_list:
+            inc_program = inc_program[self.args.species]
+            logging.info(f'Load incubation program: {self.args.species}')
+            print(f'Load incubation program: {self.args.species}')
             return inc_program
-
 
 if __name__ == '__main__':
     Hatchling()
