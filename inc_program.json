@@ -13,5 +13,20 @@
     "activate_move_eggs": 1,
     "days_move_eggs": 17,
     "interval_move_eggs": 4
+  },
+
+"test_run":
+  {
+    "phases": 3,
+    "comment": ["humid", "temp"],
+    "default_phase": [55, 37.8],
+    "next_phase": [[55, 37], [80, 37]],
+
+    "phase_changes": [2, 3],
+
+    "activate_move_eggs": 1,
+    "days_move_eggs": 2,
+    "interval_move_eggs": 4
   }
+
 }
