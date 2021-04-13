@@ -8,7 +8,7 @@
     "default_phase": [55, 37.8],
     "next_phase": [[55, 37], [80, 37]],
 
-    "phase_changes": [18, 20],
+    "phase_changes": [17, 19],
 
     "activate_move_eggs": 1,
     "days_move_eggs": 17,
@@ -22,10 +22,10 @@
     "default_phase": [55, 37.8],
     "next_phase": [[55, 37], [80, 37]],
 
-    "phase_changes": [2, 3],
+    "phase_changes": [1, 2],
 
     "activate_move_eggs": 1,
-    "days_move_eggs": 2,
+    "days_move_eggs": 1,
     "interval_move_eggs": 4
   }
 

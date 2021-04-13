@@ -131,7 +131,7 @@ class BroodController():
 
                             time.sleep(1) # this way each sensor is read only every 2 seconds as per datasheet
                         else:
-                            logging.error('Bad sensor read')
+                            logging.error(f'Bad sensor read: pin {sens}')
                             print('Bad sensor read. Trying again...')
                             time.sleep(2)
                     else :
