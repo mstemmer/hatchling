@@ -1,0 +1,41 @@
+2021-04-14 14:35:38 INFO: Buzzer deactivated
+2021-04-14 14:35:38 INFO: Load incubation program: chicken
+2021-04-14 14:35:38 INFO: Initializing PID controller
+2021-04-14 14:35:38 INFO: Setting controller to default parameters
+2021-04-14 14:35:38 INFO: Additional phases found and added to scheduler
+2021-04-14 14:35:38 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-14 14:35:38 INFO: Controller update scheduled for: 2021-05-01 14:35:38
+2021-04-14 14:35:38 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-14 14:35:38 INFO: Controller update scheduled for: 2021-05-03 14:35:38
+2021-04-14 14:35:38 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-14 14:35:38 INFO: Egg moving is activated and scheduled every 4 hours
+2021-04-14 14:35:38 INFO: Moving eggs
+2021-04-14 14:35:44 INFO: Controller recieved updated parameters
+2021-04-14 14:35:46 INFO: Added job "BroodLord.next_phase" to job store "default"
+2021-04-14 14:35:46 INFO: Added job "BroodLord.next_phase" to job store "default"
+2021-04-14 14:35:46 INFO: Added job "BroodLord.move_eggs" to job store "default"
+2021-04-14 14:35:46 INFO: Scheduler started
+2021-04-14 14:40:39 INFO: Shutting down heater
+2021-04-14 14:40:39 INFO: Close program
+2021-04-14 14:40:52 INFO: Buzzer deactivated
+2021-04-14 14:40:52 INFO: Load incubation program: chicken
+2021-04-14 14:40:52 INFO: Initializing PID controller
+2021-04-14 14:40:52 INFO: Setting controller to default parameters
+2021-04-14 14:40:53 INFO: Additional phases found and added to scheduler
+2021-04-14 14:40:53 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-14 14:40:53 INFO: Controller update scheduled for: 2021-05-01 14:35:38
+2021-04-14 14:40:53 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-14 14:40:53 INFO: Controller update scheduled for: 2021-05-03 14:35:38
+2021-04-14 14:40:53 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-14 14:40:53 INFO: Egg moving is activated and scheduled every 4 hours
+2021-04-14 14:40:53 INFO: Moving eggs
+2021-04-14 14:41:00 INFO: Added job "BroodLord.next_phase" to job store "default"
+2021-04-14 14:41:00 INFO: Added job "BroodLord.next_phase" to job store "default"
+2021-04-14 14:41:00 INFO: Added job "BroodLord.move_eggs" to job store "default"
+2021-04-14 14:41:00 INFO: Scheduler started
+2021-04-14 14:41:02 INFO: Controller recieved updated parameters
+2021-04-14 14:45:53 ERROR: Reading from DHT22 failure!
+2021-04-14 14:47:27 ERROR: Bad sensor read: pin 12
+2021-04-14 14:48:38 ERROR: Reading from DHT22 failure!
+2021-04-14 14:48:42 INFO: Shutting down heater
+2021-04-14 14:48:42 INFO: Close program

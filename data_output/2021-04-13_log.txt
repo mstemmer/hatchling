@@ -1,19 +1,19 @@
-2021-04-13 08:43:02 INFO: Buzzer deactivated
-2021-04-13 08:43:02 INFO: Load incubation program: test_run
-2021-04-13 08:43:02 INFO: Initializing PID controller
-2021-04-13 08:43:02 INFO: Setting controller to default parameters
-2021-04-13 08:43:02 INFO: Additional phases found and added to scheduler
-2021-04-13 08:43:03 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
-2021-04-13 08:43:03 INFO: Controller update scheduled for: 2021-04-14 08:43:02
-2021-04-13 08:43:03 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
-2021-04-13 08:43:03 INFO: Controller update scheduled for: 2021-04-15 08:43:02
-2021-04-13 08:43:03 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
-2021-04-13 08:43:03 INFO: Egg moving is activated and scheduled every 4 hours
-2021-04-13 08:43:03 INFO: Moving eggs
-2021-04-13 08:43:04 INFO: Controller recieved updated parameters
-2021-04-13 08:43:10 INFO: Added job "BroodLord.next_phase" to job store "default"
-2021-04-13 08:43:10 INFO: Added job "BroodLord.next_phase" to job store "default"
-2021-04-13 08:43:10 INFO: Added job "BroodLord.move_eggs" to job store "default"
-2021-04-13 08:43:10 INFO: Scheduler started
-2021-04-13 09:03:47 INFO: Shutting down heater
-2021-04-13 09:03:47 INFO: Close program
+2021-04-13 09:18:30 INFO: Buzzer deactivated
+2021-04-13 09:18:30 INFO: Load incubation program: test_run
+2021-04-13 09:18:30 INFO: Initializing PID controller
+2021-04-13 09:18:30 INFO: Setting controller to default parameters
+2021-04-13 09:18:30 INFO: Additional phases found and added to scheduler
+2021-04-13 09:18:31 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-13 09:18:31 INFO: Controller update scheduled for: 2021-04-14 09:18:30
+2021-04-13 09:18:31 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-13 09:18:31 INFO: Controller update scheduled for: 2021-04-15 09:18:30
+2021-04-13 09:18:31 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2021-04-13 09:18:31 INFO: Egg moving is activated and scheduled every 4 hours
+2021-04-13 09:18:31 INFO: Moving eggs
+2021-04-13 09:18:32 INFO: Controller recieved updated parameters
+2021-04-13 09:18:38 INFO: Added job "BroodLord.next_phase" to job store "default"
+2021-04-13 09:18:38 INFO: Added job "BroodLord.next_phase" to job store "default"
+2021-04-13 09:18:38 INFO: Added job "BroodLord.move_eggs" to job store "default"
+2021-04-13 09:18:38 INFO: Scheduler started
+2021-04-13 09:18:40 INFO: Shutting down heater
+2021-04-13 09:18:40 INFO: Close program

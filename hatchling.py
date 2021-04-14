@@ -33,6 +33,7 @@ class Hatchling():
                 json.dump(time, time_file, indent=4)
             time = time["time_init"]
             time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S') # make sure time is saved as datetime object
+            logging.info(f'Starting new incubation. Time: {time}')
             print(f'Starting new incubation. Time: {time}')
             return time
         else:
@@ -40,6 +41,7 @@ class Hatchling():
                 time = json.load(time_file)
                 time = time["time_init"]
                 time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S') # make sure time is saved as datetime object
+                logging.info(f'Resuming from time point: {time}')
                 print(f'Resuming from time point: {time}')
                 return time
 
