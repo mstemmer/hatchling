@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 from multiprocessing import Process, Queue
-import Adafruit_DHT
+import adafruit_dht as Adafruit_DHT
 # import pidpy as PIDController
 from simple_pid import PID
 import string
