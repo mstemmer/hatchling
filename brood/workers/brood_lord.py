@@ -4,7 +4,7 @@ import os
 import json
 from datetime import timedelta, datetime
 from apscheduler.schedulers.background import BlockingScheduler
-import RPi.GPIO as GPIO
+from RPi import GPIO
 import logging
 # import datetime
 

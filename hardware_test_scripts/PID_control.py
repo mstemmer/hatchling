@@ -1,4 +1,4 @@
-from temp_sense_class import TempSense
+from hardware_test_scripts.temp_sense_class import TempSense
 from simple_pid import PID
 import RPi.GPIO as GPIO
 import time

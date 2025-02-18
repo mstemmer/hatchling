@@ -1,0 +1,16 @@
+MDD10 HAT
+GPIO26: DIR1
+GPIO24: DIR2
+GPIO12: PWM1
+GPIO13: PWM2
+
+PT100 HAT
+all SPI0 pins: GPIO7, 8, 9, 10, 11
+
+hatchling
+GPIO17, 27, 22: shift_register
+GPIO18: heat
+GPIO6: step
+GPIO5: sleep
+
+GPIO25: DHT22

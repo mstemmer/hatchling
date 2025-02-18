@@ -1,4 +1,5 @@
-import RPi.GPIO as GPIO
+from RPi import GPIO
+import board
 from multiprocessing import Process, Queue
 import adafruit_dht as Adafruit_DHT
 # import pidpy as PIDController
@@ -20,11 +21,11 @@ class BroodController():
 
     def __init__(self, config, q_prog, q_data):
         GPIO.setmode(GPIO.BCM)       # Numbers GPIOs by physical location
-        GPIO.setwarnings(False)
+        # GPIO.setwarnings(False)
 
-        self.sensor_1 = config['setup_pin']['sensor_1']
-        self.sensor_2 = config['setup_pin']['sensor_2']
-        self.sensor = Adafruit_DHT.DHT22
+        self.sensor_humid = config['setup_pin']['DHT22_sensor']
+        # self.sensor_2 = config['setup_pin']['sensor_2']
+        self.DHT22 = Adafruit_DHT.DHT22(board.D25)
 
         self.data_pin = config['setup_pin']['data']
         self.latch_pin = config['setup_pin']['latch']
@@ -103,12 +104,14 @@ class BroodController():
                 self.read_program()
                 i+=1
                 if i%2 == 0 : # test if dividable by 2, switch sensors for each cycle
-                    sens = self.sensor_1
+                    sens = self.sensor_humid
                 else:
-                    sens = self.sensor_2
+                    sens = self.sensor_humid
 
                 try:
-                    h, t = Adafruit_DHT.read_retry(self.sensor, sens)
+                    # h, t = Adafruit_DHT.read_retry(self.sensor, sens)
+                    t = self.DHT22.temperature
+                    h = self.DHT22.humidity
                     # print('RAW', sens,h,t)
                     if math.isnan(h) == False and math.isnan(t) == False:
                         if 0 < h < 100:
@@ -129,7 +132,7 @@ class BroodController():
                             self.q_data.put([self.humid, self.temp, humid_raw, temp_raw, sens,
                             self.set_humid, self.set_temp, self.duty_cycle])
 
-                            time.sleep(1) # this way each sensor is read only every 2 seconds as per datasheet
+                            time.sleep(2) # this way each sensor is read only every 2 seconds as per datasheet
                         else:
                             logging.error(f'Bad sensor read: pin {sens}')
                             print('Bad sensor read. Trying again...')

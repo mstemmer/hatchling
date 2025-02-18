@@ -83,6 +83,7 @@ dependencies:
       - rpi-gpio==0.7.1
       - rpi-ws281x==5.0.0
       - simple-pid==2.0.1
+      - spidev==3.6
       - sysv-ipc==1.1.0
       - tzlocal==5.3
 prefix: /home/manuel/miniconda3/envs/hatch_env

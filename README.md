@@ -4,6 +4,9 @@ This DIY project started off with wanting to experiment with python and basic ha
 
 <img align="right" src="https://github.com/mstemmer/hatchling/blob/main/docs/chicken_control.png" width = 320 hight = 240>
 
+Changes:
+* Use Raspi5 -- RPI.GPIO no longer works. Switched to lgpio
+
 Features:
 * works on any RaspberryPi & possibly other controllers
 * uses cheap off the shelf or recycled parts
