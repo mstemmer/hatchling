@@ -9,7 +9,7 @@ all SPI0 pins: GPIO7, 8, 9, 10, 11
 
 hatchling
 GPIO17, 27, 22: shift_register
-GPIO18: heat
+GPIO18: heat --> PWM fan
 GPIO6: step
 GPIO5: sleep
 
