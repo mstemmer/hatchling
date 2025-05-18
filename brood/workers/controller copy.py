@@ -1,5 +1,5 @@
 from RPi import GPIO # Now imports from system, not conda
-from brood.workers.PT100_sensor import TempSense
+# from PT100_sensor import TempSense
 import board
 from multiprocessing import Process, Queue
 import adafruit_dht as Adafruit_DHT
@@ -24,13 +24,9 @@ class BroodController():
         GPIO.setmode(GPIO.BCM)       # Numbers GPIOs by physical location
         # GPIO.setwarnings(False)
 
-        # initi humidity and temperature sensors
         self.sensor_humid = config['setup_pin']['DHT22_sensor']
         # self.sensor_2 = config['setup_pin']['sensor_2']
-        self.DHT22 = Adafruit_DHT.DHT22(getattr(board, f"D{self.sensor_humid}"))
-
-        self.temp_0 = TempSense(0)
-        self.temp_1 = TempSense(1)
+        self.DHT22 = Adafruit_DHT.DHT22(board.D25)
 
         self.data_pin = config['setup_pin']['data']
         self.latch_pin = config['setup_pin']['latch']
@@ -90,11 +86,11 @@ class BroodController():
             self.oor_humid_high.append(humid_high)
             self.oor_humid_low.append(humid_low)
 
-    def pid_controller(self, curr_value):
+    def pid_controller(self):
         if 'fixed_dc' in self.config: # check if exists
             self.duty_cycle = self.config["fixed_dc"]
         else:
-            self.duty_cycle = self.pid(curr_value)
+            self.duty_cycle = self.pid(self.temp_pid)
         # print(self.duty_cycle)
         # duty_cycle = 0
         # p, i, d = self.pid.components
@@ -103,33 +99,37 @@ class BroodController():
 
     def control(self):
         try:
-            h_last, temp_last = 30, 15 # need some start values
+            h_last, t_last = 30, 15 # need some start values
             i = 0
             while True:
                 self.read_program()
+                i+=1
+                if i%2 == 0 : # test if dividable by 2, switch sensors for each cycle
+                    sens = self.sensor_humid
+                else:
+                    sens = self.sensor_humid
 
                 try:
-                    # read sensors
-                    temp_0 = self.temp_0.get_temp()
-                    time.sleep(0.2)
-                    temp_1 = self.temp_1.get_temp()
+                    # h, t = Adafruit_DHT.read_retry(self.sensor, sens)
+                    t = self.DHT22.temperature
                     h = self.DHT22.humidity
-
-                    if math.isnan(h) == False and math.isnan(temp_0) == False and math.isnan(temp_1) == False:
-                        if 0 < h < 100: # add here also temperature evaluation!!
-
+                    # print('RAW', sens,h,t)
+                    if math.isnan(h) == False and math.isnan(t) == False:
+                        if 0 < h < 100:
+                            humid_raw = round(h,2) # _raw values are not averaged
+                            temp_raw = round(t,2)
 
                             self.humid = round((h + h_last) / 2, 2) # make avg with last value and round
-                            self.temp = round((temp_0 + temp_1) / 2, 2)
-                            current_temp = round((temp_0 + temp_1) / 2, 4)
+                            self.temp = round((t + t_last) / 2, 2)
 
-                            # h_last, temp_0_last, temp_1_last = h, t # save current values for next sensor read
+                            self.temp_pid = (t + t_last) / 2 # not rounded for PID controller
+
+                            h_last, t_last = h, t # save current values for next sensor read
 
                             self.status_out()
-                            self.pid_controller(current_temp)
+                            self.pid_controller()
                             # print(self.temp)
 
-                            humid_raw, temp_raw, sens = 2, 3, 2 ##only for debug ,remove later
                             self.q_data.put([self.humid, self.temp, humid_raw, temp_raw, sens,
                             self.set_humid, self.set_temp, self.duty_cycle])
 
