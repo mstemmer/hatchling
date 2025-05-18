@@ -1,4 +1,10 @@
-from RPi import GPIO
+import sys
+import os
+
+# sys.path.insert(0, os.path.expanduser('~/miniconda3/lib/python3.12/site-packages/'))
+
+from RPi import GPIO # Now imports from system, not conda
+
 import board
 from multiprocessing import Process, Queue
 import adafruit_dht as Adafruit_DHT

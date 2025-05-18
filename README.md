@@ -5,7 +5,9 @@ This DIY project started off with wanting to experiment with python and basic ha
 <img align="right" src="https://github.com/mstemmer/hatchling/blob/main/docs/chicken_control.png" width = 320 hight = 240>
 
 Changes:
-* Use Raspi5 -- RPI.GPIO no longer works. Switched to lgpio
+* Use Raspi5 -- RPI.GPIO no longer works. Switched to lgpio: https://rpi-lgpio.readthedocs.io/en/latest/install.html
+* lgpio only works from system..so have all other packages in base env to work well
+* pip install adafruit-circuitpython-dht
 
 Features:
 * works on any RaspberryPi & possibly other controllers
