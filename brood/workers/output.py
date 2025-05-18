@@ -26,14 +26,14 @@ class Output():
 
         while True:
 
-            self.humid, self.temp, self.humid_raw, self.temp_raw, sens, \
-            self.set_humid, self.set_temp, self.duty_cycle = self.q_data.get()
-            # print('Values received', self.humid, self.temp, self.set_humid, self.set_temp, self.duty_cycle)
-            print(f'Temp: {self.temp}   Humid: {self.humid}  dc: {self.duty_cycle}  Setpoint: {self.set_temp, self.set_humid}')
+            humid, temp, humid_raw, temp_raw, sens, \
+            set_humid, set_temp, duty_cycle = self.q_data.get()
+            # print('Values received', humid, temp, set_humid, set_temp, duty_cycle)
+            print(f'Temp: {temp}   Humid: {humid}  dc: {duty_cycle}  Setpoint: {set_temp, set_humid}')
 
             time_now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            row = [time_now, self.humid, self.temp, self.humid_raw, self.temp_raw, sens,
-            self.set_humid, self.set_temp, self.duty_cycle]
+            row = [time_now, humid, temp, humid_raw, temp_raw, sens,
+            set_humid, set_temp, duty_cycle]
 
             list.append(row)
 

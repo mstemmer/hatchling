@@ -123,37 +123,32 @@ class BroodController():
 
     def control(self):
         try:
-            h_last, temp_last = 30, 15 # need some start values
-            i = 0
+            h = 20 # initial value, because humidity is not available at the beginning
+            delay = time.time()
             while True:
                 self.read_program()
                 temp_0 = self.read_temperature(0)
-                time.sleep(0.2)
+                time.sleep(0.1)
                 temp_1 = self.read_temperature(1)
-                h = self.read_humidity()
+                if time.time() - delay >= 20:
+                    h = self.read_humidity()
+                    delay = time.time()
 
-                # try:
-                #     # read sensors
-                #     temp_0 = self.temp_0.get_temp()
-                #     time.sleep(0.2)
-                #     temp_1 = self.temp_1.get_temp()
-                #     h = self.DHT22.humidity
+                if all(not math.isnan(x) for x in [h, temp_0, temp_1]):
+                    if 10 < h < 70 and 10 < temp_0 < 70 and 10 < temp_1 < 70:
 
-                if math.isnan(h) == False and math.isnan(temp_0) == False and math.isnan(temp_1) == False:
-                    if 0 < h < 100 and 0 < temp_0 < 100 and 0 < temp_1 < 100: # add here also temperature evaluation!!
+                        current_humidity = round(h, 2)
+                        current_temperature = round((temp_0 + temp_1) / 2, 3)
 
-                        self.humid = round(h, 2)
-                        self.temp = round((temp_0 + temp_1) / 2, 3)
-
-                        self.status_out()
-                        self.pid_controller(self.temp)
+                        # self.status_out() # not needed right now, because no shift register
+                        self.pid_controller(current_temperature)
                         # print(self.temp)
 
                         humid_raw, temp_raw, sens = 2, 3, 2 ##only for debug ,remove later
-                        self.q_data.put([self.humid, self.temp, humid_raw, temp_raw, sens,
+                        self.q_data.put([current_humidity, current_temperature, humid_raw, temp_raw, sens,
                         self.set_humid, self.set_temp, self.duty_cycle])
 
-                        time.sleep(2) # this way each sensor is read only every 2 seconds as per datasheet
+                        # time.sleep(1) # this way each sensor is read only every 2 seconds as per datasheet
                     else:
                         logging.error(f'Bad sensor read: pin {sens}')
                         print('Bad sensor read. Trying again...')
@@ -162,11 +157,6 @@ class BroodController():
                     logging.error('Read value is NaN!')
                     print('Read value is NaN! Trying again...')
                     time.sleep(2)
-
-                # except TypeError as e:
-                #     logging.error("Reading from DHT22 failure!")
-                #     print("Reading from DHT22 failure: ",e.args)
-                #     time.sleep(2)
                 continue
 
         except KeyboardInterrupt:
@@ -179,117 +169,117 @@ class BroodController():
             sys.exit('Close program')
 
 
-    def status_temp(self):
-        if self.oor_temp_low[0] <= self.temp <= self.oor_temp_high[0]: #green
-            return 0
-        elif self.oor_temp_low[1] <= self.temp <= self.oor_temp_high[1]: #blue
-            return 1
-        elif self.oor_temp_low[2] <= self.temp <= self.oor_temp_high[2]: #red
-            return 2
-        elif self.oor_temp_low[2] >= self.temp or self.oor_temp_high[2] <= self.temp: # red buzzer
-            return 3
+    # def status_temp(self):
+    #     if self.oor_temp_low[0] <= self.temp <= self.oor_temp_high[0]: #green
+    #         return 0
+    #     elif self.oor_temp_low[1] <= self.temp <= self.oor_temp_high[1]: #blue
+    #         return 1
+    #     elif self.oor_temp_low[2] <= self.temp <= self.oor_temp_high[2]: #red
+    #         return 2
+    #     elif self.oor_temp_low[2] >= self.temp or self.oor_temp_high[2] <= self.temp: # red buzzer
+    #         return 3
 
-    def status_humid(self):
-        if self.oor_humid_low[0] <= self.humid <= self.oor_humid_high[0]:
-            return 0
-        elif self.oor_humid_low[1] <= self.humid <= self.oor_humid_high[1]:
-            return 1
-        elif self.oor_humid_low[2] <= self.humid <= self.oor_humid_high[2]:
-            return 2
-        elif self.oor_humid_low[2] >= self.humid or self.oor_humid_high[2] <= self.humid:
-            return 3
+    # def status_humid(self):
+    #     if self.oor_humid_low[0] <= self.humid <= self.oor_humid_high[0]:
+    #         return 0
+    #     elif self.oor_humid_low[1] <= self.humid <= self.oor_humid_high[1]:
+    #         return 1
+    #     elif self.oor_humid_low[2] <= self.humid <= self.oor_humid_high[2]:
+    #         return 2
+    #     elif self.oor_humid_low[2] >= self.humid or self.oor_humid_high[2] <= self.humid:
+    #         return 3
 
-    def status_read(self):
-        status_temp = self.status_temp()
-        status_humid = self.status_humid()
+    # def status_read(self):
+    #     status_temp = self.status_temp()
+    #     status_humid = self.status_humid()
 
-        if status_temp == 0 and status_humid == 0:
-            self.status = self.config['mode'][1]
-            return self.status
+    #     if status_temp == 0 and status_humid == 0:
+    #         self.status = self.config['mode'][1]
+    #         return self.status
 
-        elif status_temp == 1 and status_humid == 0:
-            self.status = self.config['mode'][2]
-            return self.status
+    #     elif status_temp == 1 and status_humid == 0:
+    #         self.status = self.config['mode'][2]
+    #         return self.status
 
-        elif status_temp == 2 and status_humid == 0:
-            self.status = self.config['mode'][3]
-            return self.status
+    #     elif status_temp == 2 and status_humid == 0:
+    #         self.status = self.config['mode'][3]
+    #         return self.status
 
-        elif status_temp == 3 and status_humid == 0:
-            self.status = self.config['mode'][4]
-            return self.status
+    #     elif status_temp == 3 and status_humid == 0:
+    #         self.status = self.config['mode'][4]
+    #         return self.status
 
-        elif status_temp == 0 and status_humid == 1:
-            self.status = self.config['mode'][5]
-            return self.status
+    #     elif status_temp == 0 and status_humid == 1:
+    #         self.status = self.config['mode'][5]
+    #         return self.status
 
-        elif status_temp == 1 and status_humid == 1:
-            self.status = self.config['mode'][6]
-            return self.status
+    #     elif status_temp == 1 and status_humid == 1:
+    #         self.status = self.config['mode'][6]
+    #         return self.status
 
-        elif status_temp == 2 and status_humid == 1:
-            self.status = self.config['mode'][7]
-            return self.status
+    #     elif status_temp == 2 and status_humid == 1:
+    #         self.status = self.config['mode'][7]
+    #         return self.status
 
-        elif status_temp == 3 and status_humid == 1:
-            self.status = self.config['mode'][8]
-            return self.status
+    #     elif status_temp == 3 and status_humid == 1:
+    #         self.status = self.config['mode'][8]
+    #         return self.status
 
-        elif status_temp == 0 and status_humid == 2:
-            self.status = self.config['mode'][9]
-            return self.status
+    #     elif status_temp == 0 and status_humid == 2:
+    #         self.status = self.config['mode'][9]
+    #         return self.status
 
-        elif status_temp == 1 and status_humid == 2:
-            self.status = self.config['mode'][10]
-            return self.status
+    #     elif status_temp == 1 and status_humid == 2:
+    #         self.status = self.config['mode'][10]
+    #         return self.status
 
-        elif status_temp == 2 and status_humid == 2:
-            self.status = self.config['mode'][11]
-            return self.status
+    #     elif status_temp == 2 and status_humid == 2:
+    #         self.status = self.config['mode'][11]
+    #         return self.status
 
-        elif status_temp == 3 and status_humid == 2:
-            self.status = self.config['mode'][12]
-            return self.status
+    #     elif status_temp == 3 and status_humid == 2:
+    #         self.status = self.config['mode'][12]
+    #         return self.status
 
-        elif status_temp == 0 and status_humid == 3:
-            self.status = self.config['mode'][13]
-            return self.status
+    #     elif status_temp == 0 and status_humid == 3:
+    #         self.status = self.config['mode'][13]
+    #         return self.status
 
-        elif status_temp == 1 and status_humid == 3:
-            self.status = self.config['mode'][14]
-            return self.status
+    #     elif status_temp == 1 and status_humid == 3:
+    #         self.status = self.config['mode'][14]
+    #         return self.status
 
-        elif status_temp == 2 and status_humid == 3:
-            self.status = self.config['mode'][15]
-            return self.status
+    #     elif status_temp == 2 and status_humid == 3:
+    #         self.status = self.config['mode'][15]
+    #         return self.status
 
-        else :
-            self.status = self.config['mode'][16]
-            return self.status
+    #     else :
+    #         self.status = self.config['mode'][16]
+    #         return self.status
 
-    def shift_out(self): #shift_out function, use bit serial transmission
-        val = self.status_read()
-        for i in range(0,8):
-            GPIO.output(self.clock_pin,GPIO.LOW)
-            GPIO.output(self.data_pin,(0x01&(val>>i)==0x01) and GPIO.HIGH or GPIO.LOW)
-            GPIO.output(self.clock_pin,GPIO.HIGH)
+    # def shift_out(self): #shift_out function, use bit serial transmission
+    #     val = self.status_read()
+    #     for i in range(0,8):
+    #         GPIO.output(self.clock_pin,GPIO.LOW)
+    #         GPIO.output(self.data_pin,(0x01&(val>>i)==0x01) and GPIO.HIGH or GPIO.LOW)
+    #         GPIO.output(self.clock_pin,GPIO.HIGH)
 
-    def status_out(self): #74HC595 will update the data to the parallel output port.
-        GPIO.output(self.latch_pin,GPIO.LOW)  #Output low level to latchPin
-        self.shift_out() #Send serial data to 74HC595
-        GPIO.output(self.latch_pin,GPIO.HIGH) #Output high level to latchPin
-        time.sleep(0.1)
+    # def status_out(self): #74HC595 will update the data to the parallel output port.
+    #     GPIO.output(self.latch_pin,GPIO.LOW)  #Output low level to latchPin
+    #     self.shift_out() #Send serial data to 74HC595
+    #     GPIO.output(self.latch_pin,GPIO.HIGH) #Output high level to latchPin
+    #     time.sleep(0.1)
 
-    def shift_end(self): #shift_out function, use bit serial transmission
-        status = self.config['mode'][0]
-        val = status
-        for i in range(0,8):
-            GPIO.output(self.clock_pin,GPIO.LOW)
-            GPIO.output(self.data_pin,(0x01&(val>>i)==0x01) and GPIO.HIGH or GPIO.LOW)
-            GPIO.output(self.clock_pin,GPIO.HIGH)
+    # def shift_end(self): #shift_out function, use bit serial transmission
+    #     status = self.config['mode'][0]
+    #     val = status
+    #     for i in range(0,8):
+    #         GPIO.output(self.clock_pin,GPIO.LOW)
+    #         GPIO.output(self.data_pin,(0x01&(val>>i)==0x01) and GPIO.HIGH or GPIO.LOW)
+    #         GPIO.output(self.clock_pin,GPIO.HIGH)
 
-    def status_end(self): #74HC595 will update the data to the parallel output port.
-        GPIO.output(self.latch_pin,GPIO.LOW)  #Output low level to latchPin
-        self.shift_end() #Send serial data to 74HC595
-        GPIO.output(self.latch_pin,GPIO.HIGH) #Output high level to latchPin
-        time.sleep(0.1)
+    # def status_end(self): #74HC595 will update the data to the parallel output port.
+    #     GPIO.output(self.latch_pin,GPIO.LOW)  #Output low level to latchPin
+    #     self.shift_end() #Send serial data to 74HC595
+    #     GPIO.output(self.latch_pin,GPIO.HIGH) #Output high level to latchPin
+    #     time.sleep(0.1)
