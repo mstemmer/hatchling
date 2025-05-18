@@ -11,8 +11,8 @@ serial_connection = serial.Serial(port, baudrate)
 # Read and write data until the transfer is complete
 
 # serial_connection.write(('led_on\n').encode())
-# serial_connection.write((b'led_off\n'))
-serial_connection.write(f"{0}\n".encode("ascii"))
+serial_connection.write((b'led_off\n'))
+# serial_connection.write(f"{50}\n".encode("ascii"))
 
 time.sleep(1)
 
