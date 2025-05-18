@@ -1,5 +1,5 @@
 from RPi import GPIO # Now imports from system, not conda
-from brood.workers.PT100_sensor import TempSense
+from brood.workers.PT100_sensor import PT100TempSense
 import board
 from multiprocessing import Process, Queue
 import adafruit_dht as Adafruit_DHT
@@ -29,8 +29,8 @@ class BroodController():
         # self.sensor_2 = config['setup_pin']['sensor_2']
         self.DHT22 = Adafruit_DHT.DHT22(getattr(board, f"D{self.sensor_humid}"))
 
-        self.temp_0 = TempSense(0)
-        self.temp_1 = TempSense(1)
+        # self.temp_0 = PT100TempSense(0)
+        # self.temp_1 = PT100TempSense(1)
 
         self.data_pin = config['setup_pin']['data']
         self.latch_pin = config['setup_pin']['latch']
@@ -70,8 +70,8 @@ class BroodController():
         if self.q_prog.empty() != True:
             self.set_humid, self.set_temp = self.q_prog.get()
             self.pid.setpoint = self.set_temp # update set_temp within pid controller
-            logging.info('Controller recieved updated parameters')
-            print('Controller recieved updated parameters')
+            logging.info('Controller received updated parameters')
+            print('Controller received updated parameters')
         else:
             pass
 
@@ -101,53 +101,73 @@ class BroodController():
         # print(p, i, d)
         self.heat.ChangeDutyCycle(self.duty_cycle)
 
+    def read_temperature(self, sensor):
+        try:
+            temperature = PT100TempSense(sensor).get_temp()
+        except TypeError as e:
+                    logging.error("Reading from PT100 failure!")
+                    print("Reading from PT100 failure: ",e.args)
+                    time.sleep(2)
+        return temperature
+
+
+    def read_humidity(self):
+        try:
+            humidity = self.DHT22.humidity
+        except TypeError as e:
+                    logging.error("Reading from DHT22 failure!")
+                    print("Reading from DHT22 failure: ",e.args)
+                    time.sleep(2)
+        return humidity
+    
+
     def control(self):
         try:
             h_last, temp_last = 30, 15 # need some start values
             i = 0
             while True:
                 self.read_program()
+                temp_0 = self.read_temperature(0)
+                time.sleep(0.2)
+                temp_1 = self.read_temperature(1)
+                h = self.read_humidity()
 
-                try:
-                    # read sensors
-                    temp_0 = self.temp_0.get_temp()
-                    time.sleep(0.2)
-                    temp_1 = self.temp_1.get_temp()
-                    h = self.DHT22.humidity
+                # try:
+                #     # read sensors
+                #     temp_0 = self.temp_0.get_temp()
+                #     time.sleep(0.2)
+                #     temp_1 = self.temp_1.get_temp()
+                #     h = self.DHT22.humidity
 
-                    if math.isnan(h) == False and math.isnan(temp_0) == False and math.isnan(temp_1) == False:
-                        if 0 < h < 100: # add here also temperature evaluation!!
+                if math.isnan(h) == False and math.isnan(temp_0) == False and math.isnan(temp_1) == False:
+                    if 0 < h < 100 and 0 < temp_0 < 100 and 0 < temp_1 < 100: # add here also temperature evaluation!!
 
+                        self.humid = round(h, 2)
+                        self.temp = round((temp_0 + temp_1) / 2, 3)
 
-                            self.humid = round((h + h_last) / 2, 2) # make avg with last value and round
-                            self.temp = round((temp_0 + temp_1) / 2, 2)
-                            current_temp = round((temp_0 + temp_1) / 2, 4)
+                        self.status_out()
+                        self.pid_controller(self.temp)
+                        # print(self.temp)
 
-                            # h_last, temp_0_last, temp_1_last = h, t # save current values for next sensor read
+                        humid_raw, temp_raw, sens = 2, 3, 2 ##only for debug ,remove later
+                        self.q_data.put([self.humid, self.temp, humid_raw, temp_raw, sens,
+                        self.set_humid, self.set_temp, self.duty_cycle])
 
-                            self.status_out()
-                            self.pid_controller(current_temp)
-                            # print(self.temp)
-
-                            humid_raw, temp_raw, sens = 2, 3, 2 ##only for debug ,remove later
-                            self.q_data.put([self.humid, self.temp, humid_raw, temp_raw, sens,
-                            self.set_humid, self.set_temp, self.duty_cycle])
-
-                            time.sleep(2) # this way each sensor is read only every 2 seconds as per datasheet
-                        else:
-                            logging.error(f'Bad sensor read: pin {sens}')
-                            print('Bad sensor read. Trying again...')
-                            time.sleep(2)
-                    else :
-                        logging.error('Read value is NaN!')
-                        print('Read value is NaN! Trying again...')
+                        time.sleep(2) # this way each sensor is read only every 2 seconds as per datasheet
+                    else:
+                        logging.error(f'Bad sensor read: pin {sens}')
+                        print('Bad sensor read. Trying again...')
                         time.sleep(2)
-
-                except TypeError as e:
-                    logging.error("Reading from DHT22 failure!")
-                    print("Reading from DHT22 failure: ",e.args)
+                else :
+                    logging.error('Read value is NaN!')
+                    print('Read value is NaN! Trying again...')
                     time.sleep(2)
-                    continue
+
+                # except TypeError as e:
+                #     logging.error("Reading from DHT22 failure!")
+                #     print("Reading from DHT22 failure: ",e.args)
+                #     time.sleep(2)
+                continue
 
         except KeyboardInterrupt:
             self.heat.ChangeDutyCycle(0)

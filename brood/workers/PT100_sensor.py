@@ -18,7 +18,7 @@ import spidev
 import logging
 
 
-class TempSense:
+class PT100TempSense:
     def __init__(self, dev_num):
 
         self.dev_num = dev_num  # defines which ADS1220 is read. 2 means the program will alternatie between 0 and 1
