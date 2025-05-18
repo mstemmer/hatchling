@@ -130,27 +130,27 @@ class BroodController():
                 temp_0 = self.read_temperature(0)
                 time.sleep(0.1)
                 temp_1 = self.read_temperature(1)
-                if time.time() - delay >= 20:
+                if time.time() - delay >= 20: # humidity is read every 20 seconds
                     h = self.read_humidity()
                     delay = time.time()
 
                 if all(not math.isnan(x) for x in [h, temp_0, temp_1]):
                     if 10 < h < 70 and 10 < temp_0 < 70 and 10 < temp_1 < 70:
 
-                        current_humidity = round(h, 2)
                         current_temperature = round((temp_0 + temp_1) / 2, 3)
-
+                        current_humidity = round(h, 2)
+                        
                         # self.status_out() # not needed right now, because no shift register
                         self.pid_controller(current_temperature)
                         # print(self.temp)
 
-                        humid_raw, temp_raw, sens = 2, 3, 2 ##only for debug ,remove later
-                        self.q_data.put([current_humidity, current_temperature, humid_raw, temp_raw, sens,
+                        humid_raw, temp_raw, sens = 2, 3, 8 ##only for debug ,remove later
+                        self.q_data.put([current_humidity, current_temperature, round(temp_0, 4), round(temp_1, 4), sens,
                         self.set_humid, self.set_temp, self.duty_cycle])
 
                         # time.sleep(1) # this way each sensor is read only every 2 seconds as per datasheet
                     else:
-                        logging.error(f'Bad sensor read: pin {sens}')
+                        logging.error(f'Bad sensor read!')
                         print('Bad sensor read. Trying again...')
                         time.sleep(2)
                 else :
