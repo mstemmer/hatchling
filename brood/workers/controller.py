@@ -1,5 +1,6 @@
 from RPi import GPIO # Now imports from system, not conda
 from brood.workers.PT100_sensor import PT100TempSense
+from brood.pico import fan_control
 import board
 from multiprocessing import Process, Queue
 import adafruit_dht as Adafruit_DHT
@@ -55,6 +56,7 @@ class BroodController():
 
         self.heat = GPIO.PWM(self.heat_pin, 200)
         self.heat.start(0)
+        
 
         if 'fixed_dc' in self.config: # check if exists
             logging.info(f'PID controller is deactivated and duty cycle fixed to {self.config["fixed_dc"]}')
@@ -161,6 +163,7 @@ class BroodController():
 
         except KeyboardInterrupt:
             self.heat.ChangeDutyCycle(0)
+            fan_control(0)
             GPIO.output(self.heat_pin, GPIO.LOW)
             self.status_end()
             logging.info('Shutting down heater')

@@ -1,4 +1,5 @@
 from brood.spawn import SpawnHatchling
+from brood.pico import fan_control
 import sys
 import os
 import json
@@ -22,9 +23,11 @@ class Hatchling():
         self.config = self.config()
         self.inc_program = self.inc_program()
 
+        fan_control(30)
+
         SpawnHatchling(self.config, self.inc_program, self.time_init)
 
-
+        
     def time_init(self):
         if self.args.init == True: # decide if start new time or resume from file
             time = {}

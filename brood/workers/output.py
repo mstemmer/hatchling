@@ -37,7 +37,7 @@ class Output():
 
             list.append(row)
 
-            if len(list) == 100: # write only every 100 rows
+            if len(list) == 50: # write only every 50 rows
 
                 with open(os.path.join(self.data_folder, file), 'a', newline='') as csvfile:
                     data_writer = csv.writer(csvfile)
