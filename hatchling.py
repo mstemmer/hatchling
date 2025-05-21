@@ -72,6 +72,7 @@ class Hatchling():
             if os.path.exists(log_file_path): # delete log file if init == True
                 os.remove(log_file_path)
 
+
         logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=logging.INFO, \
         filename=f'{log_file_path}', datefmt='%Y-%m-%d %H:%M:%S')
 
