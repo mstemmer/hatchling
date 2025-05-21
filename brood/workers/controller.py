@@ -44,7 +44,7 @@ class BroodController():
 
         for p in pins :
             GPIO.setup(p, GPIO.OUT)
-        GPIO.output(self.heat_pin, GPIO.LOW)
+        GPIO.output(self.heat_pin, GPIO.HIGH)
 
         logging.info('Initializing PID controller')
         print('Initializing PID controller')
@@ -54,7 +54,7 @@ class BroodController():
         self.pid.tunings = (config["PID_parameters"]) # update PID controller with config parameters
         # self.pid.proportional_on_measurement = True
 
-        self.heat = GPIO.PWM(self.heat_pin, 200)
+        self.heat = GPIO.PWM(self.heat_pin, 100)
         self.heat.start(0)
         
 
