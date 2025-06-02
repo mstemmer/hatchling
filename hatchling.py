@@ -1,5 +1,4 @@
-from brood.spawn import SpawnHatchling
-from brood.pico import fan_control
+
 import sys
 import os
 import json
@@ -8,6 +7,16 @@ from time import sleep, strftime
 from datetime import datetime
 import logging
 
+# Set up a default log file path (or use a temp one until config is loaded)
+logging.basicConfig(
+    format='%(asctime)s %(levelname)s: %(message)s',
+    level=logging.INFO,
+    filename='hatchling.log',  # Temporary log file
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+
+from brood.spawn import SpawnHatchling
+from brood.pico import fan_control
 
 class Hatchling():
     def __init__(self):
@@ -58,10 +67,10 @@ class Hatchling():
                 os.mkdir(os.path.join(str(os.path.dirname(os.path.realpath(__file__))),config["data_folder"]))
         config["data_folder"]=os.path.join(str(os.path.dirname(os.path.realpath(__file__))),config["data_folder"])
 
-        data_file = f'{str(self.time_init.date())}_{config["data_file"]}.csv'
+        data_file = f'{str(self.time_init.date())}{config["data_file"]}.csv'
         data_file_path = os.path.join(config["data_folder"], data_file)
 
-        log_file = f'{str(self.time_init.date())}_{config["log_file"]}.txt'
+        log_file = f'{str(self.time_init.date())}{config["log_file"]}.log'
         log_file_path = os.path.join(config["data_folder"], log_file) # get path for log file
 
 
@@ -72,6 +81,8 @@ class Hatchling():
             if os.path.exists(log_file_path): # delete log file if init == True
                 os.remove(log_file_path)
 
+        for handler in logging.root.handlers[:]:
+            logging.root.removeHandler(handler)
 
         logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=logging.INFO, \
         filename=f'{log_file_path}', datefmt='%Y-%m-%d %H:%M:%S')

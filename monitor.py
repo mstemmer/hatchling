@@ -1,8 +1,8 @@
 import argparse
 import dash
 from dash.dependencies import Input, Output, State
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 import dash_daq as daq
 import plotly.express as px
 import pandas as pd
@@ -12,8 +12,8 @@ parser = argparse.ArgumentParser(prog='monitor')
 parser.add_argument('--input', dest='file', metavar='', help='specify the path and date of the data&log files to be monitored. E.g.: --input data_output/2021-01-05')
 args = parser.parse_args()
 
-data_file = f'{args.file}_data.csv'
-log_file = f'{args.file}_log.txt'
+data_file = f'{args.file}.csv'
+log_file = f'{args.file}.log'
 
 # file = "data_brood/2020-12-13_data.csv"
 
@@ -191,4 +191,4 @@ def make_chart(n):
     return fig
 
 if __name__ == '__main__':
-    app.run_server(debug=True, host="0.0.0.0", port="8050") # 0.0.0.0 to run as localhost
+    app.run(debug=True, host="0.0.0.0", port="8050") # 0.0.0.0 to run as localhost

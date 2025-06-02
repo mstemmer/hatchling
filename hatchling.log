@@ -1,0 +1,27 @@
+2025-06-02 20:05:55 INFO: Starting new incubation. Time: 2025-06-02 20:05:55
+2025-06-02 20:05:55 INFO: Load incubation program: chicken
+2025-06-02 20:05:56 INFO: Initializing PID controller
+2025-06-02 20:05:56 INFO: Setting controller to default parameters
+2025-06-02 20:05:56 INFO: Controller received updated parameters
+2025-06-02 20:05:56 INFO: Additional phases found and added to scheduler
+2025-06-02 20:05:56 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-06-02 20:05:56 INFO: Controller update scheduled for: 2025-06-19 20:05:55
+2025-06-02 20:05:56 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-06-02 20:05:56 INFO: Controller update scheduled for: 2025-06-21 20:05:55
+2025-06-02 20:05:56 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-06-02 20:05:56 INFO: Egg moving is activated and scheduled every 4 hours
+2025-06-02 20:05:56 INFO: Moving eggs
+2025-06-02 20:06:03 INFO: Added job "BroodLord.next_phase" to job store "default"
+2025-06-02 20:06:03 INFO: Added job "BroodLord.next_phase" to job store "default"
+2025-06-02 20:06:03 INFO: Added job "BroodLord.move_eggs" to job store "default"
+2025-06-02 20:06:03 INFO: Scheduler started
+2025-06-02 20:08:37 INFO: NumExpr defaulting to 4 threads.
+2025-06-02 20:08:37 INFO: Starting new incubation. Time: 2025-06-02 20:08:37
+2025-06-02 20:10:32 INFO: NumExpr defaulting to 4 threads.
+2025-06-02 20:10:32 INFO: Starting new incubation. Time: 2025-06-02 20:10:32
+2025-06-02 20:10:49 INFO: NumExpr defaulting to 4 threads.
+2025-06-02 20:10:49 INFO: Starting new incubation. Time: 2025-06-02 20:10:49
+2025-06-02 20:11:55 INFO: NumExpr defaulting to 4 threads.
+2025-06-02 20:11:55 INFO: Starting new incubation. Time: 2025-06-02 20:11:55
+2025-06-02 20:13:01 INFO: NumExpr defaulting to 4 threads.
+2025-06-02 20:13:01 INFO: Starting new incubation. Time: 2025-06-02 20:13:01

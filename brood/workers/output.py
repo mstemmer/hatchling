@@ -19,7 +19,7 @@ class Output():
         self.output()
 
     def output(self):
-        file = f'{str(self.time_init.date())}_{self.data_file}.csv'
+        file = f'{str(self.time_init.date())}{self.data_file}.csv'
         file_path = os.path.join(self.data_folder, file)
 
         list = []
