@@ -1,0 +1,12 @@
+2025-06-06 22:08:02 INFO: Load incubation program: chicken
+2025-06-06 22:08:03 INFO: Setting controller to default parameters
+2025-06-06 22:08:04 INFO: Initializing PID controller
+2025-06-06 22:08:04 INFO: Controller received updated parameters
+2025-06-06 22:08:04 INFO: Additional phases found and added to scheduler
+2025-06-06 22:08:04 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-06-06 22:08:04 INFO: Controller update scheduled for: 2025-06-23 22:08:02
+2025-06-06 22:08:04 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-06-06 22:08:04 INFO: Controller update scheduled for: 2025-06-25 22:08:02
+2025-06-06 22:08:04 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2025-06-06 22:08:04 INFO: Egg moving is activated and scheduled every 4 hours
+2025-06-06 22:08:04 INFO: Moving eggs

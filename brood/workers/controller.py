@@ -34,7 +34,7 @@ class BroodController():
         # self.temp_1 = PT100TempSense(1)
 
         self.data_pin = config['setup_pin']['data']
-        self.latch_pin = config['setup_pin']['latch']
+        self.latch_pin = config['setup_pin']['latch']   
         self.clock_pin = config['setup_pin']['clock']
 
         self.heat_pin = config['setup_pin']['heat']
