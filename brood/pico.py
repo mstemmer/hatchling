@@ -12,3 +12,15 @@ def fan_control(duty_cycle):
     time.sleep(1)
 
     serial_connection.close()
+
+
+def move_eggs():
+    # Configure the serial connection
+    port = "/dev/ttyACM0"
+    baudrate = 115200
+    serial_connection = serial.Serial(port, baudrate)
+    serial_connection.write(('move_eggs\n').encode())
+
+    time.sleep(1)
+
+    serial_connection.close()

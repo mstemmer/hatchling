@@ -5,6 +5,7 @@ import json
 from datetime import timedelta, datetime
 from apscheduler.schedulers.background import BlockingScheduler
 from RPi import GPIO
+from brood.pico import move_eggs
 import logging
 # import datetime
 
@@ -61,13 +62,13 @@ class BroodLord():
 
         #  set scheduler to interval until end point of egg moving, relative to time_init
         if inc_program["activate_move_eggs"] == 1: # check if eggs should be moved
-            scheduler.add_job(self.move_eggs, trigger='interval',
+            scheduler.add_job(move_eggs, trigger='interval',
             hours = inc_program["interval_move_eggs"],
             start_date = datetime.now(),
             end_date= time_init + timedelta(days=inc_program["days_move_eggs"]))
             logging.info(f'Egg moving is activated and scheduled every {inc_program["interval_move_eggs"]} hours')
             print(f'Egg moving is activated and scheduled every {inc_program["interval_move_eggs"]} hours')
-            self.move_eggs() # move eggs once at start
+            move_eggs() # move eggs once at start
 
         # scheduler.print_jobs()
         scheduler.start()
@@ -76,16 +77,16 @@ class BroodLord():
         set_prog = self.inc_program["next_phase"][p]
         self.q_prog.put(set_prog)
 
-    def move_eggs(self) :
-        logging.info('Moving eggs')
-        print('Moving eggs')
+    # def move_eggs(self) :
+    #     logging.info('Moving eggs')
+    #     print('Moving eggs')
 
-        GPIO.output(self.sleep_pin, GPIO.HIGH)
-        sleep(0.2) # wakeup time is min. 1 millisecond
-        for x in range(self.step_count):
-            GPIO.output(self.step_pin, GPIO.HIGH)
-            sleep(self.step_delay)
-            GPIO.output(self.step_pin, GPIO.LOW)
-            sleep(self.step_delay)
-        sleep(0.2)
-        GPIO.output(self.sleep_pin, GPIO.LOW) # put DRV8825 into sleep mode --> draws much less energy
+    #     GPIO.output(self.sleep_pin, GPIO.HIGH)
+    #     sleep(0.2) # wakeup time is min. 1 millisecond
+    #     for x in range(self.step_count):
+    #         GPIO.output(self.step_pin, GPIO.HIGH)
+    #         sleep(self.step_delay)
+    #         GPIO.output(self.step_pin, GPIO.LOW)
+    #         sleep(self.step_delay)
+    #     sleep(0.2)
+    #     GPIO.output(self.sleep_pin, GPIO.LOW) # put DRV8825 into sleep mode --> draws much less energy
