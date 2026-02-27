@@ -67,10 +67,19 @@ class Hatchling():
                 os.mkdir(os.path.join(str(os.path.dirname(os.path.realpath(__file__))),config["data_folder"]))
         config["data_folder"]=os.path.join(str(os.path.dirname(os.path.realpath(__file__))),config["data_folder"])
 
+        # Create subfolder with time_init + species
+        time_species_folder = f'{str(self.time_init.date())}_{self.args.species}'
+        time_species_path = os.path.join(config["data_folder"], time_species_folder)
+        if not os.path.exists(time_species_path):
+            os.mkdir(time_species_path)
+        
+        # Update config to use the time_species subfolder
+        config["data_folder"] = time_species_path
+
         data_file = f'{str(self.time_init.date())}{config["data_file"]}.csv'
         data_file_path = os.path.join(config["data_folder"], data_file)
 
-        log_file = f'{str(self.time_init.date())}{config["log_file"]}.log'
+        log_file = 'hatch.log'
         log_file_path = os.path.join(config["data_folder"], log_file) # get path for log file
 
 

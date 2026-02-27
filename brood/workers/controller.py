@@ -47,23 +47,32 @@ class BroodController():
             GPIO.setup(p, GPIO.OUT)
         GPIO.output(self.heat_pin, GPIO.HIGH)
 
-
-
         # Initialize I2C and HTU31D sensors
         i2c = board.I2C()  # uses board.SCL and board.SDA
 
         # Initialize first sensor (default I2C address 0x40)
-        self.htu0 = adafruit_htu31d.HTU31D(i2c, address=0x40)
-        logging.info("Found HTU31D Sensor 0 with serial number %s", hex(self.htu0.serial_number))
+        self.htu0 = None
+        self.sensor0_active = False
+        try:
+            self.htu0 = adafruit_htu31d.HTU31D(i2c, address=0x40)
+            logging.info("Found HTU31D Sensor 0 with serial number %s", hex(self.htu0.serial_number))
+            self.sensor0_active = True
+        except Exception as e:
+            logging.warning("Failed to initialize Sensor 0: %s", str(e))
 
         # Initialize second sensor (alternative I2C address 0x41 - requires address pin configured)
+        self.htu1 = None
+        self.sensor1_active = False
         try:
             self.htu1 = adafruit_htu31d.HTU31D(i2c, address=0x41)
             logging.info("Found HTU31D Sensor 1 with serial number %s", hex(self.htu1.serial_number))
-            dual_sensor = True
-        except:
-            logging.warning("Second sensor not found. Running with single sensor.")
-            dual_sensor = False
+            self.sensor1_active = True
+        except Exception as e:
+            logging.warning("Failed to initialize Sensor 1: %s", str(e))
+        
+        if not self.sensor0_active and not self.sensor1_active:
+            logging.error("No sensors available! Cannot continue.")
+            raise RuntimeError("Both sensors failed to initialize")
 
         logging.info('Initializing PID controller')
         self.pid = PID(290, 70, 10, setpoint=37) # init pid controller 290, 70, 10
@@ -121,20 +130,26 @@ class BroodController():
 
     
     def read_HTU31D_0(self):
+        if not self.sensor0_active:
+            return float('nan'), float('nan')
         try:
-            temperature, humidity = self.htu1.measurements
-        except TypeError as e:
-            logging.error("Reading from HTU31D_0 failure!")
-            time.sleep(2)
-        return temperature, humidity
+            temperature, humidity = self.htu0.measurements
+            return temperature, humidity
+        except Exception as e:
+            logging.error("Reading from HTU31D_0 failure: %s", str(e))
+            self.sensor0_active = False  # Mark sensor as inactive
+            return float('nan'), float('nan')
 
     def read_HTU31D_1(self):
+        if not self.sensor1_active:
+            return float('nan'), float('nan')
         try:
-            temperature, humidity = self.htu2.measurements
-        except TypeError as e:
-            logging.error("Reading from HTU31D_1 failure!")
-            time.sleep(2)
-        return temperature, humidity
+            temperature, humidity = self.htu1.measurements
+            return temperature, humidity
+        except Exception as e:
+            logging.error("Reading from HTU31D_1 failure: %s", str(e))
+            self.sensor1_active = False  # Mark sensor as inactive
+            return float('nan'), float('nan')
 
     # def read_temperature(self, sensor):
     #     try:
@@ -156,8 +171,6 @@ class BroodController():
 
     def control(self):
         try:
-            # h = 20 # initial value, because humidity is not available at the beginning
-            # delay = time.time()
             while True:
                 self.read_program()
                 temp_0, humid_0 = self.read_HTU31D_0()
@@ -165,25 +178,37 @@ class BroodController():
                 temp_1, humid_1 = self.read_HTU31D_1()
                 time.sleep(0.1)
 
-                if all(not math.isnan(x) for x in [humid_0, temp_0, temp_1, humid_1]):
-                    if all(10 < x < 70 for x in [humid_0, humid_1, temp_0, temp_1]):
+                # Count how many valid readings we have
+                valid_temps = [t for t in [temp_0, temp_1] if not math.isnan(t)]
+                valid_humids = [h for h in [humid_0, humid_1] if not math.isnan(h)]
+                
+                # Need at least one valid sensor reading to continue
+                if valid_temps and valid_humids:
+                    # Check if values are in reasonable range
+                    temps_in_range = all(10 < t < 70 for t in valid_temps)
+                    humids_in_range = all(10 < h < 70 for h in valid_humids)
+                    
+                    if temps_in_range and humids_in_range:
+                        # Average available values
+                        temperature = round(sum(valid_temps) / len(valid_temps), 3)
+                        humidity = round(sum(valid_humids) / len(valid_humids), 3)
+                        
+                        # Log if using degraded mode (only one sensor)
+                        if len(valid_temps) == 1:
+                            logging.warning("Operating in degraded mode: only one temperature sensor available")
+                        if len(valid_humids) == 1:
+                            logging.warning("Operating in degraded mode: only one humidity sensor available")
 
-                        temperature = round((temp_0 + temp_1) / 2, 3)
-                        humidity = round((humid_0 + humid_1) / 2, 3)
-
-                        # self.status_out() # not needed right now, because no shift register
                         self.pid_controller(temperature)
-                        # print(self.temp)
 
-                        # humid_raw, temp_raw, sens = 2, 3, 8 ##only for debug ,remove later
-                        self.q_data.put([temperature, humidity, round(temp_0, 4), round(temp_1, 4), round(humid_0, 4), round(humid_1, 4), self.set_humid, self.set_temp, self.duty_cycle])
-
-                        # time.sleep(1) # this way each sensor is read only every 2 seconds as per datasheet
+                        self.q_data.put([temperature, humidity, round(temp_0, 4), round(temp_1, 4), 
+                                        round(humid_0, 4), round(humid_1, 4), self.set_humid, 
+                                        self.set_temp, self.duty_cycle])
                     else:
-                        logging.error(f'Bad sensor read!')
+                        logging.error('Bad sensor read - values out of range!')
                         time.sleep(2)
-                else :
-                    logging.error('Read value is NaN!')
+                else:
+                    logging.error('All sensors returned invalid readings (NaN)!')
                     time.sleep(2)
                 continue
 
@@ -194,7 +219,6 @@ class BroodController():
             self.status_end()
             logging.info('Shutting down heater')
             logging.info('Close program')
-            print('Shutting down heater')
             sys.exit('Close program')
 
 

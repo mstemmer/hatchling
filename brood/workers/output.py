@@ -19,28 +19,44 @@ class Output():
         self.output()
 
     def output(self):
-        file = f'{str(self.time_init.date())}{self.data_file}.csv'
+        file = 'data.csv'
         file_path = os.path.join(self.data_folder, file)
 
         list = []
+        write_interval = 50  # number of rows before writing to file
 
         while True:
+            try:
+                # Use timeout to prevent indefinite blocking
+                data = self.q_data.get(timeout=5)
+                temperature, humidity, temp_0, temp_1, humid_0, humid_1, set_humid, set_temp, duty_cycle = data
+                
+                print(f'Temp: {temperature}   Humid: {humidity}  dc: {duty_cycle}  Setpoint: {set_temp, set_humid}')
 
-            temperature, humidity, temp_0, temp_1, humid_0, humid_1, set_humid, set_temp, duty_cycle = self.q_data.get()
-            # print('Values received', humid, temp, set_humid, set_temp, duty_cycle)
-            print(f'Temp: {temperature}   Humid: {humidity}  dc: {duty_cycle}  Setpoint: {set_temp, set_humid}')
+                time_now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                row = [time_now, temperature, humidity, temp_0, temp_1, humid_0, humid_1, set_temp, set_humid, duty_cycle]
 
-            time_now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            row = [time_now, temperature, humidity, temp_0, temp_1, humid_0, humid_1, set_temp, set_humid, duty_cycle]
+                list.append(row)
 
-            list.append(row)
+                if len(list) >= write_interval:  # write when buffer reaches threshold
+                    self._write_to_csv(file, list)
+                    list = []
+                    
+            except Exception as e:
+                # Handle queue timeout or other errors
+                if len(list) > 0:  # flush remaining data if any
+                    logging.warning(f"Queue timeout or error: {str(e)}. Flushing {len(list)} rows.")
+                    self._write_to_csv(file, list)
+                    list = []
+                time.sleep(0.1)
+                continue
 
-            if len(list) == 50: # write only every 50 rows
-
-                with open(os.path.join(self.data_folder, file), 'a', newline='') as csvfile:
-                    data_writer = csv.writer(csvfile)
-                    for r in list:
-
-                        data_writer.writerow(r)
-                    csvfile.close()
-                list = []
+    def _write_to_csv(self, filename, rows):
+        """Helper method to write rows to CSV file with error handling"""
+        try:
+            with open(os.path.join(self.data_folder, filename), 'a', newline='') as csvfile:
+                data_writer = csv.writer(csvfile)
+                for r in rows:
+                    data_writer.writerow(r)
+        except Exception as e:
+            logging.error(f"Error writing to CSV file: {str(e)}")

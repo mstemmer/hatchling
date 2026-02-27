@@ -42,14 +42,12 @@ class BroodLord():
 
         self.q_prog.put(inc_program["default_phase"]) # send standard inc_program to controller
         logging.info("Setting controller to default parameters")
-        print("Setting controller to default parameters")
 
         scheduler = BlockingScheduler() # init scheduler
 
         # define timepoints of incubation phase changes relative to time_init
         if inc_program["phases"] > 1:
             logging.info("Additional phases found and added to scheduler")
-            print("Additional phases found and added to scheduler")
             phase_changes = inc_program["phases"] - 1
             for p in range(phase_changes):
                 phase = time_init + timedelta(days=inc_program["phase_changes"][p])
@@ -58,7 +56,6 @@ class BroodLord():
                 scheduler.add_job(self.next_phase, args=(p, ), trigger='date',
                 next_run_time=phase)
                 logging.info(f'Controller update scheduled for: {phase}')
-                print(f'Controller update scheduled for: {phase}')
 
         #  set scheduler to interval until end point of egg moving, relative to time_init
         if inc_program["activate_move_eggs"] == 1: # check if eggs should be moved
@@ -67,7 +64,6 @@ class BroodLord():
             start_date = datetime.now(),
             end_date= time_init + timedelta(days=inc_program["days_move_eggs"]))
             logging.info(f'Egg moving is activated and scheduled every {inc_program["interval_move_eggs"]} hours')
-            print(f'Egg moving is activated and scheduled every {inc_program["interval_move_eggs"]} hours')
             move_eggs() # move eggs once at start
 
         # scheduler.print_jobs()
