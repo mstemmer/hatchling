@@ -1,22 +1,23 @@
-2026-02-27 22:27:18 INFO: NumExpr defaulting to 4 threads.
-2026-02-27 22:27:18 INFO: Hatchling startup initiated
-2026-02-27 22:27:18 INFO: Load incubation program: chicken
-2026-02-27 22:27:19 INFO: Fan control: set duty cycle to 30%
-2026-02-27 22:27:19 INFO: Setting controller to default parameters
-2026-02-27 22:27:19 INFO: Additional phases found and added to scheduler
-2026-02-27 22:27:19 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
-2026-02-27 22:27:19 INFO: Controller update scheduled for: 2026-03-16 22:27:17
-2026-02-27 22:27:19 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
-2026-02-27 22:27:19 INFO: Controller update scheduled for: 2026-03-18 22:27:17
-2026-02-27 22:27:19 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
-2026-02-27 22:27:19 INFO: Egg moving is activated and scheduled every 4 hours
-2026-02-27 22:27:19 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
-2026-02-27 22:27:19 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
-2026-02-27 22:27:19 INFO: Initializing PID controller
-2026-02-27 22:27:19 INFO: Controller received updated parameters
-2026-02-27 22:27:20 INFO: Egg turner activated
-2026-02-27 22:27:20 INFO: Added job "BroodLord.next_phase" to job store "default"
-2026-02-27 22:27:20 INFO: Added job "BroodLord.next_phase" to job store "default"
-2026-02-27 22:27:20 INFO: Added job "move_eggs" to job store "default"
-2026-02-27 22:27:20 INFO: Scheduler started
-2026-02-27 22:27:28 INFO: Fan control: set duty cycle to 0%
+2026-02-27 22:41:02 INFO: NumExpr defaulting to 4 threads.
+2026-02-27 22:41:02 INFO: Hatchling startup initiated
+2026-02-27 22:41:02 INFO: Starting new incubation from time point: 2026-02-27 22:41:01
+2026-02-27 22:41:02 INFO: Load incubation program: chicken
+2026-02-27 22:41:02 ERROR: Failed to connect to Pico for fan control: [Errno 2] could not open port /dev/ttyACM0: [Errno 2] No such file or directory: '/dev/ttyACM0'
+2026-02-27 22:41:02 INFO: Setting controller to default parameters
+2026-02-27 22:41:02 INFO: Additional phases found and added to scheduler
+2026-02-27 22:41:02 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-27 22:41:02 INFO: Controller update scheduled for: 2026-03-16 22:41:01
+2026-02-27 22:41:02 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-27 22:41:02 INFO: Controller update scheduled for: 2026-03-18 22:41:01
+2026-02-27 22:41:02 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-27 22:41:02 INFO: Egg moving is activated and scheduled every 4 hours
+2026-02-27 22:41:02 ERROR: Failed to connect to Pico for egg movement: [Errno 2] could not open port /dev/ttyACM0: [Errno 2] No such file or directory: '/dev/ttyACM0'
+2026-02-27 22:41:02 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-02-27 22:41:02 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-02-27 22:41:02 INFO: Added job "move_eggs" to job store "default"
+2026-02-27 22:41:02 INFO: Scheduler started
+2026-02-27 22:41:02 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-02-27 22:41:02 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-02-27 22:41:02 INFO: Initializing PID controller
+2026-02-27 22:41:02 INFO: Controller received updated parameters
+2026-02-27 22:41:16 ERROR: Failed to connect to Pico for fan control: [Errno 2] could not open port /dev/ttyACM0: [Errno 2] No such file or directory: '/dev/ttyACM0'

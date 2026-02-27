@@ -26,6 +26,9 @@ else:
 
 time_init = datetime.strptime(time_str, '%Y-%m-%d %H:%M:%S')
 
+# Log resumption status
+init_status = "Starting new incubation" if early_args.init else "Resuming incubation"
+
 # Determine log file path early
 hatchling_dir = str(os.path.dirname(os.path.realpath(__file__)))
 data_folder = os.path.join(hatchling_dir, "data")
@@ -65,6 +68,7 @@ from brood.spawn import SpawnHatchling
 from brood.pico import fan_control
 
 logging.info('Hatchling startup initiated')
+logging.info(f'{init_status} from time point: {time_init}')
 
 class Hatchling():
     def __init__(self):
