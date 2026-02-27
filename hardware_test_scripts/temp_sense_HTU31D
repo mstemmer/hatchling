@@ -1,0 +1,36 @@
+
+
+import time
+import board
+import adafruit_htu31d
+
+i2c = board.I2C()  # uses board.SCL and board.SDA
+
+# Initialize first sensor (default I2C address 0x40)
+htu1 = adafruit_htu31d.HTU31D(i2c, address=0x40)
+print("Found HTU31D Sensor 1 with serial number", hex(htu1.serial_number))
+
+# Initialize second sensor (alternative I2C address 0x41 - requires address pin configured)
+try:
+    htu2 = adafruit_htu31d.HTU31D(i2c, address=0x41)
+    print("Found HTU31D Sensor 2 with serial number", hex(htu2.serial_number))
+    dual_sensor = True
+except:
+    print("Second sensor not found. Running with single sensor.")
+    dual_sensor = False
+
+
+while True:
+    # Read from sensor 1
+    temperature1, humidity1 = htu1.measurements
+    print("Sensor 1 - Temperature: %0.1f C" % temperature1)
+    print("Sensor 1 - Humidity: %0.1f %%" % humidity1)
+    
+    # Read from sensor 2 if available
+    if dual_sensor:
+        temperature2, humidity2 = htu2.measurements
+        print("Sensor 2 - Temperature: %0.1f C" % temperature2)
+        print("Sensor 2 - Humidity: %0.1f %%" % humidity2)
+    
+    print("")
+    time.sleep(1)

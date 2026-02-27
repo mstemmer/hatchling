@@ -1,9 +1,9 @@
 from RPi import GPIO # Now imports from system, not conda
-from brood.workers.PT100_sensor import PT100TempSense
+from brood.workers.temp_sensors.PT100_sensor import PT100TempSense
 from brood.pico import fan_control
 import board
 from multiprocessing import Process, Queue
-import adafruit_dht as Adafruit_DHT
+import adafruit_htu31d
 # import pidpy as PIDController
 from simple_pid import PID
 import string
@@ -26,28 +26,46 @@ class BroodController():
         # GPIO.setwarnings(False)
 
         # initi humidity and temperature sensors
-        self.sensor_humid = config['setup_pin']['DHT22_sensor']
+        # self.sensor_humid = config['setup_pin']['DHT22_sensor']
         # self.sensor_2 = config['setup_pin']['sensor_2']
-        self.DHT22 = Adafruit_DHT.DHT22(getattr(board, f"D{self.sensor_humid}"))
+        # self.DHT22 = Adafruit_DHT.DHT22(getattr(board, f"D{self.sensor_humid}"))
 
         # self.temp_0 = PT100TempSense(0)
         # self.temp_1 = PT100TempSense(1)
 
-        self.data_pin = config['setup_pin']['data']
-        self.latch_pin = config['setup_pin']['latch']   
-        self.clock_pin = config['setup_pin']['clock']
+        # self.data_pin = config['setup_pin']['data']
+        # self.latch_pin = config['setup_pin']['latch']   
+        # self.clock_pin = config['setup_pin']['clock']
 
         self.heat_pin = config['setup_pin']['heat']
         self.config = config
 
-        pins = [self.data_pin, self.latch_pin, self.clock_pin, self.heat_pin]
+        # pins = [self.data_pin, self.latch_pin, self.clock_pin, self.heat_pin]
+        pins = [self.heat_pin]
 
         for p in pins :
             GPIO.setup(p, GPIO.OUT)
         GPIO.output(self.heat_pin, GPIO.HIGH)
 
+
+
+        # Initialize I2C and HTU31D sensors
+        i2c = board.I2C()  # uses board.SCL and board.SDA
+
+        # Initialize first sensor (default I2C address 0x40)
+        self.htu0 = adafruit_htu31d.HTU31D(i2c, address=0x40)
+        logging.info("Found HTU31D Sensor 0 with serial number %s", hex(self.htu0.serial_number))
+
+        # Initialize second sensor (alternative I2C address 0x41 - requires address pin configured)
+        try:
+            self.htu1 = adafruit_htu31d.HTU31D(i2c, address=0x41)
+            logging.info("Found HTU31D Sensor 1 with serial number %s", hex(self.htu1.serial_number))
+            dual_sensor = True
+        except:
+            logging.warning("Second sensor not found. Running with single sensor.")
+            dual_sensor = False
+
         logging.info('Initializing PID controller')
-        print('Initializing PID controller')
         self.pid = PID(290, 70, 10, setpoint=37) # init pid controller 290, 70, 10
         self.pid.output_limits = (0, 100)
         self.pid.sample_time = None
@@ -60,7 +78,6 @@ class BroodController():
 
         if 'fixed_dc' in self.config: # check if exists
             logging.info(f'PID controller is deactivated and duty cycle fixed to {self.config["fixed_dc"]}')
-            print(f'PID controller is deactivated and duty cycle fixed to {self.config["fixed_dc"]}')
 
         # init class
         self.set_humid, self.set_temp = [55, 36]
@@ -73,24 +90,23 @@ class BroodController():
             self.set_humid, self.set_temp = self.q_prog.get()
             self.pid.setpoint = self.set_temp # update set_temp within pid controller
             logging.info('Controller received updated parameters')
-            print('Controller received updated parameters')
         else:
             pass
 
-        self.oor_temp_high = []
-        self.oor_temp_low = []
-        self.oor_humid_high = []
-        self.oor_humid_low = []
+        # self.oor_temp_high = []
+        # self.oor_temp_low = []
+        # self.oor_humid_high = []
+        # self.oor_humid_low = []
 
-        for val in range(3):
-            temp_high = self.set_temp + self.config['LED_status']['oor_temp'][val]
-            temp_low = self.set_temp - self.config['LED_status']['oor_temp'][val]
-            humid_high = self.set_humid + self.config['LED_status']['oor_humid'][val]
-            humid_low = self.set_humid - self.config['LED_status']['oor_humid'][val]
-            self.oor_temp_high.append(temp_high)
-            self.oor_temp_low.append(temp_low)
-            self.oor_humid_high.append(humid_high)
-            self.oor_humid_low.append(humid_low)
+        # for val in range(3):
+        #     temp_high = self.set_temp + self.config['LED_status']['oor_temp'][val]
+        #     temp_low = self.set_temp - self.config['LED_status']['oor_temp'][val]
+        #     humid_high = self.set_humid + self.config['LED_status']['oor_humid'][val]
+        #     humid_low = self.set_humid - self.config['LED_status']['oor_humid'][val]
+        #     self.oor_temp_high.append(temp_high)
+        #     self.oor_temp_low.append(temp_low)
+        #     self.oor_humid_high.append(humid_high)
+        #     self.oor_humid_low.append(humid_low)
 
     def pid_controller(self, curr_value):
         if 'fixed_dc' in self.config: # check if exists
@@ -103,61 +119,71 @@ class BroodController():
         # print(p, i, d)
         self.heat.ChangeDutyCycle(self.duty_cycle)
 
-    def read_temperature(self, sensor):
+    
+    def read_HTU31D_0(self):
         try:
-            temperature = PT100TempSense(sensor).get_temp()
+            temperature, humidity = self.htu1.measurements
         except TypeError as e:
-                    logging.error("Reading from PT100 failure!")
-                    print("Reading from PT100 failure: ",e.args)
-                    time.sleep(2)
-        return temperature
+            logging.error("Reading from HTU31D_0 failure!")
+            time.sleep(2)
+        return temperature, humidity
+
+    def read_HTU31D_1(self):
+        try:
+            temperature, humidity = self.htu2.measurements
+        except TypeError as e:
+            logging.error("Reading from HTU31D_1 failure!")
+            time.sleep(2)
+        return temperature, humidity
+
+    # def read_temperature(self, sensor):
+    #     try:
+    #         temperature = PT100TempSense(sensor).get_temp()
+    #     except TypeError as e:
+    #                 logging.error("Reading from PT100 failure!")
+    #                 time.sleep(2)
+    #     return temperature
 
 
-    def read_humidity(self):
-        try:
-            humidity = self.DHT22.humidity
-        except TypeError as e:
-                    logging.error("Reading from DHT22 failure!")
-                    print("Reading from DHT22 failure: ",e.args)
-                    time.sleep(2)
-        return humidity
+    # def read_humidity(self):
+    #     try:
+    #         humidity = self.DHT22.humidity
+    #     except TypeError as e:
+    #                 logging.error("Reading from DHT22 failure!")
+    #                 time.sleep(2)
+    #     return humidity
     
 
     def control(self):
         try:
-            h = 20 # initial value, because humidity is not available at the beginning
-            delay = time.time()
+            # h = 20 # initial value, because humidity is not available at the beginning
+            # delay = time.time()
             while True:
                 self.read_program()
-                temp_0 = self.read_temperature(0)
+                temp_0, humid_0 = self.read_HTU31D_0()
                 time.sleep(0.1)
-                temp_1 = self.read_temperature(1)
-                if time.time() - delay >= 20: # humidity is read every 20 seconds
-                    h = self.read_humidity()
-                    delay = time.time()
+                temp_1, humid_1 = self.read_HTU31D_1()
+                time.sleep(0.1)
 
-                if all(not math.isnan(x) for x in [h, temp_0, temp_1]):
-                    if 10 < h < 70 and 10 < temp_0 < 70 and 10 < temp_1 < 70:
+                if all(not math.isnan(x) for x in [humid_0, temp_0, temp_1, humid_1]):
+                    if all(10 < x < 70 for x in [humid_0, humid_1, temp_0, temp_1]):
 
-                        current_temperature = round((temp_0 + temp_1) / 2, 3)
-                        current_humidity = round(h, 2)
-                        
+                        temperature = round((temp_0 + temp_1) / 2, 3)
+                        humidity = round((humid_0 + humid_1) / 2, 3)
+
                         # self.status_out() # not needed right now, because no shift register
-                        self.pid_controller(current_temperature)
+                        self.pid_controller(temperature)
                         # print(self.temp)
 
-                        humid_raw, temp_raw, sens = 2, 3, 8 ##only for debug ,remove later
-                        self.q_data.put([current_humidity, current_temperature, round(temp_0, 4), round(temp_1, 4), sens,
-                        self.set_humid, self.set_temp, self.duty_cycle])
+                        # humid_raw, temp_raw, sens = 2, 3, 8 ##only for debug ,remove later
+                        self.q_data.put([temperature, humidity, round(temp_0, 4), round(temp_1, 4), round(humid_0, 4), round(humid_1, 4), self.set_humid, self.set_temp, self.duty_cycle])
 
                         # time.sleep(1) # this way each sensor is read only every 2 seconds as per datasheet
                     else:
                         logging.error(f'Bad sensor read!')
-                        print('Bad sensor read. Trying again...')
                         time.sleep(2)
                 else :
                     logging.error('Read value is NaN!')
-                    print('Read value is NaN! Trying again...')
                     time.sleep(2)
                 continue
 

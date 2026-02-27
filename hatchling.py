@@ -84,8 +84,23 @@ class Hatchling():
         for handler in logging.root.handlers[:]:
             logging.root.removeHandler(handler)
 
-        logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=logging.INFO, \
-        filename=f'{log_file_path}', datefmt='%Y-%m-%d %H:%M:%S')
+        # Set up logging format
+        log_format = logging.Formatter('%(asctime)s %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+        
+        # File handler
+        file_handler = logging.FileHandler(log_file_path)
+        file_handler.setLevel(logging.INFO)
+        file_handler.setFormatter(log_format)
+        
+        # Console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.INFO)
+        console_handler.setFormatter(log_format)
+        
+        # Add both handlers to root logger
+        logging.root.setLevel(logging.INFO)
+        logging.root.addHandler(file_handler)
+        logging.root.addHandler(console_handler)
 
         if self.args.silent == True:
             config["mode"] = config["silent_mode"]

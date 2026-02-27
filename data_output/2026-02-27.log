@@ -1,0 +1,20 @@
+2026-02-27 20:33:59 INFO: Load incubation program: chicken
+2026-02-27 20:34:00 INFO: Setting controller to default parameters
+2026-02-27 20:34:00 INFO: Additional phases found and added to scheduler
+2026-02-27 20:34:00 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-27 20:34:00 INFO: Controller update scheduled for: 2026-03-16 20:33:59
+2026-02-27 20:34:00 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-27 20:34:00 INFO: Controller update scheduled for: 2026-03-18 20:33:59
+2026-02-27 20:34:00 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-27 20:34:00 INFO: Egg moving is activated and scheduled every 4 hours
+2026-02-27 20:34:00 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ee274
+2026-02-27 20:34:00 INFO: Found HTU31D Sensor 2 with serial number 0x1d8ed2b1
+2026-02-27 20:34:00 INFO: Initializing PID controller
+2026-02-27 20:34:00 INFO: Controller received updated parameters
+2026-02-27 20:34:00 ERROR: Bad sensor read!
+2026-02-27 20:34:01 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-02-27 20:34:01 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-02-27 20:34:01 INFO: Added job "move_eggs" to job store "default"
+2026-02-27 20:34:01 INFO: Scheduler started
+2026-02-27 20:34:02 ERROR: Bad sensor read!
+2026-02-27 20:34:05 ERROR: Bad sensor read!
