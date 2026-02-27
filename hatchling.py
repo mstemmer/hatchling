@@ -1,29 +1,77 @@
 
 import sys
 import os
-import json
+import yaml
 import argparse
 from time import sleep, strftime
 from datetime import datetime
 import logging
 
-# Set up a default log file path (or use a temp one until config is loaded)
+# Parse arguments early to get species and init flag
+parser = argparse.ArgumentParser(prog='hatchling', add_help=False)
+parser.add_argument('--init', dest='init', action='store_true', default=False)
+parser.add_argument('--species', metavar='', dest='species', type=str)
+parser.add_argument('--silent', dest='silent', action='store_true', default=False)
+parser.add_argument('--fixed_dc', metavar='', dest='fixed_dc', type=int)
+early_args, remaining = parser.parse_known_args()
+
+# Determine time_init early
+if early_args.init:
+    time_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open('time_init.txt', 'w') as f:
+        f.write(time_str)
+else:
+    with open('time_init.txt', 'r') as f:
+        time_str = f.read().strip()
+
+time_init = datetime.strptime(time_str, '%Y-%m-%d %H:%M:%S')
+
+# Determine log file path early
+hatchling_dir = str(os.path.dirname(os.path.realpath(__file__)))
+data_folder = os.path.join(hatchling_dir, "data")
+if not os.path.exists(data_folder):
+    os.mkdir(data_folder)
+
+time_species_folder = f'{str(time_init.date())}_{early_args.species}'
+time_species_path = os.path.join(data_folder, time_species_folder)
+if not os.path.exists(time_species_path):
+    os.mkdir(time_species_path)
+
+log_file_path = os.path.join(time_species_path, 'hatch.log')
+
+# Delete log file if starting new incubation
+if early_args.init and os.path.exists(log_file_path):
+    os.remove(log_file_path)
+
+# Set up logging with both file and console handlers from the start
+log_format = logging.Formatter('%(asctime)s %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+file_handler = logging.FileHandler(log_file_path)
+file_handler.setLevel(logging.INFO)
+file_handler.setFormatter(log_format)
+
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(log_format)
+
 logging.basicConfig(
     format='%(asctime)s %(levelname)s: %(message)s',
     level=logging.INFO,
-    filename='hatchling.log',  # Temporary log file
+    handlers=[file_handler, console_handler],
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
 from brood.spawn import SpawnHatchling
 from brood.pico import fan_control
 
+logging.info('Hatchling startup initiated')
+
 class Hatchling():
     def __init__(self):
         parser = argparse.ArgumentParser(prog='hatchling')
         # parser.add_argument('--samplesheet', dest='samples', metavar='', help='Please provide path to samplesheet (tsv format)')
         parser.add_argument('--init', dest='init', action='store_true', default=False, help='Start new incubation. Default: resume from last time point')
-        parser.add_argument('--species', metavar='', dest='species', type=str, help='Load species specific incubation program: chicken, quail, elephant. See inc_program.json')
+        parser.add_argument('--species', metavar='', dest='species', type=str, help='Load species specific incubation program: chicken, quail, elephant. See inc_program.yml')
         parser.add_argument('--silent', dest='silent', action='store_true', default=False, help='Deactivate the alarm buzzer')
         parser.add_argument('--fixed_dc', metavar='', dest='fixed_dc', type=int, help='Ignores PID controller and sets heater to fixed duty cycle.')
         self.args = parser.parse_args()
@@ -34,87 +82,29 @@ class Hatchling():
 
         fan_control(30)
 
-        SpawnHatchling(self.config, self.inc_program, self.time_init)
+        SpawnHatchling(self.config, self.inc_program, self.time_init, time_species_path)
 
         
     def time_init(self):
-        if self.args.init == True: # decide if start new time or resume from file
-            time = {}
-            time['time_init'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            with open('time_init.json', 'w') as time_file:
-                json.dump(time, time_file, indent=4)
-            time = time["time_init"]
-            time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S') # make sure time is saved as datetime object
-            logging.info(f'Starting new incubation. Time: {time}')
-            print(f'Starting new incubation. Time: {time}')
-            return time
-        else:
-            with open('time_init.json', 'r') as time_file:
-                time = json.load(time_file)
-                time = time["time_init"]
-                time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S') # make sure time is saved as datetime object
-                logging.info(f'Resuming from time point: {time}')
-                print(f'Resuming from time point: {time}')
-                return time
+        # Already determined at module level
+        return time_init
 
 
     def config(self):
-        config_path = os.path.join(str(os.path.dirname(os.path.realpath(__file__)) ),"settings.json" )
+        config_path = os.path.join(str(os.path.dirname(os.path.realpath(__file__)) ),"settings.yml" )
         with open(config_path) as config_file:
-            config = json.load(config_file)
+            config = yaml.safe_load(config_file)
 
-        if os.path.exists(os.path.join(str(os.path.dirname(os.path.realpath(__file__))),config["data_folder"])) is False:
-                os.mkdir(os.path.join(str(os.path.dirname(os.path.realpath(__file__))),config["data_folder"]))
-        config["data_folder"]=os.path.join(str(os.path.dirname(os.path.realpath(__file__))),config["data_folder"])
-
-        # Create subfolder with time_init + species
-        time_species_folder = f'{str(self.time_init.date())}_{self.args.species}'
-        time_species_path = os.path.join(config["data_folder"], time_species_folder)
-        if not os.path.exists(time_species_path):
-            os.mkdir(time_species_path)
-        
-        # Update config to use the time_species subfolder
-        config["data_folder"] = time_species_path
-
-        data_file = f'{str(self.time_init.date())}{config["data_file"]}.csv'
-        data_file_path = os.path.join(config["data_folder"], data_file)
-
-        log_file = 'hatch.log'
-        log_file_path = os.path.join(config["data_folder"], log_file) # get path for log file
-
+        data_file_path = os.path.join(time_species_path, 'data.csv')
 
         if self.args.init == True: # decide if start new time or resume from file
             config["init"] = True
             if os.path.exists(data_file_path): # delete data file if init == True
                 os.remove(data_file_path)
-            if os.path.exists(log_file_path): # delete log file if init == True
-                os.remove(log_file_path)
-
-        for handler in logging.root.handlers[:]:
-            logging.root.removeHandler(handler)
-
-        # Set up logging format
-        log_format = logging.Formatter('%(asctime)s %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-        
-        # File handler
-        file_handler = logging.FileHandler(log_file_path)
-        file_handler.setLevel(logging.INFO)
-        file_handler.setFormatter(log_format)
-        
-        # Console handler
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.INFO)
-        console_handler.setFormatter(log_format)
-        
-        # Add both handlers to root logger
-        logging.root.setLevel(logging.INFO)
-        logging.root.addHandler(file_handler)
-        logging.root.addHandler(console_handler)
 
         if self.args.silent == True:
             config["mode"] = config["silent_mode"]
             logging.info('Buzzer deactivated')
-            print('Buzzer deactivated')
         else:
             config["mode"] = config["buzzer_mode"]
         config["init"] = None
@@ -124,9 +114,9 @@ class Hatchling():
         return config
 
     def inc_program(self):
-        inc_program_path = os.path.join(str(os.path.dirname(os.path.realpath(__file__)) ),"inc_program.json" )
+        inc_program_path = os.path.join(str(os.path.dirname(os.path.realpath(__file__)) ),"inc_program.yml" )
         with open(inc_program_path) as inc_program_file:
-            inc_program = json.load(inc_program_file)
+            inc_program = yaml.safe_load(inc_program_file)
 
         species_list = inc_program["species"]
 

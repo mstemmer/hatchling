@@ -9,12 +9,10 @@ import logging
 
 class Output():
 
-    def __init__(self, config, q_data, time_init):
-        self.data_folder = config["data_folder"]
-        self.data_file = config["data_file"]
+    def __init__(self, config, q_data, time_init, data_folder):
+        self.data_folder = data_folder
         self.config = config
         self.time_init = time_init
-        # print(self.data_folder)
         self.q_data = q_data
         self.output()
 

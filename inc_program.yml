@@ -1,0 +1,41 @@
+species: [chicken, duck, elephant, test_run]
+
+chicken:
+  phases: 3
+  comment: [humid, temp]
+  default_phase: [55, 37.8]
+  next_phase: [[55, 37], [80, 37]]
+  phase_changes: [17, 19]
+  activate_move_eggs: 1
+  days_move_eggs: 17
+  interval_move_eggs: 4
+
+duck:
+  phases: 3
+  comment: [humid, temp]
+  default_phase: [55, 37.8]
+  next_phase: [[55, 37], [80, 37]]
+  phase_changes: [25, 27]
+  activate_move_eggs: 1
+  days_move_eggs: 25
+  interval_move_eggs: 4
+
+elephant:
+  phases: 3
+  comment: [humid, temp]
+  default_phase: [55, 37.8]
+  next_phase: [[55, 37], [80, 37]]
+  phase_changes: [600, 620]
+  activate_move_eggs: 1
+  days_move_eggs: 600
+  interval_move_eggs: 4
+
+test_run:
+  phases: 3
+  comment: [humid, temp]
+  default_phase: [55, 37.8]
+  next_phase: [[55, 37], [80, 37]]
+  phase_changes: [1, 2]
+  activate_move_eggs: 1
+  days_move_eggs: 1
+  interval_move_eggs: 4
