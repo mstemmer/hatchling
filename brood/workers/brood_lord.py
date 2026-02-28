@@ -40,8 +40,8 @@ class BroodLord():
         self.inc_program = inc_program
         self.time_init = time_init
 
-        self.q_prog.put(inc_program["default_phase"]) # send standard inc_program to controller
-        logging.info("Setting controller to default parameters")
+        self.q_prog.put(inc_program["start_phase"]) # send standard inc_program to controller
+        logging.info("Setting controller to start phase. Parameters: " + str(inc_program["start_phase"]))
 
         scheduler = BlockingScheduler() # init scheduler
 
@@ -72,6 +72,7 @@ class BroodLord():
     def next_phase(self, p):
         set_prog = self.inc_program["next_phase"][p]
         self.q_prog.put(set_prog)
+        logging.info("Next phase reached. New parameters: " + str(set_prog))
 
     # def move_eggs(self) :
     #     logging.info('Moving eggs')

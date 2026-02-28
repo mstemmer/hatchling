@@ -17,7 +17,7 @@ LED_status:
 
 standard_parameters: [290, 70, 10]
 PID_parameters: [260, 85, 12]
-fan_speed: 30
+fan_speed: 30 # duty cycle for the fan, 0-100
 
 comment: "Number_of_steps_for_stepper_motor"
 steps: 150
