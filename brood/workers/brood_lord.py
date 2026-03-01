@@ -7,6 +7,7 @@ from apscheduler.schedulers.background import BlockingScheduler
 from RPi import GPIO
 from brood.pico import move_eggs
 import logging
+
 # import datetime
 
 class BroodLord():
@@ -42,6 +43,8 @@ class BroodLord():
 
         self.q_prog.put(inc_program["start_phase"]) # send standard inc_program to controller
         logging.info("Setting controller to start phase. Parameters: " + str(inc_program["start_phase"]))
+        logging.info("PHASE 1")
+        
 
         scheduler = BlockingScheduler() # init scheduler
 
@@ -73,6 +76,7 @@ class BroodLord():
         set_prog = self.inc_program["next_phase"][p]
         self.q_prog.put(set_prog)
         logging.info("Next phase reached. New parameters: " + str(set_prog))
+        logging.info("PHASE " + str(p + 2))
 
     # def move_eggs(self) :
     #     logging.info('Moving eggs')

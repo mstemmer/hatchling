@@ -12,6 +12,9 @@ import math
 import sys
 import logging
 
+# Initialize custom PHASE logging level
+import brood.logging_config
+
 class BroodController():
     """ Reads data from two DHT22 sensors in a while loop. Reading alternates
     between the two sensors. Data is averaged over both, rounded and sent
@@ -216,7 +219,7 @@ class BroodController():
             self.heat.ChangeDutyCycle(0)
             fan_control(0)
             GPIO.output(self.heat_pin, GPIO.LOW)
-            self.status_end()
+            # self.status_end()
             logging.info('Shutting down heater')
             logging.info('Close program')
             sys.exit('Close program')

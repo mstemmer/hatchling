@@ -84,7 +84,7 @@ class Hatchling():
         self.config = self.config()
         self.inc_program = self.inc_program()
 
-        fan_control(30)
+        fan_control(self.config["fan_speed"])
 
         SpawnHatchling(self.config, self.inc_program, self.time_init, time_species_path)
 

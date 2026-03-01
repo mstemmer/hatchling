@@ -2,7 +2,7 @@ from multiprocessing import Process, Queue
 
 from brood.workers.controller import BroodController
 from brood.workers.brood_lord import BroodLord
-from brood.workers.output import Output
+from brood.workers.stream_data import Output
 
 
 class SpawnHatchling():

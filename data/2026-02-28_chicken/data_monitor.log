@@ -1,0 +1,200 @@
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/home/pi/hatchling/brood/workers/monitor.py", line 4, in <module>
+    import dash
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/__init__.py", line 18, in <module>
+    from . import html  # noqa: F401,E402
+    ^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/html/__init__.py", line 3, in <module>
+    from ._imports_ import *  # noqa: E402, F401, F403
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/html/_imports_.py", line 77, in <module>
+    from .Optgroup import Optgroup
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/html/Optgroup.py", line 193, in <module>
+    setattr(Optgroup, "__init__", _explicitize_args(Optgroup.__init__))
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/development/base_component.py", line 478, in _explicitize_args
+    parameters=list(inspect.signature(func).parameters.values())
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/inspect.py", line 3345, in signature
+    return Signature.from_callable(obj, follow_wrapped=follow_wrapped,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/inspect.py", line 3085, in from_callable
+    return _signature_from_callable(obj, sigcls=cls,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/inspect.py", line 2597, in _signature_from_callable
+    return _signature_from_function(sigcls, obj,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/inspect.py", line 2451, in _signature_from_function
+    parameters.append(Parameter(name, annotation=annotation,
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/inspect.py", line 2781, in __init__
+    if is_keyword or not name.isidentifier():
+                         ^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/home/pi/hatchling/brood/workers/monitor.py", line 11, in <module>
+    import pandas as pd
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/__init__.py", line 142, in <module>
+    from pandas.io.api import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/io/api.py", line 6, in <module>
+    from pandas.io.excel import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/io/excel/__init__.py", line 1, in <module>
+    from pandas.io.excel._base import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/io/excel/_base.py", line 62, in <module>
+    from pandas.io.excel._util import (
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1128, in get_code
+  File "<frozen importlib._bootstrap_external>", line 757, in _compile_bytecode
+KeyboardInterrupt
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/home/pi/hatchling/brood/workers/monitor.py", line 521, in <module>
+    app.run(debug=True, host="0.0.0.0", port="8050")  # 0.0.0.0 to run as localhost
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/dash.py", line 2278, in run
+    self.server.run(host=host, port=port, debug=debug, **flask_run_options)
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/flask/app.py", line 662, in run
+    run_simple(t.cast(str, host), port, self, **options)
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/werkzeug/serving.py", line 1081, in run_simple
+    from .debug import DebuggedApplication
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/werkzeug/debug/__init__.py", line 16, in <module>
+    from multiprocessing import Value
+  File "/home/pi/miniconda3/lib/python3.12/multiprocessing/__init__.py", line 16, in <module>
+    from . import context
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1101, in get_code
+KeyboardInterrupt
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/home/pi/hatchling/brood/workers/monitor.py", line 9, in <module>
+    import plotly.express as px
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/plotly/express/__init__.py", line 25, in <module>
+    from ._imshow import imshow
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/plotly/express/_imshow.py", line 3, in <module>
+    from ._core import apply_default_cascade, init_figure, configure_animation_controls
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/plotly/express/_core.py", line 50, in <module>
+    cartesians = [go.Scatter, go.Scattergl, go.Bar, go.Funnel, go.Box, go.Violin]
+                  ^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/plotly/graph_objs/__init__.py", line 303, in __getattr__
+    return orig_getattr(import_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/_plotly_utils/importers.py", line 36, in __getattr__
+    class_module = importlib.import_module(rel_module, parent_name)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/plotly/graph_objs/_scatter.py", line 5, in <module>
+    class Scatter(_BaseTraceType):
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/plotly/graph_objs/_scatter.py", line 929, in Scatter
+    @property
+     ^^^^^^^^
+KeyboardInterrupt
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/home/pi/hatchling/brood/workers/monitor.py", line 11, in <module>
+    import pandas as pd
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/__init__.py", line 119, in <module>
+    from pandas.core.computation.api import eval
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/computation/api.py", line 2, in <module>
+    from pandas.core.computation.eval import eval
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/computation/eval.py", line 16, in <module>
+    from pandas.core.computation.expr import (
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1128, in get_code
+  File "<frozen importlib._bootstrap_external>", line 757, in _compile_bytecode
+KeyboardInterrupt

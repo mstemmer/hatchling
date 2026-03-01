@@ -1,0 +1,37 @@
+/* Dark mode overrides for the Dash app */
+html, body {
+  background-color: #0f1113;
+  color: #e6eef6;
+}
+
+/* Header styles */
+h1, h3 {
+  color: #e6eef6;
+}
+
+/* Log box styling */
+#log-div-output {
+  background-color: #121416 !important;
+  color: #e6eef6 !important;
+  border: 1px solid #2b2f33 !important;
+}
+
+/* Make the gauge background transparent so it sits well on dark bg */
+.daq-gauge {
+  background: transparent !important;
+}
+
+/* Make chart container transparent */
+.js-plotly-plot {
+  background: transparent !important;
+}
+
+/* Adjust link and text colors inside the app */
+a, p, div, span {
+  color: #e6eef6;
+}
+
+/* Adjust small UI elements */
+.row, .six.columns {
+  padding: 6px;
+}
