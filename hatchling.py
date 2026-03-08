@@ -15,13 +15,20 @@ parser.add_argument('--silent', dest='silent', action='store_true', default=Fals
 parser.add_argument('--fixed_dc', metavar='', dest='fixed_dc', type=int)
 early_args, remaining = parser.parse_known_args()
 
+# Determine data folder path early
+hatchling_dir = str(os.path.dirname(os.path.realpath(__file__)))
+data_folder = os.path.join(hatchling_dir, "data")
+if not os.path.exists(data_folder):
+    os.mkdir(data_folder)
+
 # Determine time_init early
+time_init_file = os.path.join(data_folder, 'time_init.txt')
 if early_args.init:
     time_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    with open('time_init.txt', 'w') as f:
+    with open(time_init_file, 'w') as f:
         f.write(time_str)
 else:
-    with open('time_init.txt', 'r') as f:
+    with open(time_init_file, 'r') as f:
         time_str = f.read().strip()
 
 time_init = datetime.strptime(time_str, '%Y-%m-%d %H:%M:%S')
@@ -30,11 +37,6 @@ time_init = datetime.strptime(time_str, '%Y-%m-%d %H:%M:%S')
 init_status = "Starting new incubation" if early_args.init else "Resuming incubation"
 
 # Determine log file path early
-hatchling_dir = str(os.path.dirname(os.path.realpath(__file__)))
-data_folder = os.path.join(hatchling_dir, "data")
-if not os.path.exists(data_folder):
-    os.mkdir(data_folder)
-
 time_species_folder = f'{str(time_init.date())}_{early_args.species}'
 time_species_path = os.path.join(data_folder, time_species_folder)
 if not os.path.exists(time_species_path):

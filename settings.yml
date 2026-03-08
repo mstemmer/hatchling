@@ -2,7 +2,7 @@ setup_pin:
   data: 17
   latch: 27
   clock: 22
-  heat: 12
+  heat: 13
   step: 6
   sleep: 5
   DHT22_sensor: 25
