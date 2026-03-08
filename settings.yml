@@ -3,6 +3,7 @@ setup_pin:
   latch: 27
   clock: 22
   heat: 13
+  dir: 24
   step: 6
   sleep: 5
   DHT22_sensor: 25
@@ -17,7 +18,7 @@ LED_status:
 
 standard_parameters: [290, 70, 10]
 PID_parameters: [260, 85, 12]
-fan_speed: 50 # duty cycle for the fan, 0-100
+fan_speed: 70 # duty cycle for the fan, 0-100
 
 comment: "Number_of_steps_for_stepper_motor"
 steps: 150

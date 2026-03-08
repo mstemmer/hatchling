@@ -40,15 +40,18 @@ class BroodController():
         # self.latch_pin = config['setup_pin']['latch']   
         # self.clock_pin = config['setup_pin']['clock']
 
-        self.heat_pin = config['setup_pin']['heat']
+        
         self.config = config
 
         # pins = [self.data_pin, self.latch_pin, self.clock_pin, self.heat_pin]
-        pins = [self.heat_pin]
-
-        for p in pins :
-            GPIO.setup(p, GPIO.OUT)
-        GPIO.output(self.heat_pin, GPIO.HIGH)
+        
+        # Set pin LOW as safe default (heater OFF)
+        self.heat_pin = config['setup_pin']['heat']
+        self.dir_pin = config['setup_pin']['dir']  # GPIO24 - Direction control for MDD10
+        GPIO.setup(self.heat_pin, GPIO.OUT)
+        GPIO.setup(self.dir_pin, GPIO.OUT)
+        GPIO.output(self.heat_pin, GPIO.LOW)
+        GPIO.output(self.dir_pin, GPIO.HIGH)  # Set direction HIGH to enable motor forward
 
         # Initialize I2C and HTU31D sensors
         i2c = board.I2C()  # uses board.SCL and board.SDA
@@ -77,10 +80,11 @@ class BroodController():
             logging.error("No sensors available! Cannot continue.")
             raise RuntimeError("Both sensors failed to initialize")
 
+        # Initialize PID controller
         logging.info('Initializing PID controller')
-        self.pid = PID(290, 70, 10, setpoint=37) # init pid controller 290, 70, 10
+        self.pid = PID(config["PID_parameters"][0], config["PID_parameters"][1], config["PID_parameters"][2], setpoint=37.8)
         self.pid.output_limits = (0, 100)
-        self.pid.sample_time = None
+        self.pid.sample_time = 1.0  # Update PID every 1 second to avoid integral windup
         self.pid.tunings = (config["PID_parameters"]) # update PID controller with config parameters
         # self.pid.proportional_on_measurement = True
 
@@ -92,7 +96,7 @@ class BroodController():
             logging.info(f'PID controller is deactivated and duty cycle fixed to {self.config["fixed_dc"]}')
 
         # init class
-        self.set_humid, self.set_temp = [55, 36]
+        self.set_humid, self.set_temp = [55, 37.8]
         self.q_data = q_data
         self.q_prog = q_prog
         self.control()
@@ -216,7 +220,9 @@ class BroodController():
                 continue
 
         except KeyboardInterrupt:
+            self.heat.stop()  # Stop PWM signal
             self.heat.ChangeDutyCycle(0)
+            GPIO.output(self.dir_pin, GPIO.LOW)  # Disable motor direction
             fan_control(0)
             GPIO.output(self.heat_pin, GPIO.LOW)
             # self.status_end()
