@@ -1,4 +1,5 @@
 from RPi import GPIO # Now imports from system, not conda
+from rpi_hardware_pwm import HardwarePWM
 from brood.workers.temp_sensors.PT100_sensor import PT100TempSense
 from brood.pico import fan_control
 import board
@@ -11,6 +12,7 @@ import time
 import math
 import sys
 import logging
+
 
 # Initialize custom PHASE logging level
 import brood.logging_config
@@ -48,9 +50,14 @@ class BroodController():
         # Set pin LOW as safe default (heater OFF)
         self.heat_pin = config['setup_pin']['heat']
         self.dir_pin = config['setup_pin']['dir']  # GPIO24 - Direction control for MDD10
-        GPIO.setup(self.heat_pin, GPIO.OUT)
-        GPIO.setup(self.dir_pin, GPIO.OUT)
-        GPIO.output(self.heat_pin, GPIO.LOW)
+        self.heat = HardwarePWM(0, 100, chip=2) # channel 0 1 2 3 for GPIO12 13 18 19 respectively?? Working on channel 2 for some reason (RaspPi5)
+                                           # 1500 = hz
+                                           # chip=2 This indicates that the PWM channel is mapped to the PWM chip 2
+                                           # which controls GPIO 12 and 13. For Rpi 1,2,3,4, use chip=0; For Rpi 5, use chip=2
+
+        self.heat.start(0)
+
+        # self.heat = GPIO.PWM(self.heat_pin, 100)
         GPIO.output(self.dir_pin, GPIO.HIGH)  # Set direction HIGH to enable motor forward
 
         # Initialize I2C and HTU31D sensors
@@ -88,8 +95,6 @@ class BroodController():
         self.pid.tunings = (config["PID_parameters"]) # update PID controller with config parameters
         # self.pid.proportional_on_measurement = True
 
-        self.heat = GPIO.PWM(self.heat_pin, 100)
-        self.heat.start(0)
         
 
         if 'fixed_dc' in self.config: # check if exists
