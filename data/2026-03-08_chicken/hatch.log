@@ -1,21 +1,17 @@
-2026-03-08 21:06:14 INFO: NumExpr defaulting to 4 threads.
-2026-03-08 21:06:15 INFO: Hatchling startup initiated
-2026-03-08 21:06:15 INFO: Starting new incubation from time point: 2026-03-08 21:06:12
-2026-03-08 21:06:15 INFO: Load incubation program: chicken
-2026-03-08 21:06:16 INFO: Fan control: set duty cycle to 70%
-2026-03-08 21:06:16 INFO: Setting controller to start phase. Parameters: [55, 37.8]
-2026-03-08 21:06:16 INFO: Created CSV file: /home/pi/hatchling/data/2026-03-08_chicken/data.csv
-2026-03-08 21:06:16 INFO: PHASE 1
-2026-03-08 21:06:16 INFO: Additional phases found and added to scheduler
-2026-03-08 21:06:16 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
-2026-03-08 21:06:16 INFO: Controller update scheduled for: 2026-03-25 21:06:12
-2026-03-08 21:06:16 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
-2026-03-08 21:06:16 INFO: Controller update scheduled for: 2026-03-27 21:06:12
-2026-03-08 21:06:16 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
-2026-03-08 21:06:16 INFO: Egg moving is activated and scheduled every 4 hours
-2026-03-08 21:06:17 INFO: Monitor started with PID 1779
-2026-03-08 21:06:17 INFO: Egg turner activated
-2026-03-08 21:06:17 INFO: Added job "BroodLord.next_phase" to job store "default"
-2026-03-08 21:06:17 INFO: Added job "BroodLord.next_phase" to job store "default"
-2026-03-08 21:06:17 INFO: Added job "move_eggs" to job store "default"
-2026-03-08 21:06:17 INFO: Scheduler started
+2026-03-08 22:37:22 INFO: NumExpr defaulting to 4 threads.
+2026-03-08 22:37:23 INFO: Hatchling startup initiated
+2026-03-08 22:37:23 INFO: Starting new incubation from time point: 2026-03-08 22:37:22
+2026-03-08 22:37:23 INFO: Setting controller to start phase. Parameters: [55, 37.8]
+2026-03-08 22:37:23 INFO: PHASE 1
+2026-03-08 22:37:23 INFO: Additional phases found and added to scheduler
+2026-03-08 22:37:23 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-08 22:37:23 INFO: Controller update scheduled for: 2026-03-25 22:37:20
+2026-03-08 22:37:23 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-08 22:37:23 INFO: Controller update scheduled for: 2026-03-27 22:37:20
+2026-03-08 22:37:23 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-08 22:37:23 INFO: Egg moving is activated and scheduled every 4 hours
+2026-03-08 22:37:24 INFO: Egg turner activated
+2026-03-08 22:37:24 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-08 22:37:24 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-08 22:37:24 INFO: Added job "move_eggs" to job store "default"
+2026-03-08 22:37:24 INFO: Scheduler started

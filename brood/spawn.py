@@ -1,4 +1,4 @@
-from multiprocessing import Process, Queue
+from multiprocessing import Process, Queue, set_start_method
 
 from brood.workers.controller import BroodController
 from brood.workers.brood_lord import BroodLord
@@ -7,6 +7,13 @@ from brood.workers.stream_data import Output
 
 class SpawnHatchling():
     def __init__(self, config, inc_program, time_init, data_folder):
+        # Use 'spawn' instead of 'fork' for multiprocessing
+        # This creates fresh Python interpreters instead of forking,
+        # which allows gpiozero to initialize properly in each process
+        try:
+            set_start_method('spawn', force=True)
+        except RuntimeError:
+            pass  # Already set
 
         # init queues
         q_data = Queue()

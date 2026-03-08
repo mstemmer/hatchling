@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+"""
+Hardware Troubleshooting Checklist for GPIO12 PWM Heater
+"""
+
+print("""
+HARDWARE TROUBLESHOOTING CHECKLIST
+===================================
+
+Since gpiozero_pwm_example works but controller.py doesn't react,
+the code is fine - check these hardware issues:
+
+1. POWER SUPPLY
+   ☐ Is the heater receiving power?
+   ☐ Check voltage across heater power pins (should be stable)
+   ☐ Is the power supply properly connected?
+
+2. GPIO12 PIN
+   ☐ Is GPIO12 wired correctly to your heater circuit?
+   ☐ Check for loose wires/connections
+   ☐ Verify GPIO12 is not being used for other functions
+   
+3. TRANSISTOR/MOSFET
+   ☐ If using a transistor/MOSFET to control heater:
+     - Is the gate/base pin properly connected to GPIO12?
+     - Is it receiving the PWM signal?
+   ☐ Test with multimeter:
+     - When GPIO12 is LOW: measure gate voltage
+     - When GPIO12 is HIGH: measure gate voltage
+   
+4. SIGNAL PATH
+   ☐ Measure GPIO12 output with oscilloscope/logic analyzer:
+     - heater.value = 0.0 → GPIO12 should be LOW
+     - heater.value = 1.0 → GPIO12 should be HIGH
+     - heater.value = 0.5 → GPIO12 should show PWM signal
+   
+5. HEATER CIRCUIT
+   ☐ Is the heater element connected in series with the control transistor?
+   ☐ Are there any protection diodes? Check polarity
+   ☐ Is there a current-limiting resistor? Check value
+   
+6. SETTINGS.YML
+   ☐ Verify heat: 12 in setup_pin section
+   ☐ Verify PID_parameters are set correctly
+   ☐ If using fixed_dc, is the value reasonable (0-100)?
+
+QUICK TEST:
+-----------
+Run test_gpio12_direct.py with heater disconnected to verify:
+1. GPIO12 signal is present
+2. Signal transitions happen correctly
+3. No errors in the gpiozero library
+
+If GPIO12 signal looks good but heater doesn't work:
+- Problem is in power circuit, not GPIO control
+- Check transistor/MOSFET is functional
+- Check heater element continuity with multimeter
+
+If GPIO12 signal is not present:
+- Problem is in gpiozero or GPIO configuration
+- Try running gpiozero_pwm_example again
+- Check for permission errors (run as sudo if needed)
+""")

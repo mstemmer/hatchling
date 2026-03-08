@@ -1,5 +1,4 @@
-from RPi import GPIO # Now imports from system, not conda
-from rpi_hardware_pwm import HardwarePWM
+from gpiozero import PWMLED
 from brood.workers.temp_sensors.PT100_sensor import PT100TempSense
 from brood.pico import fan_control
 import board
@@ -27,8 +26,14 @@ class BroodController():
     evaluated."""
 
     def __init__(self, config, q_prog, q_data):
-        GPIO.setmode(GPIO.BCM)       # Numbers GPIOs by physical location
-        # GPIO.setwarnings(False)
+        # Use gpiozero PWMLED - works in forked processes with software PWM
+        # Set pin factory to None to let gpiozero auto-select the best available
+        from gpiozero import Device
+        Device.pin_factory = None  # Auto-detect best factory
+        
+        # Initialize heater PWM on GPIO12
+        self.heat = PWMLED(config['setup_pin']['heat'])
+        self.heat.off()  # Start with heater off
 
         # initi humidity and temperature sensors
         # self.sensor_humid = config['setup_pin']['DHT22_sensor']
@@ -44,22 +49,10 @@ class BroodController():
 
         
         self.config = config
+        self.duty_cycle = 0
 
         # pins = [self.data_pin, self.latch_pin, self.clock_pin, self.heat_pin]
         
-        # Set pin LOW as safe default (heater OFF)
-        self.heat_pin = config['setup_pin']['heat']
-        self.dir_pin = config['setup_pin']['dir']  # GPIO24 - Direction control for MDD10
-        self.heat = HardwarePWM(0, 100, chip=2) # channel 0 1 2 3 for GPIO12 13 18 19 respectively?? Working on channel 2 for some reason (RaspPi5)
-                                           # 1500 = hz
-                                           # chip=2 This indicates that the PWM channel is mapped to the PWM chip 2
-                                           # which controls GPIO 12 and 13. For Rpi 1,2,3,4, use chip=0; For Rpi 5, use chip=2
-
-        self.heat.start(0)
-
-        # self.heat = GPIO.PWM(self.heat_pin, 100)
-        GPIO.output(self.dir_pin, GPIO.HIGH)  # Set direction HIGH to enable motor forward
-
         # Initialize I2C and HTU31D sensors
         i2c = board.I2C()  # uses board.SCL and board.SDA
 
@@ -95,8 +88,6 @@ class BroodController():
         self.pid.tunings = (config["PID_parameters"]) # update PID controller with config parameters
         # self.pid.proportional_on_measurement = True
 
-        
-
         if 'fixed_dc' in self.config: # check if exists
             logging.info(f'PID controller is deactivated and duty cycle fixed to {self.config["fixed_dc"]}')
 
@@ -130,15 +121,14 @@ class BroodController():
         #     self.oor_humid_low.append(humid_low)
 
     def pid_controller(self, curr_value):
-        if 'fixed_dc' in self.config: # check if exists
+        """Update PWM duty cycle using PID controller"""
+        if 'fixed_dc' in self.config:
             self.duty_cycle = self.config["fixed_dc"]
         else:
             self.duty_cycle = self.pid(curr_value)
-        # print(self.duty_cycle)
-        # duty_cycle = 0
-        # p, i, d = self.pid.components
-        # print(p, i, d)
-        self.heat.ChangeDutyCycle(self.duty_cycle)
+        
+        # gpiozero uses 0.0-1.0 range, convert from 0-100
+        self.heat.value = self.duty_cycle / 100.0
 
     
     def read_HTU31D_0(self):
@@ -163,23 +153,6 @@ class BroodController():
             self.sensor1_active = False  # Mark sensor as inactive
             return float('nan'), float('nan')
 
-    # def read_temperature(self, sensor):
-    #     try:
-    #         temperature = PT100TempSense(sensor).get_temp()
-    #     except TypeError as e:
-    #                 logging.error("Reading from PT100 failure!")
-    #                 time.sleep(2)
-    #     return temperature
-
-
-    # def read_humidity(self):
-    #     try:
-    #         humidity = self.DHT22.humidity
-    #     except TypeError as e:
-    #                 logging.error("Reading from DHT22 failure!")
-    #                 time.sleep(2)
-    #     return humidity
-    
 
     def control(self):
         try:
@@ -225,11 +198,8 @@ class BroodController():
                 continue
 
         except KeyboardInterrupt:
-            self.heat.stop()  # Stop PWM signal
-            self.heat.ChangeDutyCycle(0)
-            GPIO.output(self.dir_pin, GPIO.LOW)  # Disable motor direction
+            self.heat.off()  # Stop PWM signal
             fan_control(0)
-            GPIO.output(self.heat_pin, GPIO.LOW)
             # self.status_end()
             logging.info('Shutting down heater')
             logging.info('Close program')
