@@ -72,6 +72,10 @@ from brood.pico import fan_control
 logging.info('Hatchling startup initiated')
 logging.info(f'{init_status} from time point: {time_init}')
 
+# Log program at module level (before Hatchling class instantiation)
+if early_args.species:
+    logging.info(f'Load incubation program: {early_args.species}')
+
 class Hatchling():
     def __init__(self):
         parser = argparse.ArgumentParser(prog='hatchling')

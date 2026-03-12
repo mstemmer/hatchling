@@ -84,7 +84,7 @@ class BroodController():
         logging.info('Initializing PID controller')
         self.pid = PID(config["PID_parameters"][0], config["PID_parameters"][1], config["PID_parameters"][2], setpoint=37.8)
         self.pid.output_limits = (0, 100)
-        self.pid.sample_time = 1.0  # Update PID every 1 second to avoid integral windup
+        self.pid.sample_time = 0.2  # PID Update rate
         self.pid.tunings = (config["PID_parameters"]) # update PID controller with config parameters
         # self.pid.proportional_on_measurement = True
 

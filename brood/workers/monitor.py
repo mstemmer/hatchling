@@ -410,53 +410,6 @@ def update_env_temp_box(n):
         return 'Set humidity: N/A'
 
 
-# Update incubation countdown timer from log file
-@app.callback(Output('incubation-timer-box', 'children'), Input('interval-component', 'n_intervals'))
-def update_incubation_timer(n):
-    import re
-    from datetime import datetime, timedelta
-    
-    try:
-        with open(log_file, 'r') as log:
-            lines = log.readlines()
-        
-        # Search for the most recent "Incubating for:" line
-        incubation_line = None
-        incubation_timestamp = None
-        
-        for line in reversed(lines):
-            # Match pattern: "YYYY-MM-DD HH:MM:SS INFO: Incubating for: HH:MM:SS"
-            match = re.search(r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) INFO: Incubating for: (\d{2}):(\d{2}):(\d{2})', line)
-            if match:
-                timestamp_str = match.group(1)
-                hours = int(match.group(2))
-                minutes = int(match.group(3))
-                seconds = int(match.group(4))
-                
-                incubation_timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
-                total_seconds = hours * 3600 + minutes * 60 + seconds
-                incubation_line = (incubation_timestamp, total_seconds)
-                break
-        
-        if incubation_line:
-            start_time, duration = incubation_line
-            elapsed = (datetime.now() - start_time).total_seconds()
-            remaining = int(duration - elapsed)
-            
-            if remaining > 0:
-                mins, secs = divmod(remaining, 60)
-                hrs, mins = divmod(mins, 60)
-                return f'Incubating... time left: {hrs:02d}:{mins:02d}:{secs:02d}'
-            else:
-                return 'Incubation complete'
-        else:
-            return 'No active incubation'
-    
-    except FileNotFoundError:
-        return 'Log file not found'
-    except Exception as e:
-        return f'Error: {str(e)}'
-
 
 # create chart with daily dataset
 @app.callback(Output('chart_day', 'figure'), Input('interval-component_day', 'n_intervals'))
