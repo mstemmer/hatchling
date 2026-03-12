@@ -1,0 +1,26 @@
+2026-03-12 21:55:01 INFO: NumExpr defaulting to 4 threads.
+2026-03-12 21:55:01 INFO: Created CSV file: /home/pi/hatchling/data/2026-03-12_chicken/data.csv
+2026-03-12 21:55:01 INFO: Hatchling startup initiated
+2026-03-12 21:55:01 INFO: Starting new incubation from time point: 2026-03-12 21:55:01
+2026-03-12 21:55:01 INFO: Setting controller to start phase. Parameters: [55, 37.8]
+2026-03-12 21:55:01 INFO: PHASE 1
+2026-03-12 21:55:01 INFO: Additional phases found and added to scheduler
+2026-03-12 21:55:01 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-12 21:55:01 INFO: Controller update scheduled for: 2026-03-29 21:54:59
+2026-03-12 21:55:01 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-12 21:55:01 INFO: Controller update scheduled for: 2026-03-31 21:54:59
+2026-03-12 21:55:01 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-12 21:55:01 INFO: Egg moving is activated and scheduled every 4 hours
+2026-03-12 21:55:01 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-12 21:55:01 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-12 21:55:01 INFO: Initializing PID controller
+2026-03-12 21:55:01 INFO: Controller received updated parameters
+2026-03-12 21:55:02 INFO: Monitor started with PID 3868
+2026-03-12 21:55:02 INFO: Egg turner activated
+2026-03-12 21:55:02 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-12 21:55:02 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-12 21:55:02 INFO: Added job "move_eggs" to job store "default"
+2026-03-12 21:55:02 INFO: Scheduler started
+2026-03-12 21:55:10 INFO: Fan control: set duty cycle to 0%
+2026-03-12 21:55:10 INFO: Shutting down heater
+2026-03-12 21:55:10 INFO: Close program

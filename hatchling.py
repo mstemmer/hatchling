@@ -88,7 +88,7 @@ class Hatchling():
 
         fan_control(self.config["fan_speed"])
 
-        SpawnHatchling(self.config, self.inc_program, self.time_init, time_species_path)
+        SpawnHatchling(self.config, self.inc_program, self.time_init, time_species_path, log_file_path)
 
         
     def time_init(self):
