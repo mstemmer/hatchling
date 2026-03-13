@@ -1,7 +1,7 @@
 species: [chicken, duck, elephant, test_run]
 
 chicken:
-  phases: 3
+  phases: 2
   comment: [humid, temp]
   start_phase: [50, 37.5] #initial humidity and temperature for chicken eggs
   next_phase: [[70, 37.2]] #change to 55% humidity and 37C at day 17
