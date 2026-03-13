@@ -11,7 +11,30 @@ warnings.filterwarnings('ignore', category=UserWarning)
 import logging as _temp_logging
 _temp_logging.getLogger('numexpr').setLevel(_temp_logging.ERROR)
 
-from gpiozero import PWMLED
+import time
+
+# Retry logic for gpiozero import (handles lgpio daemon race condition)
+def import_gpiozero_with_retry(max_retries=5, delay=0.5):
+    """Import gpiozero with retry logic to handle lgpio daemon startup race condition"""
+    for attempt in range(max_retries):
+        try:
+            from gpiozero import PWMLED
+            return PWMLED
+        except FileNotFoundError as e:
+            if "lgd-nfy" in str(e):
+                if attempt < max_retries - 1:
+                    _temp_logging.warning(
+                        f"gpiozero import failed due to lgpio daemon not ready (attempt {attempt+1}/{max_retries}), "
+                        f"retrying in {delay}s..."
+                    )
+                    time.sleep(delay)
+                else:
+                    _temp_logging.error(f"Failed to import gpiozero after {max_retries} retries")
+                    raise
+            else:
+                raise
+
+PWMLED = import_gpiozero_with_retry()
 from brood.workers.temp_sensors.PT100_sensor import PT100TempSense
 from brood.pico import fan_control
 import board
@@ -97,7 +120,6 @@ class BroodController():
         logging.info('Initializing PID controller')
         self.pid = PID(config["PID_parameters"][0], config["PID_parameters"][1], config["PID_parameters"][2], setpoint=37.8)
         self.pid.output_limits = (0, 100)  # Output limits (0-100% PWM) - also prevents integral windup
-        self.pid.proportional_on_measurement = True # Use proportional on measurement to reduce overshoot and improve stability
         self.pid.sample_time = 0.4  # PID Update rate
         self.pid.tunings = (config["PID_parameters"]) # update PID controller with config parameters
         # self.pid.proportional_on_measurement = True
@@ -108,7 +130,7 @@ class BroodController():
         # Log current PID values
         kp, ki, kd = self.pid.tunings
         logging.info(f'PID Parameters - Kp: {kp}, Ki: {ki}, Kd: {kd}')
-        logging.info(f'PID Output limits (with anti-windup): {self.pid.output_limits}, Sample time: {self.pid.sample_time}s')
+        logging.info(f'PID Output limits: {self.pid.output_limits}, Sample time: {self.pid.sample_time}s')
 
         if 'fixed_dc' in self.config: # check if exists
             logging.info(f'PID controller is deactivated and duty cycle fixed to {self.config["fixed_dc"]}')
@@ -147,13 +169,22 @@ class BroodController():
         if 'fixed_dc' in self.config:
             self.duty_cycle = self.config["fixed_dc"]
         else:
-            # Dynamically adjust output limits based on temperature error
-            # If significantly below setpoint, allow higher PWM for faster heating
+            # Dynamically adjust output limits and control parameters based on temperature error
             temp_error = self.pid.setpoint - curr_value
-            if temp_error > 5:  # Below setpoint by more than 5°C
+            
+            if temp_error > 5:  
+                # Cold start: Below setpoint by more than 5°C - aggressive heating
                 self.pid.output_limits = (0, 100)
-            else:
+                self.pid.proportional_on_measurement = False
+            elif temp_error > 0.5:  
+                # Approaching setpoint: Within 5°C to 0.5°C - moderate heating with stability
                 self.pid.output_limits = (0, 50)
+                self.pid.proportional_on_measurement = False
+            else:
+                # Close to setpoint: Within 0.5°C - fine control with proportional on measurement
+                self.pid.output_limits = (0, 50)
+                self.pid.proportional_on_measurement = True  # Reduce overshoot and improve stability
+            
             self.duty_cycle = self.pid(curr_value)
 
         # gpiozero uses 0.0-1.0 range, convert from 0-100

@@ -70,3 +70,47 @@ Dash is running on http://0.0.0.0:8050/
 
  * Serving Flask app 'monitor'
  * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/home/pi/hatchling/brood/workers/monitor.py", line 4, in <module>
+    import dash
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/__init__.py", line 17, in <module>
+    from . import dcc  # noqa: F401,E402
+    ^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/dcc/__init__.py", line 7, in <module>
+    from ._imports_ import *  # noqa: F401, F403, E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/dcc/_imports_.py", line 10, in <module>
+    from .Graph import Graph
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/dcc/Graph.py", line 24, in <module>
+    class Graph(Component):
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/dcc/Graph.py", line 381, in Graph
+    "displaylogo": NotRequired[bool],
+                   ~~~~~~~~~~~^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/typing.py", line 392, in inner
+    @functools.wraps(func)
+
+KeyboardInterrupt
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
