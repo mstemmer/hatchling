@@ -88,3 +88,158 @@
 2026-03-13 22:40:18 INFO: Added job "BroodLord.next_phase" to job store "default"
 2026-03-13 22:40:18 INFO: Added job "move_eggs" to job store "default"
 2026-03-13 22:40:18 INFO: Scheduler started
+2026-03-13 22:56:26 INFO: Fan control: set duty cycle to 0%
+2026-03-13 22:56:26 INFO: Shutting down heater
+2026-03-13 22:56:26 INFO: Close program
+2026-03-13 22:56:29 INFO: Hatchling startup initiated
+2026-03-13 22:56:29 INFO: Starting incubation run from time point: 2026-03-13 22:26:05
+2026-03-13 22:56:29 INFO: Load incubation program: chicken
+2026-03-13 22:56:29 INFO: Fan control: set duty cycle to 70%
+2026-03-13 22:56:30 INFO: Fan control: set duty cycle to 70%
+2026-03-13 22:56:31 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-13 22:56:31 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-13 22:56:31 INFO: PHASE 1
+2026-03-13 22:56:31 INFO: Additional phases found and added to scheduler
+2026-03-13 22:56:31 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 22:56:31 INFO: Controller update scheduled for: 2026-04-01 22:26:05
+2026-03-13 22:56:31 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 22:56:31 INFO: Egg moving is activated and scheduled every 4 hours
+2026-03-13 22:56:32 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-13 22:56:32 INFO: Initializing PID controller
+2026-03-13 22:56:32 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-13 22:56:32 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-13 22:56:32 INFO: Controller received updated parameters
+2026-03-13 22:56:32 INFO: Monitor started with PID 29922
+2026-03-13 22:56:33 INFO: Egg turner activated
+2026-03-13 22:56:33 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-13 22:56:33 INFO: Added job "move_eggs" to job store "default"
+2026-03-13 22:56:33 INFO: Scheduler started
+2026-03-13 22:59:28 INFO: Fan control: set duty cycle to 0%
+2026-03-13 22:59:28 INFO: Shutting down heater
+2026-03-13 22:59:28 INFO: Close program
+2026-03-13 22:59:47 INFO: Hatchling startup initiated
+2026-03-13 22:59:47 INFO: Starting incubation run from time point: 2026-03-13 22:26:05
+2026-03-13 22:59:47 INFO: Load incubation program: chicken
+2026-03-13 22:59:47 INFO: Fan control: set duty cycle to 70%
+2026-03-13 22:59:48 INFO: Fan control: set duty cycle to 70%
+2026-03-13 22:59:50 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-13 22:59:50 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-13 22:59:50 INFO: Initializing PID controller
+2026-03-13 22:59:50 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-13 22:59:50 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-13 22:59:50 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-13 22:59:50 INFO: PHASE 1
+2026-03-13 22:59:50 INFO: Additional phases found and added to scheduler
+2026-03-13 22:59:50 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 22:59:50 INFO: Controller update scheduled for: 2026-04-01 22:26:05
+2026-03-13 22:59:50 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 22:59:50 INFO: Egg moving is activated and scheduled every 4 hours
+2026-03-13 22:59:50 INFO: Controller received updated parameters
+2026-03-13 22:59:51 INFO: Egg turner activated
+2026-03-13 22:59:51 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-13 22:59:51 INFO: Added job "move_eggs" to job store "default"
+2026-03-13 22:59:51 INFO: Scheduler started
+2026-03-13 23:00:03 INFO: Fan control: set duty cycle to 0%
+2026-03-13 23:00:03 INFO: Shutting down heater
+2026-03-13 23:00:03 INFO: Close program
+2026-03-13 23:00:06 INFO: Hatchling startup initiated
+2026-03-13 23:00:06 INFO: Starting incubation run from time point: 2026-03-13 22:26:05
+2026-03-13 23:00:06 INFO: Load incubation program: chicken
+2026-03-13 23:00:06 INFO: Fan control: set duty cycle to 70%
+2026-03-13 23:00:07 INFO: Fan control: set duty cycle to 70%
+2026-03-13 23:00:09 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-13 23:00:09 INFO: PHASE 1
+2026-03-13 23:00:09 INFO: Additional phases found and added to scheduler
+2026-03-13 23:00:09 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 23:00:09 INFO: Controller update scheduled for: 2026-04-01 22:26:05
+2026-03-13 23:00:09 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 23:00:09 INFO: Egg moving is activated and scheduled every 4 hours
+2026-03-13 23:00:09 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-13 23:00:09 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-13 23:00:09 INFO: Initializing PID controller
+2026-03-13 23:00:09 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-13 23:00:09 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-13 23:00:09 INFO: Controller received updated parameters
+2026-03-13 23:00:10 INFO: Monitor started with PID 32017
+2026-03-13 23:00:10 INFO: Egg turner activated
+2026-03-13 23:00:10 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-13 23:00:10 INFO: Added job "move_eggs" to job store "default"
+2026-03-13 23:00:10 INFO: Scheduler started
+2026-03-13 23:01:15 INFO: Fan control: set duty cycle to 0%
+2026-03-13 23:01:15 INFO: Shutting down heater
+2026-03-13 23:01:15 INFO: Close program
+2026-03-13 23:01:16 INFO: Hatchling startup initiated
+2026-03-13 23:01:16 INFO: Starting incubation run from time point: 2026-03-13 22:26:05
+2026-03-13 23:01:16 INFO: Load incubation program: chicken
+2026-03-13 23:01:16 INFO: Fan control: set duty cycle to 70%
+2026-03-13 23:01:17 INFO: Fan control: set duty cycle to 70%
+2026-03-13 23:01:19 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-13 23:01:19 INFO: PHASE 1
+2026-03-13 23:01:19 INFO: Additional phases found and added to scheduler
+2026-03-13 23:01:19 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 23:01:19 INFO: Controller update scheduled for: 2026-04-01 22:26:05
+2026-03-13 23:01:19 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 23:01:19 INFO: Egg moving is activated and scheduled every 4 hours
+2026-03-13 23:01:19 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-13 23:01:19 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-13 23:01:19 INFO: Initializing PID controller
+2026-03-13 23:01:19 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-13 23:01:19 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-13 23:01:19 INFO: Controller received updated parameters
+2026-03-13 23:01:20 INFO: Monitor started with PID 32840
+2026-03-13 23:01:20 INFO: Egg turner activated
+2026-03-13 23:01:20 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-13 23:01:20 INFO: Added job "move_eggs" to job store "default"
+2026-03-13 23:01:20 INFO: Scheduler started
+2026-03-13 23:03:48 INFO: Fan control: set duty cycle to 0%
+2026-03-13 23:03:48 INFO: Shutting down heater
+2026-03-13 23:03:48 INFO: Close program
+2026-03-13 23:03:50 INFO: Hatchling startup initiated
+2026-03-13 23:03:50 INFO: Starting incubation run from time point: 2026-03-13 22:26:05
+2026-03-13 23:03:50 INFO: Load incubation program: chicken
+2026-03-13 23:03:50 INFO: Fan control: set duty cycle to 70%
+2026-03-13 23:03:51 INFO: Fan control: set duty cycle to 70%
+2026-03-13 23:03:53 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-13 23:03:53 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-13 23:03:53 INFO: PHASE 1
+2026-03-13 23:03:53 INFO: Additional phases found and added to scheduler
+2026-03-13 23:03:53 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 23:03:53 INFO: Controller update scheduled for: 2026-04-01 22:26:05
+2026-03-13 23:03:53 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 23:03:53 INFO: Egg moving is activated and scheduled every 4 hours
+2026-03-13 23:03:53 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-13 23:03:53 INFO: Initializing PID controller
+2026-03-13 23:03:53 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-13 23:03:53 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-13 23:03:53 INFO: Controller received updated parameters
+2026-03-13 23:03:54 INFO: Monitor started with PID 34547
+2026-03-13 23:03:54 INFO: Egg turner activated
+2026-03-13 23:03:54 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-13 23:03:54 INFO: Added job "move_eggs" to job store "default"
+2026-03-13 23:03:54 INFO: Scheduler started
+2026-03-13 23:12:11 INFO: Fan control: set duty cycle to 0%
+2026-03-13 23:12:11 INFO: Shutting down heater
+2026-03-13 23:12:11 INFO: Close program
+2026-03-13 23:12:13 INFO: Hatchling startup initiated
+2026-03-13 23:12:13 INFO: Starting incubation run from time point: 2026-03-13 22:26:05
+2026-03-13 23:12:13 INFO: Load incubation program: chicken
+2026-03-13 23:12:13 INFO: Fan control: set duty cycle to 70%
+2026-03-13 23:12:14 INFO: Fan control: set duty cycle to 70%
+2026-03-13 23:12:16 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-13 23:12:16 INFO: PHASE 1
+2026-03-13 23:12:16 INFO: Additional phases found and added to scheduler
+2026-03-13 23:12:16 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 23:12:16 INFO: Controller update scheduled for: 2026-04-01 22:26:05
+2026-03-13 23:12:16 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-13 23:12:16 INFO: Egg moving is activated and scheduled every 4 hours
+2026-03-13 23:12:16 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-13 23:12:16 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-13 23:12:16 INFO: Initializing PID controller
+2026-03-13 23:12:16 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-13 23:12:16 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-13 23:12:16 INFO: Controller received updated parameters
+2026-03-13 23:12:16 INFO: Monitor started with PID 39913
+2026-03-13 23:12:17 INFO: Egg turner activated
+2026-03-13 23:12:17 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-13 23:12:17 INFO: Added job "move_eggs" to job store "default"
+2026-03-13 23:12:17 INFO: Scheduler started

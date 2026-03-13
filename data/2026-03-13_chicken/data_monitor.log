@@ -114,3 +114,79 @@ Dash is running on http://0.0.0.0:8050/
 
  * Serving Flask app 'monitor'
  * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/home/pi/hatchling/brood/workers/monitor.py", line 11, in <module>
+    import pandas as pd
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/__init__.py", line 49, in <module>
+    from pandas.core.api import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/api.py", line 47, in <module>
+    from pandas.core.groupby import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/groupby/__init__.py", line 1, in <module>
+    from pandas.core.groupby.generic import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/groupby/generic.py", line 68, in <module>
+    from pandas.core.frame import DataFrame
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 149, in <module>
+    from pandas.core.generic import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/generic.py", line 152, in <module>
+    from pandas.core import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/indexing.py", line 79, in <module>
+    from pandas.core.indexes.api import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/indexes/api.py", line 20, in <module>
+    from pandas.core.indexes.base import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 190, in <module>
+    from pandas.core.strings.accessor import StringMethods
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/strings/accessor.py", line 157, in <module>
+    class StringMethods(NoNewAttributesMixin):
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/strings/accessor.py", line 1031, in StringMethods
+    @Appender(
+     ^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/util/_decorators.py", line 488, in __call__
+    func.__doc__ = dedent(self.join.join(docitems))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/textwrap.py", line 436, in dedent
+    indents = _leading_whitespace_re.findall(text)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/home/pi/hatchling/brood/workers/monitor.py", line 11, in <module>
+    import pandas as pd
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/__init__.py", line 49, in <module>
+    from pandas.core.api import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/api.py", line 47, in <module>
+    from pandas.core.groupby import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/groupby/__init__.py", line 1, in <module>
+    from pandas.core.groupby.generic import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/groupby/generic.py", line 68, in <module>
+    from pandas.core.frame import DataFrame
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 509, in <module>
+    class DataFrame(NDFrame, OpsMixin):
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 3270, in DataFrame
+    @deprecate_nonkeyword_arguments(
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/util/_decorators.py", line 314, in decorate
+    for p in old_sig.parameters.values()
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/inspect.py", line 3089, in parameters
+    @property
+
+KeyboardInterrupt
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on

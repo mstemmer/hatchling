@@ -248,7 +248,7 @@ class BroodController():
 
                         self.q_data.put([temperature, humidity, round(temp_0, 4), round(temp_1, 4), 
                                         round(humid_0, 4), round(humid_1, 4), self.set_humid, 
-                                        self.set_temp, self.duty_cycle])
+                                        self.set_temp, round(self.duty_cycle, 4)])
                     else:
                         logging.error('Bad sensor read - values out of range!')
                         time.sleep(2)
