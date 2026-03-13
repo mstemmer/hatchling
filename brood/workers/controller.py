@@ -96,10 +96,19 @@ class BroodController():
         # Initialize PID controller
         logging.info('Initializing PID controller')
         self.pid = PID(config["PID_parameters"][0], config["PID_parameters"][1], config["PID_parameters"][2], setpoint=37.8)
-        self.pid.output_limits = (0, 100)
-        self.pid.sample_time = 0.2  # PID Update rate
+        self.pid.output_limits = (0, 100)  # Output limits (0-100% PWM) - also prevents integral windup
+        self.pid.proportional_on_measurement = True # Use proportional on measurement to reduce overshoot and improve stability
+        self.pid.sample_time = 0.4  # PID Update rate
         self.pid.tunings = (config["PID_parameters"]) # update PID controller with config parameters
         # self.pid.proportional_on_measurement = True
+        
+        # Enable auto mode for PID controller
+        self.pid.auto_mode = True
+        
+        # Log current PID values
+        kp, ki, kd = self.pid.tunings
+        logging.info(f'PID Parameters - Kp: {kp}, Ki: {ki}, Kd: {kd}')
+        logging.info(f'PID Output limits (with anti-windup): {self.pid.output_limits}, Sample time: {self.pid.sample_time}s')
 
         if 'fixed_dc' in self.config: # check if exists
             logging.info(f'PID controller is deactivated and duty cycle fixed to {self.config["fixed_dc"]}')
@@ -138,8 +147,15 @@ class BroodController():
         if 'fixed_dc' in self.config:
             self.duty_cycle = self.config["fixed_dc"]
         else:
+            # Dynamically adjust output limits based on temperature error
+            # If significantly below setpoint, allow higher PWM for faster heating
+            temp_error = self.pid.setpoint - curr_value
+            if temp_error > 5:  # Below setpoint by more than 5°C
+                self.pid.output_limits = (0, 100)
+            else:
+                self.pid.output_limits = (0, 50)
             self.duty_cycle = self.pid(curr_value)
-        
+
         # gpiozero uses 0.0-1.0 range, convert from 0-100
         self.heat.value = self.duty_cycle / 100.0
 
@@ -172,9 +188,9 @@ class BroodController():
             while True:
                 self.read_program()
                 temp_0, humid_0 = self.read_HTU31D_0()
-                time.sleep(0.1)
+                time.sleep(0.2)
                 temp_1, humid_1 = self.read_HTU31D_1()
-                time.sleep(0.1)
+                time.sleep(0.2)
 
                 # Count how many valid readings we have
                 valid_temps = [t for t in [temp_0, temp_1] if not math.isnan(t)]
@@ -184,7 +200,7 @@ class BroodController():
                 if valid_temps and valid_humids:
                     # Check if values are in reasonable range
                     temps_in_range = all(10 < t < 70 for t in valid_temps)
-                    humids_in_range = all(10 < h < 70 for h in valid_humids)
+                    humids_in_range = all(10 < h < 90 for h in valid_humids)
                     
                     if temps_in_range and humids_in_range:
                         # Use highest available values

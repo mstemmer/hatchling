@@ -16,8 +16,8 @@ LED_status:
   oor_temp: [0.25, 0.5, 1.5]
   oor_humid: [7, 12, 20]
 
-standard_parameters: [290, 70, 10]
-PID_parameters: [260, 85, 12]
+# standard_parameters: [290, 70, 10]
+PID_parameters: [120, 8, 50]
 fan_speed: 70 # duty cycle for the fan, 0-100
 
 comment: "Number_of_steps_for_stepper_motor"
