@@ -187,9 +187,9 @@ class BroodController():
                     humids_in_range = all(10 < h < 70 for h in valid_humids)
                     
                     if temps_in_range and humids_in_range:
-                        # Average available values
-                        temperature = round(sum(valid_temps) / len(valid_temps), 3)
-                        humidity = round(sum(valid_humids) / len(valid_humids), 3)
+                        # Use highest available values
+                        temperature = round(max(valid_temps), 3)
+                        humidity = round(max(valid_humids), 3)
                         
                         # Log if using degraded mode (only one sensor)
                         if len(valid_temps) == 1:
