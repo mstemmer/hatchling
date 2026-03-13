@@ -1,3 +1,16 @@
+# Suppress NumExpr warnings before importing libraries that use it
+import os
+os.environ['NUMEXPR_MAX_THREADS'] = '4'
+
+import warnings
+# Suppress all NumExpr-related warnings
+warnings.filterwarnings('ignore', message='.*NumExpr.*')
+warnings.filterwarnings('ignore', category=UserWarning)
+
+# Set numexpr logger to ERROR level to suppress info messages
+import logging as _temp_logging
+_temp_logging.getLogger('numexpr').setLevel(_temp_logging.ERROR)
+
 from gpiozero import PWMLED
 from brood.workers.temp_sensors.PT100_sensor import PT100TempSense
 from brood.pico import fan_control
