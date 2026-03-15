@@ -8,14 +8,26 @@ from datetime import datetime
 import logging
 import __main__
 
-# Parse arguments early to get species, init, and run flags
-parser = argparse.ArgumentParser(prog='hatchling', add_help=False)
-parser.add_argument('--init', dest='init', action='store_true', default=False)
-parser.add_argument('--run', dest='run', action='store_true', default=False)
-parser.add_argument('--species', metavar='', dest='species', type=str)
-parser.add_argument('--silent', dest='silent', action='store_true', default=False)
-parser.add_argument('--fixed_dc', metavar='', dest='fixed_dc', type=int)
-early_args, remaining = parser.parse_known_args()
+# Create main parser with help support - check for -h/--help FIRST
+main_parser = argparse.ArgumentParser(
+    prog='hatchling',
+    description='Incubator controller for Raspberry Pi 5',
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    epilog='''
+Examples:
+  python hatchling.py --init --species chicken     Initialize new incubation
+  python hatchling.py --run                          Start incubation run
+  python hatchling.py                                Resume ongoing incubation
+  python hatchling.py --fixed_dc 50                  Use fixed 50% heater duty cycle
+    '''
+)
+main_parser.add_argument('--init', action='store_true', help='Initialize new incubation')
+main_parser.add_argument('--run', action='store_true', help='Start incubation run')
+main_parser.add_argument('--species', type=str, help='Species for incubation (required with --init)')
+main_parser.add_argument('--fixed_dc', type=int, metavar='DC', help='Set heater to fixed duty cycle (0-100)')
+
+# Parse arguments - this will show help and exit if -h or --help is provided
+early_args = main_parser.parse_args()
 
 # Validate arguments
 if early_args.init and early_args.run:
@@ -182,13 +194,8 @@ from brood.pico import fan_control
 
 class Hatchling():
     def __init__(self):
-        parser = argparse.ArgumentParser(prog='hatchling')
-        parser.add_argument('--init', dest='init', action='store_true', default=False, help='Initialize new incubation')
-        parser.add_argument('--run', dest='run', action='store_true', default=False, help='Start incubation run')
-        parser.add_argument('--species', metavar='', dest='species', type=str, help='Species for incubation')
-        parser.add_argument('--silent', dest='silent', action='store_true', default=False, help='Deactivate the alarm buzzer')
-        parser.add_argument('--fixed_dc', metavar='', dest='fixed_dc', type=int, help='Ignores PID controller and sets heater to fixed duty cycle.')
-        self.args = parser.parse_args()
+        # Use early_args from module level instead of creating a new parser
+        self.args = early_args
 
         self.time_init = self.time_init()
         self.config = self.config()
@@ -209,12 +216,6 @@ class Hatchling():
 
         # Track init mode in config
         config["init"] = self.args.init
-
-        if self.args.silent == True:
-            config["mode"] = config["silent_mode"]
-            logging.info('Buzzer deactivated')
-        else:
-            config["mode"] = config["buzzer_mode"]
 
         if self.args.fixed_dc != None:
             config["fixed_dc"] = self.args.fixed_dc

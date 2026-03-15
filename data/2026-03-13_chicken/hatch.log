@@ -243,3 +243,11 @@
 2026-03-13 23:12:17 INFO: Added job "BroodLord.next_phase" to job store "default"
 2026-03-13 23:12:17 INFO: Added job "move_eggs" to job store "default"
 2026-03-13 23:12:17 INFO: Scheduler started
+2026-03-13 23:16:48 INFO: Fan control: set duty cycle to 0%
+2026-03-13 23:16:48 INFO: Shutting down heater
+2026-03-13 23:16:48 INFO: Close program
+2026-03-15 10:04:41 INFO: Hatchling startup initiated
+2026-03-15 10:04:41 INFO: Resuming incubation from time point: 2026-03-13 22:26:05
+2026-03-15 10:04:41 INFO: Load incubation program: chicken
+2026-03-15 10:04:41 INFO: Fan control: set duty cycle to 70%
+2026-03-15 10:04:42 INFO: Fan control: set duty cycle to 70%
