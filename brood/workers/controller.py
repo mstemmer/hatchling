@@ -170,18 +170,20 @@ class BroodController():
             self.duty_cycle = self.config["fixed_dc"]
         else:
             # Dynamically adjust output limits and control parameters based on temperature error
+            # Positive error = below setpoint (needs heating), Negative error = above setpoint (cooling)
             temp_error = self.pid.setpoint - curr_value
+            abs_temp_error = abs(temp_error)
             
-            if temp_error > 5:  
-                # Cold start: Below setpoint by more than 5°C - aggressive heating
+            if abs_temp_error > 1.0:  
+                # Far from setpoint (cold or hot) - aggressive response
                 self.pid.output_limits = (0, 100)
                 self.pid.proportional_on_measurement = False
-            elif temp_error > 0.5:  
-                # Approaching setpoint: Within 5°C to 0.5°C - moderate heating with stability
-                self.pid.output_limits = (0, 50)
+            elif abs_temp_error > 0.5:  
+                # Approaching setpoint - moderate response with stability
+                self.pid.output_limits = (0, 80)
                 self.pid.proportional_on_measurement = False
             else:
-                # Close to setpoint: Within 0.5°C - fine control with proportional on measurement
+                # Close to setpoint - fine control with proportional on measurement
                 self.pid.output_limits = (0, 50)
                 self.pid.proportional_on_measurement = True  # Reduce overshoot and improve stability
             

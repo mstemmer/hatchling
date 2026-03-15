@@ -30,7 +30,7 @@ def move_eggs():
         serial_connection.write('move_eggs\n'.encode("ascii"))
         time.sleep(1)
         serial_connection.close()
-        logging.info("Egg turner activated")
+        logging.info("Turning eggs")
     except serial.SerialException as e:
         logging.error(f"Failed to connect to Pico for egg movement: {str(e)}")
     except Exception as e:

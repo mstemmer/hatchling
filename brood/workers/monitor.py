@@ -85,7 +85,7 @@ app.index_string = '''
 
 
 app.layout = html.Div(children=[
-    html.H1(children='TPU monitor', style={'textAlign': 'center'}),
+    html.H1(children='Hatchling 2.0', style={'textAlign': 'center'}),
 
     html.Div(children='''
     Live monitoring of the values collected & controlled by Hatchling
@@ -176,6 +176,29 @@ app.layout = html.Div(children=[
                     min=0,
                     max=80
                 ),
+                # Individual sensor readings below the gauge
+                html.Div([
+                    html.Div(id='sensor-temp-0-box', style={
+                        'padding': '6px',
+                        'margin': '4px 2px',
+                        'border': '1px solid #444',
+                        'backgroundColor': '#0a0f18',
+                        'color': '#aef6ff',
+                        'textAlign': 'center',
+                        'fontSize': '12px',
+                        'borderRadius': '4px'
+                    }, className='six columns'),
+                    html.Div(id='sensor-temp-1-box', style={
+                        'padding': '6px',
+                        'margin': '4px 2px',
+                        'border': '1px solid #444',
+                        'backgroundColor': '#0a0f18',
+                        'color': '#aef6ff',
+                        'textAlign': 'center',
+                        'fontSize': '12px',
+                        'borderRadius': '4px'
+                    }, className='six columns'),
+                ], className='row', style={'marginTop': '8px'}),
             ], className='six columns'),
             
             # Humidity Gauge
@@ -348,6 +371,62 @@ def update_humidity_gauge(n):
         return value
     except Exception:
         return 0
+
+
+# Update display box with Temp_0 sensor reading
+@app.callback(Output('sensor-temp-0-box', 'children'), Input('interval-component', 'n_intervals'))
+def update_sensor_temp_0_box(n):
+    headers = [
+        "Time",
+        "Temperature",
+        "Humidity",
+        "Temp_0",
+        "Temp_1",
+        "Humid_0",
+        "Humid_1",
+        "Set_Temp",
+        "Set_Humid",
+        "Duty_Cycle",
+    ]
+    try:
+        df = pd.read_csv(data_file, names=headers, index_col=0)
+        if df.empty or "Temp_0" not in df.columns:
+            return 'Sensor 0: N/A'
+        last_series = df["Temp_0"].dropna()
+        if last_series.empty:
+            return 'Sensor 0: N/A'
+        value = float(last_series.tail(1).item())
+        return f'Sensor 0: {value:.2f} °C'
+    except Exception:
+        return 'Sensor 0: N/A'
+
+
+# Update display box with Temp_1 sensor reading
+@app.callback(Output('sensor-temp-1-box', 'children'), Input('interval-component', 'n_intervals'))
+def update_sensor_temp_1_box(n):
+    headers = [
+        "Time",
+        "Temperature",
+        "Humidity",
+        "Temp_0",
+        "Temp_1",
+        "Humid_0",
+        "Humid_1",
+        "Set_Temp",
+        "Set_Humid",
+        "Duty_Cycle",
+    ]
+    try:
+        df = pd.read_csv(data_file, names=headers, index_col=0)
+        if df.empty or "Temp_1" not in df.columns:
+            return 'Sensor 1: N/A'
+        last_series = df["Temp_1"].dropna()
+        if last_series.empty:
+            return 'Sensor 1: N/A'
+        value = float(last_series.tail(1).item())
+        return f'Sensor 1: {value:.2f} °C'
+    except Exception:
+        return 'Sensor 1: N/A'
 
 
 # Update display box with the latest Set Point: Temperature
