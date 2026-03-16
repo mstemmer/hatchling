@@ -472,93 +472,56 @@ def update_program_name(n):
 
 @app.callback(Output('log-div-output', 'children'), Input('interval-component', 'n_intervals'))
 def log_content(n):
+    global degraded_mode_email_sent, startup_email_sent
+    
     # Read entire log file, reverse the lines, and return with latest on top
     try:
         with open(log_file, 'r') as log:
             lines = log.readlines()
             if not lines:
                 return 'Log file is empty or not yet created'
+            
+            content = ''.join(lines)  # Full content for checking alerts
+            
+            # Check for degraded mode warning
+            if 'Operating in degraded mode' in content and not degraded_mode_email_sent:
+                degraded_mode_email_sent = True
+                print("📧 Degraded mode detected! Sending email notification...")
+                send_degraded_mode_email()
+            
+            # Check for startup messages - look for key startup indicators
+            startup_indicators = [
+                'Initializing PID controller',
+                'Found HTU31D Sensor 0',
+                'PID Parameters -'
+            ]
+            
+            has_startup_indicators = any(indicator in content for indicator in startup_indicators)
+            
+            # Only send email if:
+            # 1. We haven't sent it yet
+            # 2. We find startup indicators
+            # 3. The log file was recently created/updated (within last 60 seconds)
+            if has_startup_indicators and not startup_email_sent:
+                import time
+                log_mtime = os.path.getmtime(log_file)
+                current_time = time.time()
+                time_diff = current_time - log_mtime
+                
+                # If log file was modified within last 60 seconds, it's a fresh startup
+                if time_diff < 60:
+                    startup_email_sent = True
+                    print("📧 Fresh startup detected! Sending startup notification email...")
+                    send_startup_email()
+            
             # Reverse the order so latest is at the top
-            content = ''.join(reversed(lines))
-            return content if content.strip() else 'No log entries found'
+            log_display = ''.join(reversed(lines))
+            return log_display if log_display.strip() else 'No log entries found'
+    
     except FileNotFoundError:
         return f'Log file not found: {log_file}'
     except Exception as e:
         return f'Error reading log file: {str(e)}'
-
-
-# Monitor log file for degraded mode warning and send email alert
-@app.callback(Output('log-div-output', 'children', allow_duplicate=True), Input('interval-component', 'n_intervals'), prevent_initial_call=True)
-def check_degraded_mode(n):
-    global degraded_mode_email_sent
-    
-    try:
-        if not os.path.exists(log_file):
-            return dash.no_update
-        
-        with open(log_file, 'r') as log:
-            content = log.read()
-        
-        # Check if degraded mode warning is in the log AND we haven't sent email yet
-        if 'Operating in degraded mode' in content and not degraded_mode_email_sent:
-            degraded_mode_email_sent = True
-            print("📧 Degraded mode detected! Sending email notification...")
-            send_degraded_mode_email()
-        
-        return dash.no_update
-    
-    except Exception as e:
-        print(f"Error checking log file: {str(e)}")
-        return dash.no_update
-
-
-# Monitor log file for startup and send email alert
-@app.callback(Output('log-div-output', 'children', allow_duplicate=True), Input('interval-component', 'n_intervals'), prevent_initial_call=True)
-def check_startup(n):
-    global startup_email_sent
-    
-    try:
-        if not os.path.exists(log_file):
-            return dash.no_update
-        
-        with open(log_file, 'r') as log:
-            lines = log.readlines()
-        
-        if not lines:
-            return dash.no_update
-        
-        # Check for startup messages - look for key startup indicators
-        startup_indicators = [
-            'Initializing PID controller',
-            'Found HTU31D Sensor 0',
-            'PID Parameters -'
-        ]
-        
-        # Check if startup indicators are in the log AND we haven't sent email yet
-        has_startup_indicators = any(indicator in ''.join(lines) for indicator in startup_indicators)
-        
-        # Only send email if:
-        # 1. We haven't sent it yet
-        # 2. We find startup indicators
-        # 3. The log file was recently created/updated (within last 60 seconds)
-        if has_startup_indicators and not startup_email_sent:
-            # Check log file modification time - only send if recently created
-            import time
-            log_mtime = os.path.getmtime(log_file)
-            current_time = time.time()
-            time_diff = current_time - log_mtime
-            
-            # If log file was modified within last 60 seconds, it's a fresh startup
-            if time_diff < 60:
-                startup_email_sent = True
-                print("📧 Fresh startup detected! Sending startup notification email...")
-                send_startup_email()
-        
-        return dash.no_update
-    
-    except Exception as e:
-        print(f"Error checking for startup: {str(e)}")
-        return dash.no_update
 
 
 # Update temperature gauge with the latest Flow Cell Temperature
