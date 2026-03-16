@@ -9,6 +9,11 @@ import dash_daq as daq
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from datetime import datetime
+import json
 
 
 parser = argparse.ArgumentParser(prog='monitor')
@@ -18,6 +23,171 @@ args = parser.parse_args()
 # Construct file paths - files are in the data folder
 data_file = os.path.join(args.folder, 'data.csv')
 log_file = os.path.join(args.folder, 'hatch.log')
+
+# Track if degraded mode email has been sent to avoid spam
+degraded_mode_email_sent = False
+
+# Track if startup email has been sent to avoid spam
+startup_email_sent = False
+
+# Load email configuration from external JSON file
+def load_email_config():
+    """Load email configuration from email_config.json (not tracked by git)"""
+    config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'email_config.json')
+    
+    # Default config if file doesn't exist
+    default_config = {
+        'smtp_server': 'smtp.gmail.com',
+        'smtp_port': 587,
+        'sender_email': 'your-email@gmail.com',
+        'sender_password': 'your-app-password',
+        'recipient_email': 'your-email@gmail.com',
+        'enabled': False
+    }
+    
+    try:
+        if os.path.exists(config_path):
+            with open(config_path, 'r') as f:
+                return json.load(f)
+        else:
+            print(f"⚠️  Warning: email_config.json not found at {config_path}")
+            print("   Email notifications are disabled. To enable:")
+            print(f"   1. Create {config_path}")
+            print("   2. Add your email credentials (see example in README)")
+            return default_config
+    except Exception as e:
+        print(f"❌ Failed to load email config: {str(e)}")
+        return default_config
+
+EMAIL_CONFIG = load_email_config()
+
+def send_degraded_mode_email():
+    """Send email alert when degraded mode is detected"""
+    if not EMAIL_CONFIG['enabled']:
+        return False
+    
+    try:
+        # Create email message
+        subject = f"🚨 Hatchling Alert: Degraded Mode Detected - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        
+        body = f"""
+Hatchling Incubator Alert!
+
+⚠️  DEGRADED MODE DETECTED ⚠️
+
+The incubator has detected degraded mode operation - only one temperature/humidity sensor is available.
+
+Details:
+- Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+- Data Folder: {args.folder}
+- Status: One of the two sensors has failed
+
+Action Required:
+1. Check the physical connections of both HTU31D sensors
+2. Verify I2C addresses (0x40 and 0x41)
+3. Review the log file for error details
+4. Restart the incubator once the sensor issue is fixed: python hatchling.py --run
+
+The incubator will shut down after this alert to prevent operating in degraded mode.
+
+Log file location: {log_file}
+
+---
+Hatchling Incubator Controller
+{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        """
+        
+        msg = MIMEMultipart()
+        msg['From'] = EMAIL_CONFIG['sender_email']
+        msg['To'] = EMAIL_CONFIG['recipient_email']
+        msg['Subject'] = subject
+        msg.attach(MIMEText(body, 'plain'))
+        
+        # Send email
+        with smtplib.SMTP(EMAIL_CONFIG['smtp_server'], EMAIL_CONFIG['smtp_port']) as server:
+            server.starttls()
+            server.login(EMAIL_CONFIG['sender_email'], EMAIL_CONFIG['sender_password'])
+            server.send_message(msg)
+        
+        print(f"✅ Email sent successfully to {EMAIL_CONFIG['recipient_email']}")
+        return True
+    
+    except Exception as e:
+        print(f"❌ Failed to send email: {str(e)}")
+        return False
+
+def send_startup_email():
+    """Send email alert when Hatchling starts up"""
+    if not EMAIL_CONFIG['enabled']:
+        return False
+    
+    try:
+        # Read the log file to get startup details
+        with open(log_file, 'r') as f:
+            log_content = f.read()
+        
+        # Extract species from init.txt if available
+        init_file = os.path.join(args.folder, '..', 'init.txt')
+        species = "Unknown"
+        if os.path.exists(init_file):
+            try:
+                with open(init_file, 'r') as f:
+                    init_content = f.read().strip()
+                    # Format: YYYY-MM-DD HH:MM:SS|species
+                    if '|' in init_content:
+                        species = init_content.split('|')[1]
+            except Exception:
+                pass
+        
+        # Create email message
+        subject = f"✅ Hatchling Started - {species} - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        
+        body = f"""
+Hatchling Incubator Started!
+
+✅ STARTUP NOTIFICATION
+
+The Hatchling incubator has been started and is now running.
+
+Details:
+- Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+- Data Folder: {args.folder}
+- Species: {species}
+- Status: Initializing incubation cycle
+
+System Status:
+- Two temperature/humidity sensors configured
+- PID controller initialized
+- Heater and fan ready
+
+Monitor Dashboard:
+- Access the live monitoring dashboard at: http://localhost:8050
+
+Log file location: {log_file}
+
+---
+Hatchling Incubator Controller
+{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        """
+        
+        msg = MIMEMultipart()
+        msg['From'] = EMAIL_CONFIG['sender_email']
+        msg['To'] = EMAIL_CONFIG['recipient_email']
+        msg['Subject'] = subject
+        msg.attach(MIMEText(body, 'plain'))
+        
+        # Send email
+        with smtplib.SMTP(EMAIL_CONFIG['smtp_server'], EMAIL_CONFIG['smtp_port']) as server:
+            server.starttls()
+            server.login(EMAIL_CONFIG['sender_email'], EMAIL_CONFIG['sender_password'])
+            server.send_message(msg)
+        
+        print(f"✅ Startup email sent successfully to {EMAIL_CONFIG['recipient_email']}")
+        return True
+    
+    except Exception as e:
+        print(f"❌ Failed to send startup email: {str(e)}")
+        return False
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -315,6 +485,80 @@ def log_content(n):
         return f'Log file not found: {log_file}'
     except Exception as e:
         return f'Error reading log file: {str(e)}'
+
+
+# Monitor log file for degraded mode warning and send email alert
+@app.callback(Output('log-div-output', 'children', allow_duplicate=True), Input('interval-component', 'n_intervals'), prevent_initial_call=True)
+def check_degraded_mode(n):
+    global degraded_mode_email_sent
+    
+    try:
+        if not os.path.exists(log_file):
+            return dash.no_update
+        
+        with open(log_file, 'r') as log:
+            content = log.read()
+        
+        # Check if degraded mode warning is in the log AND we haven't sent email yet
+        if 'Operating in degraded mode' in content and not degraded_mode_email_sent:
+            degraded_mode_email_sent = True
+            print("📧 Degraded mode detected! Sending email notification...")
+            send_degraded_mode_email()
+        
+        return dash.no_update
+    
+    except Exception as e:
+        print(f"Error checking log file: {str(e)}")
+        return dash.no_update
+
+
+# Monitor log file for startup and send email alert
+@app.callback(Output('log-div-output', 'children', allow_duplicate=True), Input('interval-component', 'n_intervals'), prevent_initial_call=True)
+def check_startup(n):
+    global startup_email_sent
+    
+    try:
+        if not os.path.exists(log_file):
+            return dash.no_update
+        
+        with open(log_file, 'r') as log:
+            lines = log.readlines()
+        
+        if not lines:
+            return dash.no_update
+        
+        # Check for startup messages - look for key startup indicators
+        startup_indicators = [
+            'Initializing PID controller',
+            'Found HTU31D Sensor 0',
+            'PID Parameters -'
+        ]
+        
+        # Check if startup indicators are in the log AND we haven't sent email yet
+        has_startup_indicators = any(indicator in ''.join(lines) for indicator in startup_indicators)
+        
+        # Only send email if:
+        # 1. We haven't sent it yet
+        # 2. We find startup indicators
+        # 3. The log file was recently created/updated (within last 60 seconds)
+        if has_startup_indicators and not startup_email_sent:
+            # Check log file modification time - only send if recently created
+            import time
+            log_mtime = os.path.getmtime(log_file)
+            current_time = time.time()
+            time_diff = current_time - log_mtime
+            
+            # If log file was modified within last 60 seconds, it's a fresh startup
+            if time_diff < 60:
+                startup_email_sent = True
+                print("📧 Fresh startup detected! Sending startup notification email...")
+                send_startup_email()
+        
+        return dash.no_update
+    
+    except Exception as e:
+        print(f"Error checking for startup: {str(e)}")
+        return dash.no_update
 
 
 # Update temperature gauge with the latest Flow Cell Temperature

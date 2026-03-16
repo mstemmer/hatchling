@@ -152,3 +152,6 @@
 2026-03-15 14:04:27 INFO: Added job "BroodLord.next_phase" to job store "default"
 2026-03-15 14:04:27 INFO: Added job "move_eggs" to job store "default"
 2026-03-15 14:04:27 INFO: Scheduler started
+2026-03-15 14:20:15 INFO: Fan control: set duty cycle to 0%
+2026-03-15 14:20:15 INFO: Shutting down heater
+2026-03-15 14:20:15 INFO: Close program

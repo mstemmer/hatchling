@@ -1,6 +1,16 @@
-species: [chicken, duck, elephant, test_run]
+species: [chicken, duck, elephant, test]
 
 test:
+  phases: 2
+  comment: [humid, temp]
+  start_phase: [50, 37.5] #initial humidity and temperature for chicken eggs
+  next_phase: [[70, 37.2]] #change to 55% humidity and 37C at day 17
+  phase_changes: [0.2] #change to next phase at day 19
+  activate_move_eggs: 1
+  days_move_eggs: 0.1 #moving eggs for x days
+  interval_move_eggs: 4 # hours between each move of the eggs
+
+chicken:
   phases: 2
   comment: [humid, temp]
   start_phase: [50, 37.5] #initial humidity and temperature for chicken eggs
@@ -9,16 +19,6 @@ test:
   activate_move_eggs: 1
   days_move_eggs: 18 #moving eggs for x days
   interval_move_eggs: 4 # hours between each move of the eggs
-
-# chicken:
-#   phases: 2
-#   comment: [humid, temp]
-#   start_phase: [50, 37.5] #initial humidity and temperature for chicken eggs
-#   next_phase: [[70, 37.2]] #change to 55% humidity and 37C at day 17
-#   phase_changes: [19] #change to next phase at day 19
-#   activate_move_eggs: 1
-#   days_move_eggs: 18 #moving eggs for x days
-#   interval_move_eggs: 4 # hours between each move of the eggs
 
 # chicken:
 #   phases: 3

@@ -139,6 +139,11 @@ class BroodController():
         self.set_humid, self.set_temp = [55, 37.8]
         self.q_data = q_data
         self.q_prog = q_prog
+        
+        # Track degraded mode occurrences - only log after 20 consecutive occurrences
+        self.degraded_mode_count = 0
+        self.degraded_mode_logged = False
+        
         self.control()
 
     def read_program(self): #read incubation program sent by BroodLord
@@ -182,6 +187,11 @@ class BroodController():
                 # Approaching setpoint - moderate response with stability
                 self.pid.output_limits = (0, 80)
                 self.pid.proportional_on_measurement = False
+
+            elif abs_temp_error > 0.2:  
+                # Approaching setpoint - moderate response with stability
+                self.pid.output_limits = (0, 50)
+                self.pid.proportional_on_measurement = False
             else:
                 # Close to setpoint - fine control with proportional on measurement
                 self.pid.output_limits = (0, 50)
@@ -215,6 +225,43 @@ class BroodController():
             self.sensor1_active = False  # Mark sensor as inactive
             return float('nan'), float('nan')
 
+    def attempt_sensor_recovery(self):
+        """Attempt to re-initialize failed sensors"""
+        try:
+            # Try to recover Sensor 0 if it's inactive
+            if not self.sensor0_active and self.htu0 is not None:
+                try:
+                    logging.info("Attempting to recover Sensor 0 (address 0x40)...")
+                    temp, humid = self.htu0.measurements
+                    if not math.isnan(temp) and not math.isnan(humid):
+                        self.sensor0_active = True
+                        logging.info("✅ Sensor 0 recovered successfully!")
+                except Exception as e:
+                    logging.warning("Sensor 0 recovery failed: %s", str(e))
+            
+            # Try to recover Sensor 1 if it's inactive
+            if not self.sensor1_active and self.htu1 is not None:
+                try:
+                    logging.info("Attempting to recover Sensor 1 (address 0x41)...")
+                    temp, humid = self.htu1.measurements
+                    if not math.isnan(temp) and not math.isnan(humid):
+                        self.sensor1_active = True
+                        logging.info("✅ Sensor 1 recovered successfully!")
+                except Exception as e:
+                    logging.warning("Sensor 1 recovery failed: %s", str(e))
+        
+        except Exception as e:
+            logging.error("Error during sensor recovery attempt: %s", str(e))
+
+    def shutdown_gracefully(self):
+        """Gracefully shutdown the incubator and exit cleanly"""
+        logging.info("Graceful shutdown initiated")
+        self.heat.off()  # Stop PWM signal
+        fan_control(0)  # Stop fan
+        logging.info('Heater and fan stopped')
+        logging.info('Close program')
+        sys.exit(1)  # Exit with error code to indicate degraded mode shutdown
+
 
     def control(self):
         try:
@@ -240,11 +287,27 @@ class BroodController():
                         temperature = round(max(valid_temps), 3)
                         humidity = round(max(valid_humids), 3)
                         
-                        # Log if using degraded mode (only one sensor)
-                        if len(valid_temps) == 1:
-                            logging.warning("Operating in degraded mode: only one temperature sensor available")
-                        if len(valid_humids) == 1:
-                            logging.warning("Operating in degraded mode: only one humidity sensor available")
+                        # Track degraded mode (only one sensor) - log only after 200 consecutive occurrences
+                        if len(valid_temps) == 1 or len(valid_humids) == 1:
+                            self.degraded_mode_count += 1
+                            
+                            # Attempt sensor re-initialization every 100 reads
+                            if self.degraded_mode_count % 100 == 0:
+                                logging.info(f"Attempting sensor re-initialization (attempt {self.degraded_mode_count // 100})...")
+                                self.attempt_sensor_recovery()
+                            
+                            if self.degraded_mode_count == 500 and not self.degraded_mode_logged:
+                                logging.warning("Operating in degraded mode: only one sensor available (500+ consecutive reads)")
+                                logging.warning("Shutting down incubator - please restart with: python hatchling.py --run")
+                                self.degraded_mode_logged = True
+                                self.shutdown_gracefully()
+                        else:
+                            # Reset counter and flag if we get both sensors back (allows re-logging if glitch happens again)
+                            self.degraded_mode_count = 0
+                            self.degraded_mode_logged = False
+                            # Log recovery if we were in degraded mode
+                            if self.degraded_mode_count > 0:
+                                logging.info("✅ Sensor recovered! Both sensors are now operational.")
 
                         self.pid_controller(temperature)
 

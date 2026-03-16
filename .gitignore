@@ -1,3 +1,6 @@
 __pycache__
 brood/__pycache__
 brood/workers/__pycache__
+
+# Email configuration - contains sensitive credentials
+email_config.json

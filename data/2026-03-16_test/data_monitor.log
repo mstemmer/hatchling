@@ -1,0 +1,90 @@
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/home/pi/hatchling/brood/workers/monitor.py", line 4, in <module>
+    import dash
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/__init__.py", line 36, in <module>
+    from .dash import (  # noqa: F401,E402
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/dash.py", line 95, in <module>
+    mimetypes.add_type("application/json", ".map", True)
+  File "/home/pi/miniconda3/lib/python3.12/mimetypes.py", line 359, in add_type
+    init()
+  File "/home/pi/miniconda3/lib/python3.12/mimetypes.py", line 382, in init
+    db.read(file)
+  File "/home/pi/miniconda3/lib/python3.12/mimetypes.py", line 216, in read
+    self.readfp(fp, strict)
+  File "/home/pi/miniconda3/lib/python3.12/mimetypes.py", line 227, in readfp
+    words = line.split()
+            ^^^^^^^^^^^^
+KeyboardInterrupt
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+📧 Degraded mode detected! Sending email notification...
+📧 Degraded mode detected! Sending email notification...
+📧 Degraded mode detected! Sending email notification...
+📧 Degraded mode detected! Sending email notification...
+✅ Email sent successfully to recipient@example.com
+📧 Degraded mode detected! Sending email notification...
+✅ Email sent successfully to stemmer.manuel@gmail.com
+📧 Degraded mode detected! Sending email notification...
+✅ Email sent successfully to stemmer.manuel@gmail.com
+❌ Failed to load email config: Expecting value: line 1 column 1 (char 0)
+📧 Degraded mode detected! Sending email notification...
+✅ Email sent successfully to stemmer.manuel@gmail.com
+📧 Degraded mode detected! Sending email notification...
+📧 Degraded mode detected! Sending email notification...
+✅ Email sent successfully to stemmer.manuel@gmail.com
+📧 Degraded mode detected! Sending email notification...
+✅ Email sent successfully to stemmer.manuel@gmail.com
+📧 Degraded mode detected! Sending email notification...
+✅ Email sent successfully to stemmer.manuel@gmail.com
+📧 Degraded mode detected! Sending email notification...
+✅ Email sent successfully to stemmer.manuel@gmail.com
+📧 Degraded mode detected! Sending email notification...
+✅ Email sent successfully to stemmer.manuel@gmail.com
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+📧 Startup detected! Sending startup notification email...
+✅ Startup email sent successfully to stemmer.manuel@gmail.com
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on

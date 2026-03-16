@@ -54,11 +54,15 @@ class BroodLord():
             phase_changes = inc_program["phases"] - 1
             for p in range(phase_changes):
                 phase = time_init + timedelta(days=inc_program["phase_changes"][p])
-
+                
                 # add job to scheduler
                 scheduler.add_job(self.next_phase, args=(p, ), trigger='date',
                 next_run_time=phase)
                 logging.info(f'Controller update scheduled for: {phase}')
+
+                if phase < datetime.now():
+                    logging.warning(f'Phase change {p + 2} is already in the past. Changing controller to phase {p + 2} immediately.')
+                    self.next_phase(p)
 
         #  set scheduler to interval until end point of egg moving, relative to time_init
         if inc_program["activate_move_eggs"] == 1: # check if eggs should be moved
@@ -67,7 +71,7 @@ class BroodLord():
             start_date = datetime.now(),
             end_date= time_init + timedelta(days=inc_program["days_move_eggs"]))
             logging.info(f'Egg moving is activated and scheduled every {inc_program["interval_move_eggs"]} hours')
-            move_eggs() # move eggs once at start
+            # move_eggs() # move eggs once at start
 
         # scheduler.print_jobs()
         scheduler.start()
