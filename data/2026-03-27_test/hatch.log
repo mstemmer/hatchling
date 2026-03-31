@@ -1,0 +1,127 @@
+2026-03-27 18:27:34 INFO: Hatchling startup initiated
+2026-03-27 18:27:34 INFO: Starting incubation run from time point: 2026-03-27 18:27:22
+2026-03-27 18:27:34 INFO: Load incubation program: test
+2026-03-27 18:27:34 INFO: Fan control: set duty cycle to 70%
+2026-03-27 18:27:35 INFO: Fan control: set duty cycle to 70%
+2026-03-27 18:27:37 INFO: Created CSV file: /home/pi/hatchling/data/2026-03-27_test/data.csv
+2026-03-27 18:27:37 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-27 18:27:37 INFO: PHASE 1
+2026-03-27 18:27:37 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-27 18:27:37 INFO: Additional phases found and added to scheduler
+2026-03-27 18:27:37 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-27 18:27:37 INFO: Controller update scheduled for: 2026-03-27 23:15:22
+2026-03-27 18:27:37 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-27 18:27:37 INFO: Egg moving is activated and scheduled every 1 hours
+2026-03-27 18:27:37 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-27 18:27:37 INFO: Added job "move_eggs" to job store "default"
+2026-03-27 18:27:37 INFO: Scheduler started
+2026-03-27 18:27:37 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-27 18:27:37 INFO: Initializing PID controller
+2026-03-27 18:27:37 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-27 18:27:37 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-27 18:27:37 INFO: Controller received updated parameters
+2026-03-27 18:27:38 INFO: Monitor started with PID 1039
+2026-03-27 18:51:35 ERROR: Reading from HTU31D_0 failure: Invalid CRC calculated
+2026-03-27 18:52:18 INFO: Attempting sensor re-initialization (attempt 1)...
+2026-03-27 18:52:18 INFO: Attempting to recover Sensor 0 (address 0x40)...
+2026-03-27 18:52:18 INFO: ✅ Sensor 0 recovered successfully!
+2026-03-27 19:27:37 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-03-27 19:27:37 CET)" (scheduled at 2026-03-27 19:27:37.607388+01:00)
+2026-03-27 19:27:38 INFO: Turning eggs
+2026-03-27 19:27:38 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-03-27 20:27:37 CET)" executed successfully
+2026-03-27 20:25:06 INFO: Fan control: set duty cycle to 0%
+2026-03-27 20:25:06 INFO: Shutting down heater
+2026-03-27 20:25:06 INFO: Close program
+2026-03-27 20:25:09 INFO: Hatchling startup initiated
+2026-03-27 20:25:09 INFO: Starting incubation run from time point: 2026-03-27 18:27:22
+2026-03-27 20:25:09 INFO: Load incubation program: test
+2026-03-27 20:25:09 INFO: Fan control: set duty cycle to 70%
+2026-03-27 20:25:10 INFO: Fan control: set duty cycle to 70%
+2026-03-27 20:25:12 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-27 20:25:12 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-27 20:25:12 INFO: Initializing PID controller
+2026-03-27 20:25:12 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-27 20:25:12 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-27 20:25:12 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-27 20:25:12 INFO: PHASE 1
+2026-03-27 20:25:12 INFO: Additional phases found and added to scheduler
+2026-03-27 20:25:12 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-27 20:25:12 INFO: Controller update scheduled for: 2026-03-27 23:15:22
+2026-03-27 20:25:12 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-27 20:25:12 INFO: Egg moving is activated and scheduled every 1 hours
+2026-03-27 20:25:12 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-27 20:25:12 INFO: Added job "move_eggs" to job store "default"
+2026-03-27 20:25:12 INFO: Scheduler started
+2026-03-27 20:25:12 INFO: Controller received updated parameters
+2026-03-27 20:25:12 INFO: Monitor started with PID 16702
+2026-03-27 20:28:44 INFO: Fan control: set duty cycle to 0%
+2026-03-27 20:28:44 INFO: Shutting down heater
+2026-03-27 20:28:44 INFO: Close program
+2026-03-27 20:28:47 INFO: Hatchling startup initiated
+2026-03-27 20:28:47 INFO: Starting incubation run from time point: 2026-03-27 18:27:22
+2026-03-27 20:28:47 INFO: Load incubation program: test
+2026-03-27 20:28:47 INFO: Fan control: set duty cycle to 70%
+2026-03-27 20:28:48 INFO: Fan control: set duty cycle to 70%
+2026-03-27 20:28:50 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-27 20:28:50 INFO: PHASE 1
+2026-03-27 20:28:50 INFO: Additional phases found and added to scheduler
+2026-03-27 20:28:50 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-27 20:28:50 INFO: Controller update scheduled for: 2026-03-27 23:15:22
+2026-03-27 20:28:50 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-27 20:28:50 INFO: Egg moving is activated and scheduled every 1 hours
+2026-03-27 20:28:50 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-27 20:28:50 INFO: Added job "move_eggs" to job store "default"
+2026-03-27 20:28:50 INFO: Scheduler started
+2026-03-27 20:28:50 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-27 20:28:50 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-27 20:28:50 INFO: Initializing PID controller
+2026-03-27 20:28:50 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-27 20:28:50 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-27 20:28:50 INFO: Controller received updated parameters
+2026-03-27 20:28:51 INFO: Monitor started with PID 17709
+2026-03-27 20:46:44 ERROR: Reading from HTU31D_0 failure: Invalid CRC calculated
+2026-03-27 20:47:27 INFO: Attempting sensor re-initialization (attempt 1)...
+2026-03-27 20:47:27 INFO: Attempting to recover Sensor 0 (address 0x40)...
+2026-03-27 20:47:27 INFO: ✅ Sensor 0 recovered successfully!
+2026-03-27 21:09:00 ERROR: Reading from HTU31D_0 failure: Invalid CRC calculated
+2026-03-27 21:09:44 INFO: Attempting sensor re-initialization (attempt 1)...
+2026-03-27 21:09:44 INFO: Attempting to recover Sensor 0 (address 0x40)...
+2026-03-27 21:09:44 INFO: ✅ Sensor 0 recovered successfully!
+2026-03-27 21:42:36 ERROR: Bad sensor read - values out of range!
+2026-03-27 21:53:37 INFO: Fan control: set duty cycle to 0%
+2026-03-27 21:53:37 INFO: Shutting down heater
+2026-03-27 21:53:37 INFO: Close program
+2026-03-28 14:50:25 INFO: Hatchling startup initiated
+2026-03-28 14:50:25 INFO: Starting incubation run from time point: 2026-03-27 18:27:22
+2026-03-28 14:50:25 INFO: Load incubation program: test
+2026-03-28 14:50:25 INFO: Fan control: set duty cycle to 70%
+2026-03-28 14:50:26 INFO: Fan control: set duty cycle to 70%
+2026-03-28 14:50:28 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-28 14:50:28 INFO: PHASE 1
+2026-03-28 14:50:28 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-28 14:50:28 INFO: Additional phases found and added to scheduler
+2026-03-28 14:50:28 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-28 14:50:28 INFO: Controller update scheduled for: 2026-03-27 23:15:22
+2026-03-28 14:50:28 WARNING: Phase change 2 is already in the past. Changing controller to phase 2 immediately.
+2026-03-28 14:50:28 INFO: Next phase reached. New parameters: [70, 37.2]
+2026-03-28 14:50:28 INFO: PHASE 2
+2026-03-28 14:50:28 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-28 14:50:28 INFO: Egg moving is activated and scheduled every 1 hours
+2026-03-28 14:50:28 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-28 14:50:28 INFO: Added job "move_eggs" to job store "default"
+2026-03-28 14:50:28 INFO: Scheduler started
+2026-03-28 14:50:28 WARNING: Run time of job "BroodLord.next_phase (trigger: date[2026-03-28 14:50:28 CET], next run at: 2026-03-27 23:15:22 CET)" was missed by 15:35:06.210961
+2026-03-28 14:50:28 INFO: Removed job e9ff622d70a84d0f8a74fc3237de652a
+2026-03-28 14:50:28 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-28 14:50:28 INFO: Initializing PID controller
+2026-03-28 14:50:28 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-28 14:50:28 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-28 14:50:28 INFO: Controller received updated parameters
+2026-03-28 14:50:28 INFO: Controller received updated parameters
+2026-03-28 14:50:28 INFO: Monitor started with PID 1039
+2026-03-28 15:35:52 ERROR: Reading from HTU31D_0 failure: Invalid CRC calculated
+2026-03-28 15:36:35 INFO: Attempting sensor re-initialization (attempt 1)...
+2026-03-28 15:36:35 INFO: Attempting to recover Sensor 0 (address 0x40)...
+2026-03-28 15:36:35 INFO: ✅ Sensor 0 recovered successfully!
+2026-03-28 20:45:24 INFO: Fan control: set duty cycle to 0%
+2026-03-28 20:45:24 INFO: Shutting down heater
+2026-03-28 20:45:24 INFO: Close program

@@ -46,3 +46,6 @@
 2026-03-16 22:56:09 INFO: PID Output limits: (0, 100), Sample time: 0.4s
 2026-03-16 22:56:09 INFO: Controller received updated parameters
 2026-03-16 22:56:10 INFO: Monitor started with PID 40921
+2026-03-16 22:58:15 INFO: Fan control: set duty cycle to 0%
+2026-03-16 22:58:15 INFO: Shutting down heater
+2026-03-16 22:58:15 INFO: Close program

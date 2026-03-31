@@ -1,0 +1,84 @@
+2026-03-17 20:04:13 INFO: Hatchling startup initiated
+2026-03-17 20:04:13 INFO: Starting incubation run from time point: 2026-03-17 20:04:08
+2026-03-17 20:04:13 INFO: Load incubation program: test
+2026-03-17 20:04:13 INFO: Fan control: set duty cycle to 70%
+2026-03-17 20:04:14 INFO: Fan control: set duty cycle to 70%
+2026-03-17 20:04:15 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-17 20:04:16 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-17 20:04:16 INFO: Initializing PID controller
+2026-03-17 20:04:16 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-17 20:04:16 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-17 20:04:16 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-17 20:04:16 INFO: PHASE 1
+2026-03-17 20:04:16 INFO: Additional phases found and added to scheduler
+2026-03-17 20:04:16 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-17 20:04:16 INFO: Controller update scheduled for: 2026-03-18 00:52:08
+2026-03-17 20:04:16 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-17 20:04:16 INFO: Egg moving is activated and scheduled every 0.2 hours
+2026-03-17 20:04:16 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-17 20:04:16 INFO: Added job "move_eggs" to job store "default"
+2026-03-17 20:04:16 INFO: Scheduler started
+2026-03-17 20:04:16 INFO: Controller received updated parameters
+2026-03-17 20:04:21 INFO: Fan control: set duty cycle to 0%
+2026-03-17 20:04:21 INFO: Shutting down heater
+2026-03-17 20:04:21 INFO: Close program
+2026-03-17 20:04:24 INFO: Hatchling startup initiated
+2026-03-17 20:04:24 INFO: Starting incubation run from time point: 2026-03-17 20:04:08
+2026-03-17 20:04:24 INFO: Load incubation program: test
+2026-03-17 20:04:24 INFO: Fan control: set duty cycle to 70%
+2026-03-17 20:04:25 INFO: Fan control: set duty cycle to 70%
+2026-03-17 20:04:27 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-03-17 20:04:27 INFO: PHASE 1
+2026-03-17 20:04:27 INFO: Additional phases found and added to scheduler
+2026-03-17 20:04:27 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-17 20:04:27 INFO: Controller update scheduled for: 2026-03-18 00:52:08
+2026-03-17 20:04:27 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-03-17 20:04:27 INFO: Egg moving is activated and scheduled every 0.2 hours
+2026-03-17 20:04:27 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-03-17 20:04:27 INFO: Added job "move_eggs" to job store "default"
+2026-03-17 20:04:27 INFO: Scheduler started
+2026-03-17 20:04:27 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-03-17 20:04:27 INFO: Created CSV file: /home/pi/hatchling/data/2026-03-17_test/data.csv
+2026-03-17 20:04:27 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-03-17 20:04:27 INFO: Initializing PID controller
+2026-03-17 20:04:27 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-03-17 20:04:27 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-03-17 20:04:27 INFO: Controller received updated parameters
+2026-03-17 20:04:28 INFO: Monitor started with PID 2151
+2026-03-17 20:16:27 INFO: Running job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 20:16:27 CET)" (scheduled at 2026-03-17 20:16:27.503665+01:00)
+2026-03-17 20:16:28 INFO: Turning eggs
+2026-03-17 20:16:28 INFO: Job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 20:28:27 CET)" executed successfully
+2026-03-17 20:28:27 INFO: Running job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 20:40:27 CET)" (scheduled at 2026-03-17 20:28:27.503665+01:00)
+2026-03-17 20:28:28 INFO: Turning eggs
+2026-03-17 20:28:28 INFO: Job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 20:40:27 CET)" executed successfully
+2026-03-17 20:40:27 INFO: Running job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 20:52:27 CET)" (scheduled at 2026-03-17 20:40:27.503665+01:00)
+2026-03-17 20:40:28 INFO: Turning eggs
+2026-03-17 20:40:28 INFO: Job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 20:52:27 CET)" executed successfully
+2026-03-17 20:52:27 INFO: Running job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 21:04:27 CET)" (scheduled at 2026-03-17 20:52:27.503665+01:00)
+2026-03-17 20:52:28 INFO: Turning eggs
+2026-03-17 20:52:28 INFO: Job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 21:04:27 CET)" executed successfully
+2026-03-17 21:04:27 INFO: Running job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 21:16:27 CET)" (scheduled at 2026-03-17 21:04:27.503665+01:00)
+2026-03-17 21:04:28 INFO: Turning eggs
+2026-03-17 21:04:28 INFO: Job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 21:16:27 CET)" executed successfully
+2026-03-17 21:16:27 INFO: Running job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 21:28:27 CET)" (scheduled at 2026-03-17 21:16:27.503665+01:00)
+2026-03-17 21:16:28 INFO: Turning eggs
+2026-03-17 21:16:28 INFO: Job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 21:28:27 CET)" executed successfully
+2026-03-17 21:28:27 INFO: Running job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 21:40:27 CET)" (scheduled at 2026-03-17 21:28:27.503665+01:00)
+2026-03-17 21:28:28 INFO: Turning eggs
+2026-03-17 21:28:28 INFO: Job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 21:40:27 CET)" executed successfully
+2026-03-17 21:40:27 INFO: Running job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 21:52:27 CET)" (scheduled at 2026-03-17 21:40:27.503665+01:00)
+2026-03-17 21:40:28 INFO: Turning eggs
+2026-03-17 21:40:28 INFO: Job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 21:52:27 CET)" executed successfully
+2026-03-17 21:52:27 INFO: Running job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 22:04:27 CET)" (scheduled at 2026-03-17 21:52:27.503665+01:00)
+2026-03-17 21:52:28 INFO: Turning eggs
+2026-03-17 21:52:28 INFO: Job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 22:04:27 CET)" executed successfully
+2026-03-17 22:04:27 INFO: Running job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 22:16:27 CET)" (scheduled at 2026-03-17 22:04:27.503665+01:00)
+2026-03-17 22:04:28 INFO: Turning eggs
+2026-03-17 22:04:28 INFO: Job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 22:16:27 CET)" executed successfully
+2026-03-17 22:16:27 INFO: Removed job 002b2b112d8a4388852d83c72e37c0df
+2026-03-17 22:16:27 INFO: Running job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 22:16:27 CET)" (scheduled at 2026-03-17 22:16:27.503665+01:00)
+2026-03-17 22:16:28 INFO: Turning eggs
+2026-03-17 22:16:28 INFO: Job "move_eggs (trigger: interval[0:12:00], next run at: 2026-03-17 22:16:27 CET)" executed successfully
+2026-03-17 22:26:39 INFO: Fan control: set duty cycle to 0%
+2026-03-17 22:26:39 INFO: Shutting down heater
+2026-03-17 22:26:39 INFO: Close program

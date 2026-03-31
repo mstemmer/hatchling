@@ -8,7 +8,7 @@ test:
   phase_changes: [0.2] #change to next phase at day 19
   activate_move_eggs: 1
   days_move_eggs: 0.1 #moving eggs for x days
-  interval_move_eggs: 4 # hours between each move of the eggs
+  interval_move_eggs: 1 # hours between each move of the eggs
 
 chicken:
   phases: 2
