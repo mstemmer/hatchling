@@ -190,11 +190,11 @@ class BroodController():
 
             elif abs_temp_error > 0.2:  
                 # Approaching setpoint - moderate response with stability
-                self.pid.output_limits = (0, 70)
+                self.pid.output_limits = (0, 60)
                 self.pid.proportional_on_measurement = False
             else:
                 # Close to setpoint - fine control with proportional on measurement
-                self.pid.output_limits = (0, 60)
+                self.pid.output_limits = (0, 50)
                 self.pid.proportional_on_measurement = True  # Reduce overshoot and improve stability
             
             self.duty_cycle = self.pid(curr_value)

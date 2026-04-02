@@ -71,7 +71,7 @@ class BroodLord():
             start_date = datetime.now(),
             end_date= time_init + timedelta(days=inc_program["days_move_eggs"]))
             logging.info(f'Egg moving is activated and scheduled every {inc_program["interval_move_eggs"]} hours')
-            # move_eggs() # move eggs once at start
+            move_eggs() # move eggs once at start
 
         # scheduler.print_jobs()
         scheduler.start()
