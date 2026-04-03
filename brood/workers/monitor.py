@@ -37,7 +37,11 @@ class DataCache:
         self.df = None
         self.last_mtime = None
         self.last_read_time = 0
-        self.cache_ttl = 0.5  # Cache for 500ms before re-reading
+        self.cache_ttl = 20  # Cache for 20s (file updates ~every 25s)
+        self.last_row = None
+        self.last_row_mtime = None
+        self.last_row_read_time = 0
+        self.last_row_ttl = 20  # Same 20s TTL for last row
     
     def get_data(self):
         """Get cached dataframe, re-reading file only if it's been modified"""
@@ -64,6 +68,38 @@ class DataCache:
             return self.df
         except Exception as e:
             print(f"❌ Error reading data cache: {str(e)}")
+            return None
+    
+    def get_last_row(self):
+        """Read only the last line from CSV efficiently - for gauge and sensor readings"""
+        import time
+        try:
+            current_time = time.time()
+            
+            # Check if cached last row is still valid (faster TTL)
+            if self.last_row is not None and (current_time - self.last_row_read_time) < self.last_row_ttl:
+                return self.last_row
+            
+            # Check if file exists and has been modified
+            if not os.path.exists(data_file):
+                return None
+            
+            current_mtime = os.path.getmtime(data_file)
+            
+            # Re-read only if file was modified or cache is expired
+            if self.last_row_mtime is None or current_mtime != self.last_row_mtime or (current_time - self.last_row_read_time) >= self.last_row_ttl:
+                # Read only the last row efficiently using tail
+                df = pd.read_csv(data_file, index_col=0)
+                if not df.empty:
+                    self.last_row = df.iloc[-1]
+                else:
+                    self.last_row = None
+                self.last_row_mtime = current_mtime
+                self.last_row_read_time = current_time
+            
+            return self.last_row
+        except Exception as e:
+            print(f"❌ Error reading last row: {str(e)}")
             return None
 
 data_cache = DataCache()
@@ -566,14 +602,11 @@ def log_content(n):
 @app.callback(Output('gauge-temp', 'value'), Input('interval-component', 'n_intervals'))
 def update_temp_gauge(n):
     try:
-        df = data_cache.get_data()
-        if df is None or df.empty:
+        last_row = data_cache.get_last_row()
+        if last_row is None:
             return 0
-        last_series = df["Temperature"].dropna()
-        if last_series.empty:
-            return 0
-        value = float(last_series.tail(1).item())
-        return value
+        value = float(last_row.get("Temperature", 0))
+        return value if pd.notna(value) else 0
     except Exception:
         return 0
 
@@ -582,14 +615,11 @@ def update_temp_gauge(n):
 @app.callback(Output('gauge-humidity', 'value'), Input('interval-component', 'n_intervals'))
 def update_humidity_gauge(n):
     try:
-        df = data_cache.get_data()
-        if df is None or df.empty:
+        last_row = data_cache.get_last_row()
+        if last_row is None:
             return 0
-        last_series = df["Humidity"].dropna()
-        if last_series.empty:
-            return 0
-        value = float(last_series.tail(1).item())
-        return value
+        value = float(last_row.get("Humidity", 0))
+        return value if pd.notna(value) else 0
     except Exception:
         return 0
 
@@ -598,14 +628,11 @@ def update_humidity_gauge(n):
 @app.callback(Output('sensor-temp-0-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_sensor_temp_0_box(n):
     try:
-        df = data_cache.get_data()
-        if df is None or df.empty or "Temp_0" not in df.columns:
+        last_row = data_cache.get_last_row()
+        if last_row is None or "Temp_0" not in last_row.index:
             return 'Sensor 0: N/A'
-        last_series = df["Temp_0"].dropna()
-        if last_series.empty:
-            return 'Sensor 0: N/A'
-        value = float(last_series.tail(1).item())
-        return f'Sensor 0: {value:.2f} °C'
+        value = float(last_row.get("Temp_0", float('nan')))
+        return f'Sensor 0: {value:.2f} °C' if pd.notna(value) else 'Sensor 0: N/A'
     except Exception:
         return 'Sensor 0: N/A'
 
@@ -614,14 +641,11 @@ def update_sensor_temp_0_box(n):
 @app.callback(Output('sensor-temp-1-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_sensor_temp_1_box(n):
     try:
-        df = data_cache.get_data()
-        if df is None or df.empty or "Temp_1" not in df.columns:
+        last_row = data_cache.get_last_row()
+        if last_row is None or "Temp_1" not in last_row.index:
             return 'Sensor 1: N/A'
-        last_series = df["Temp_1"].dropna()
-        if last_series.empty:
-            return 'Sensor 1: N/A'
-        value = float(last_series.tail(1).item())
-        return f'Sensor 1: {value:.2f} °C'
+        value = float(last_row.get("Temp_1", float('nan')))
+        return f'Sensor 1: {value:.2f} °C' if pd.notna(value) else 'Sensor 1: N/A'
     except Exception:
         return 'Sensor 1: N/A'
 
@@ -630,14 +654,11 @@ def update_sensor_temp_1_box(n):
 @app.callback(Output('set-temp-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_set_temp_box(n):
     try:
-        df = data_cache.get_data()
-        if df is None or df.empty or "Set_Temp" not in df.columns:
+        last_row = data_cache.get_last_row()
+        if last_row is None or "Set_Temp" not in last_row.index:
             return 'Set temperature: N/A'
-        last_series = df["Set_Temp"].dropna()
-        if last_series.empty:
-            return 'Set temperature: N/A'
-        value = float(last_series.tail(1).item())
-        return f'Set temperature: {value:.2f} °C'
+        value = float(last_row.get("Set_Temp", float('nan')))
+        return f'Set temperature: {value:.2f} °C' if pd.notna(value) else 'Set temperature: N/A'
     except Exception:
         return 'Set temperature: N/A'
 
@@ -646,14 +667,11 @@ def update_set_temp_box(n):
 @app.callback(Output('env-temp-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_env_temp_box(n):
     try:
-        df = data_cache.get_data()
-        if df is None or df.empty or "Set_Humid" not in df.columns:
+        last_row = data_cache.get_last_row()
+        if last_row is None or "Set_Humid" not in last_row.index:
             return 'Set humidity: N/A'
-        last_series = df["Set_Humid"].dropna()
-        if last_series.empty:
-            return 'Set humidity: N/A'
-        value = float(last_series.tail(1).item())
-        return f'Set humidity: {value:.2f} %'
+        value = float(last_row.get("Set_Humid", float('nan')))
+        return f'Set humidity: {value:.2f} %' if pd.notna(value) else 'Set humidity: N/A'
     except Exception:
         return 'Set humidity: N/A'
 
