@@ -103,3 +103,72 @@
 2026-04-02 17:31:01 INFO: Added job "BroodLord.next_phase" to job store "default"
 2026-04-02 17:31:01 INFO: Added job "move_eggs" to job store "default"
 2026-04-02 17:31:01 INFO: Scheduler started
+2026-04-02 18:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-02 18:31:00 CEST)" (scheduled at 2026-04-02 18:31:00.896208+02:00)
+2026-04-02 18:31:01 INFO: Turning eggs
+2026-04-02 18:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-02 19:31:00 CEST)" executed successfully
+2026-04-02 19:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-02 20:31:00 CEST)" (scheduled at 2026-04-02 19:31:00.896208+02:00)
+2026-04-02 19:31:01 INFO: Turning eggs
+2026-04-02 19:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-02 20:31:00 CEST)" executed successfully
+2026-04-02 20:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-02 21:31:00 CEST)" (scheduled at 2026-04-02 20:31:00.896208+02:00)
+2026-04-02 20:31:01 INFO: Turning eggs
+2026-04-02 20:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-02 21:31:00 CEST)" executed successfully
+2026-04-02 21:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-02 22:31:00 CEST)" (scheduled at 2026-04-02 21:31:00.896208+02:00)
+2026-04-02 21:31:01 INFO: Turning eggs
+2026-04-02 21:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-02 22:31:00 CEST)" executed successfully
+2026-04-02 22:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-02 23:31:00 CEST)" (scheduled at 2026-04-02 22:31:00.896208+02:00)
+2026-04-02 22:31:01 INFO: Turning eggs
+2026-04-02 22:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-02 23:31:00 CEST)" executed successfully
+2026-04-02 23:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 00:31:00 CEST)" (scheduled at 2026-04-02 23:31:00.896208+02:00)
+2026-04-02 23:31:01 INFO: Turning eggs
+2026-04-02 23:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 00:31:00 CEST)" executed successfully
+2026-04-03 00:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 01:31:00 CEST)" (scheduled at 2026-04-03 00:31:00.896208+02:00)
+2026-04-03 00:31:01 INFO: Turning eggs
+2026-04-03 00:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 01:31:00 CEST)" executed successfully
+2026-04-03 01:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 02:31:00 CEST)" (scheduled at 2026-04-03 01:31:00.896208+02:00)
+2026-04-03 01:31:01 INFO: Turning eggs
+2026-04-03 01:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 02:31:00 CEST)" executed successfully
+2026-04-03 02:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 03:31:00 CEST)" (scheduled at 2026-04-03 02:31:00.896208+02:00)
+2026-04-03 02:31:01 INFO: Turning eggs
+2026-04-03 02:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 03:31:00 CEST)" executed successfully
+2026-04-03 03:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 04:31:00 CEST)" (scheduled at 2026-04-03 03:31:00.896208+02:00)
+2026-04-03 03:31:01 INFO: Turning eggs
+2026-04-03 03:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 04:31:00 CEST)" executed successfully
+2026-04-03 04:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 05:31:00 CEST)" (scheduled at 2026-04-03 04:31:00.896208+02:00)
+2026-04-03 04:31:01 INFO: Turning eggs
+2026-04-03 04:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 05:31:00 CEST)" executed successfully
+2026-04-03 05:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 06:31:00 CEST)" (scheduled at 2026-04-03 05:31:00.896208+02:00)
+2026-04-03 05:31:01 INFO: Turning eggs
+2026-04-03 05:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 06:31:00 CEST)" executed successfully
+2026-04-03 06:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 07:31:00 CEST)" (scheduled at 2026-04-03 06:31:00.896208+02:00)
+2026-04-03 06:31:01 INFO: Turning eggs
+2026-04-03 06:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 07:31:00 CEST)" executed successfully
+2026-04-03 07:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 08:31:00 CEST)" (scheduled at 2026-04-03 07:31:00.896208+02:00)
+2026-04-03 07:31:01 INFO: Turning eggs
+2026-04-03 07:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 08:31:00 CEST)" executed successfully
+2026-04-03 08:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 09:31:00 CEST)" (scheduled at 2026-04-03 08:31:00.896208+02:00)
+2026-04-03 08:31:01 INFO: Turning eggs
+2026-04-03 08:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 09:31:00 CEST)" executed successfully
+2026-04-03 09:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 10:31:00 CEST)" (scheduled at 2026-04-03 09:31:00.896208+02:00)
+2026-04-03 09:31:01 INFO: Turning eggs
+2026-04-03 09:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 10:31:00 CEST)" executed successfully
+2026-04-03 10:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 11:31:00 CEST)" (scheduled at 2026-04-03 10:31:00.896208+02:00)
+2026-04-03 10:31:01 INFO: Turning eggs
+2026-04-03 10:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 11:31:00 CEST)" executed successfully
+2026-04-03 11:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 12:31:00 CEST)" (scheduled at 2026-04-03 11:31:00.896208+02:00)
+2026-04-03 11:31:01 INFO: Turning eggs
+2026-04-03 11:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 12:31:00 CEST)" executed successfully
+2026-04-03 12:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 13:31:00 CEST)" (scheduled at 2026-04-03 12:31:00.896208+02:00)
+2026-04-03 12:31:01 INFO: Turning eggs
+2026-04-03 12:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 13:31:00 CEST)" executed successfully
+2026-04-03 13:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 14:31:00 CEST)" (scheduled at 2026-04-03 13:31:00.896208+02:00)
+2026-04-03 13:31:01 INFO: Turning eggs
+2026-04-03 13:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 14:31:00 CEST)" executed successfully
+2026-04-03 14:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 15:31:00 CEST)" (scheduled at 2026-04-03 14:31:00.896208+02:00)
+2026-04-03 14:31:01 INFO: Turning eggs
+2026-04-03 14:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 15:31:00 CEST)" executed successfully
+2026-04-03 15:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 16:31:00 CEST)" (scheduled at 2026-04-03 15:31:00.896208+02:00)
+2026-04-03 15:31:01 INFO: Turning eggs
+2026-04-03 15:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 16:31:00 CEST)" executed successfully
+2026-04-03 16:31:00 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 17:31:00 CEST)" (scheduled at 2026-04-03 16:31:00.896208+02:00)
+2026-04-03 16:31:01 INFO: Turning eggs
+2026-04-03 16:31:01 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-03 17:31:00 CEST)" executed successfully

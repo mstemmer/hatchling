@@ -402,9 +402,9 @@ app.layout = html.Div(children=[
     dcc.Graph(id='chart_day'),
     dcc.Interval(id='interval-component_day', interval=600000, n_intervals=0),  # 10 min
 
-    html.H3('All data points (1 hour updates)', style={'textAlign': 'center'}),
-    dcc.Graph(id='chart_full'),
-    dcc.Interval(id='interval-component_full', interval=3600000, n_intervals=0)  # 1h
+    # html.H3('All data points (1 hour updates)', style={'textAlign': 'center'}),
+    # dcc.Graph(id='chart_full'),
+    # dcc.Interval(id='interval-component_full', interval=3600000, n_intervals=0)  # 1h
 ])
 
 
@@ -527,20 +527,8 @@ def log_content(n):
 # Update temperature gauge with the latest Flow Cell Temperature
 @app.callback(Output('gauge-temp', 'value'), Input('interval-component', 'n_intervals'))
 def update_temp_gauge(n):
-    headers = [
-        "Time",
-        "Temperature",
-        "Humidity",
-        "Temp_0",
-        "Temp_1",
-        "Humid_0",
-        "Humid_1",
-        "Set_Temp",
-        "Set_Humid",
-        "Duty_Cycle",
-    ]
     try:
-        df = pd.read_csv(data_file, names=headers, index_col=0)
+        df = pd.read_csv(data_file, index_col=0)
         if df.empty:
             return 0
         last_series = df["Temperature"].dropna()
@@ -555,20 +543,8 @@ def update_temp_gauge(n):
 # Update humidity gauge with the latest Humidity
 @app.callback(Output('gauge-humidity', 'value'), Input('interval-component', 'n_intervals'))
 def update_humidity_gauge(n):
-    headers = [
-        "Time",
-        "Temperature",
-        "Humidity",
-        "Temp_0",
-        "Temp_1",
-        "Humid_0",
-        "Humid_1",
-        "Set_Temp",
-        "Set_Humid",
-        "Duty_Cycle",
-    ]
     try:
-        df = pd.read_csv(data_file, names=headers, index_col=0)
+        df = pd.read_csv(data_file, index_col=0)
         if df.empty:
             return 0
         last_series = df["Humidity"].dropna()
@@ -583,20 +559,8 @@ def update_humidity_gauge(n):
 # Update display box with Temp_0 sensor reading
 @app.callback(Output('sensor-temp-0-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_sensor_temp_0_box(n):
-    headers = [
-        "Time",
-        "Temperature",
-        "Humidity",
-        "Temp_0",
-        "Temp_1",
-        "Humid_0",
-        "Humid_1",
-        "Set_Temp",
-        "Set_Humid",
-        "Duty_Cycle",
-    ]
     try:
-        df = pd.read_csv(data_file, names=headers, index_col=0)
+        df = pd.read_csv(data_file, index_col=0)
         if df.empty or "Temp_0" not in df.columns:
             return 'Sensor 0: N/A'
         last_series = df["Temp_0"].dropna()
@@ -611,20 +575,8 @@ def update_sensor_temp_0_box(n):
 # Update display box with Temp_1 sensor reading
 @app.callback(Output('sensor-temp-1-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_sensor_temp_1_box(n):
-    headers = [
-        "Time",
-        "Temperature",
-        "Humidity",
-        "Temp_0",
-        "Temp_1",
-        "Humid_0",
-        "Humid_1",
-        "Set_Temp",
-        "Set_Humid",
-        "Duty_Cycle",
-    ]
     try:
-        df = pd.read_csv(data_file, names=headers, index_col=0)
+        df = pd.read_csv(data_file, index_col=0)
         if df.empty or "Temp_1" not in df.columns:
             return 'Sensor 1: N/A'
         last_series = df["Temp_1"].dropna()
@@ -639,20 +591,8 @@ def update_sensor_temp_1_box(n):
 # Update display box with the latest Set Point: Temperature
 @app.callback(Output('set-temp-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_set_temp_box(n):
-    headers = [
-        "Time",
-        "Temperature",
-        "Humidity",
-        "Temp_0",
-        "Temp_1",
-        "Humid_0",
-        "Humid_1",
-        "Set_Temp",
-        "Set_Humid",
-        "Duty_Cycle",
-    ]
     try:
-        df = pd.read_csv(data_file, names=headers, index_col=0)
+        df = pd.read_csv(data_file, index_col=0)
         if df.empty or "Set_Temp" not in df.columns:
             return 'Set temperature: N/A'
         last_series = df["Set_Temp"].dropna()
@@ -669,20 +609,8 @@ def update_set_temp_box(n):
 # Update display box with the latest Set Humidity
 @app.callback(Output('env-temp-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_env_temp_box(n):
-    headers = [
-        "Time",
-        "Temperature",
-        "Humidity",
-        "Temp_0",
-        "Temp_1",
-        "Humid_0",
-        "Humid_1",
-        "Set_Temp",
-        "Set_Humid",
-        "Duty_Cycle",
-    ]
     try:
-        df = pd.read_csv(data_file, names=headers, index_col=0)
+        df = pd.read_csv(data_file, index_col=0)
         if df.empty or "Set_Humid" not in df.columns:
             return 'Set humidity: N/A'
         last_series = df["Set_Humid"].dropna()
@@ -745,49 +673,49 @@ def make_chart_day(n):
 
 
 # create chart with entire dataset
-@app.callback(Output('chart_full', 'figure'), Input('interval-component_full', 'n_intervals'))
-def make_chart_full(n):
-    try:
-        df = pd.read_csv(data_file, index_col=0)
-    except Exception:
-        fig = px.line()
-        fig.update_layout(template='plotly_dark', paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
-        return fig
-
-    if df.empty or "Temperature" not in df.columns:
-        fig = px.line()
-        fig.update_layout(template='plotly_dark', paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
-        return fig
-
-    df = df[["Temperature", "Set_Temp", "Duty_Cycle", "Humidity"]]
-    
-    # Convert all columns to numeric to ensure proper y-axis scaling
-    df = df.apply(pd.to_numeric, errors='coerce')
-
-    # Build figure with dual y-axes using graph_objects
-    fig = go.Figure()
-    
-    # Add temperature traces to primary y-axis
-    fig.add_trace(go.Scatter(x=df.index, y=df["Temperature"], 
-                             name="Temperature", mode='markers+lines', yaxis='y1'))
-    fig.add_trace(go.Scatter(x=df.index, y=df["Set_Temp"], 
-                             name="Set_Temp", mode='markers+lines', yaxis='y1'))
-    fig.add_trace(go.Scatter(x=df.index, y=df["Humidity"], 
-                             name="Humidity", mode='markers+lines', yaxis='y1'))
-    
-    # Add duty cycle to secondary y-axis (hidden by default)
-    fig.add_trace(go.Scatter(x=df.index, y=df["Duty_Cycle"], 
-                             name="Duty_Cycle", mode='markers+lines', yaxis='y2', visible='legendonly'))
-    
-    fig.update_layout(
-        template='plotly_dark',
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        xaxis_title='Time',
-        yaxis=dict(title='Temperature (°C) / Humidity (%)', side='left'),
-        yaxis2=dict(title='Duty Cycle (%)', side='right', overlaying='y', range=[0, 100])
-    )
-    return fig
+# @app.callback(Output('chart_full', 'figure'), Input('interval-component_full', 'n_intervals'))
+# def make_chart_full(n):
+#     try:
+#         df = pd.read_csv(data_file, index_col=0)
+#     except Exception:
+#         fig = px.line()
+#         fig.update_layout(template='plotly_dark', paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+#         return fig
+# 
+#     if df.empty or "Temperature" not in df.columns:
+#         fig = px.line()
+#         fig.update_layout(template='plotly_dark', paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+#         return fig
+# 
+#     df = df[["Temperature", "Set_Temp", "Duty_Cycle", "Humidity"]]
+#     
+#     # Convert all columns to numeric to ensure proper y-axis scaling
+#     df = df.apply(pd.to_numeric, errors='coerce')
+# 
+#     # Build figure with dual y-axes using graph_objects
+#     fig = go.Figure()
+#     
+#     # Add temperature traces to primary y-axis
+#     fig.add_trace(go.Scatter(x=df.index, y=df["Temperature"], 
+#                              name="Temperature", mode='markers+lines', yaxis='y1'))
+#     fig.add_trace(go.Scatter(x=df.index, y=df["Set_Temp"], 
+#                              name="Set_Temp", mode='markers+lines', yaxis='y1'))
+#     fig.add_trace(go.Scatter(x=df.index, y=df["Humidity"], 
+#                              name="Humidity", mode='markers+lines', yaxis='y1'))
+#     
+#     # Add duty cycle to secondary y-axis (hidden by default)
+#     fig.add_trace(go.Scatter(x=df.index, y=df["Duty_Cycle"], 
+#                              name="Duty_Cycle", mode='markers+lines', yaxis='y2', visible='legendonly'))
+#     
+#     fig.update_layout(
+#         template='plotly_dark',
+#         paper_bgcolor='rgba(0,0,0,0)',
+#         plot_bgcolor='rgba(0,0,0,0)',
+#         xaxis_title='Time',
+#         yaxis=dict(title='Temperature (°C) / Humidity (%)', side='left'),
+#         yaxis2=dict(title='Duty Cycle (%)', side='right', overlaying='y', range=[0, 100])
+#     )
+#     return fig
 
 
 if __name__ == '__main__':
