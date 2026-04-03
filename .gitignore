@@ -4,3 +4,6 @@ brood/workers/__pycache__
 
 # Email configuration - contains sensitive credentials
 email_config.json
+
+# Data folders - ignore all experiment/test data
+data/*/
