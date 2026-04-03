@@ -97628,3 +97628,74 @@ Columns (1,2,3,4,5,6,7,8,9) have mixed types. Specify dtype option on import or 
 
 Columns (1,2,3,4,5,6,7,8,9) have mixed types. Specify dtype option on import or set low_memory=False.
 
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+📧 Fresh startup detected! Sending startup notification email...
+✅ Startup email sent successfully to stemmer.manuel@gmail.com
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+📧 Fresh startup detected! Sending startup notification email...
+✅ Startup email sent successfully to stemmer.manuel@gmail.com
+📧 Fresh startup detected! Sending startup notification email...
+✅ Startup email sent successfully to stemmer.manuel@gmail.com
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/home/pi/hatchling/brood/workers/monitor.py", line 11, in <module>
+    import pandas as pd
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/__init__.py", line 142, in <module>
+    from pandas.io.api import (
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/io/api.py", line 38, in <module>
+    from pandas.io.xml import read_xml
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/io/xml.py", line 864, in <module>
+    @doc(
+     ^^^^
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/pandas/util/_decorators.py", line 367, in decorator
+    docstring_components.append(dedent(decorated.__doc__))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniconda3/lib/python3.12/textwrap.py", line 436, in dedent
+    indents = _leading_whitespace_re.findall(text)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+📧 Fresh startup detected! Sending startup notification email...
+✅ Startup email sent successfully to stemmer.manuel@gmail.com
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/home/pi/hatchling/brood/workers/monitor.py", line 4, in <module>
+    import dash
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/__init__.py", line 5, in <module>
+    from .dependencies import (  # noqa: F401,E402
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/dependencies.py", line 4, in <module>
+    from ._validate import validate_callback
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/dash/_validate.py", line 6, in <module>
+    import flask
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/flask/__init__.py", line 6, in <module>
+    from .app import Flask as Flask
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/flask/app.py", line 14, in <module>
+    import click
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/click/__init__.py", line 8, in <module>
+    from .core import Argument as Argument
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/click/core.py", line 16, in <module>
+    from . import types
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/click/types.py", line 11, in <module>
+    from .exceptions import BadParameter
+  File "/home/pi/miniconda3/lib/python3.12/site-packages/click/exceptions.py", line 136, in <module>
+    class MissingParameter(BadParameter):
+KeyboardInterrupt
+Dash is running on http://0.0.0.0:8050/
+
+ * Serving Flask app 'monitor'
+ * Debug mode: on

@@ -30,6 +30,44 @@ degraded_mode_email_sent = False
 # Track if startup email has been sent to avoid spam
 startup_email_sent = False
 
+# Global cache for CSV data to avoid redundant reads
+class DataCache:
+    """Cache for CSV data with timestamp tracking to minimize file reads"""
+    def __init__(self):
+        self.df = None
+        self.last_mtime = None
+        self.last_read_time = 0
+        self.cache_ttl = 0.5  # Cache for 500ms before re-reading
+    
+    def get_data(self):
+        """Get cached dataframe, re-reading file only if it's been modified"""
+        import time
+        try:
+            current_time = time.time()
+            
+            # Check if cache is still valid (TTL not expired)
+            if self.df is not None and (current_time - self.last_read_time) < self.cache_ttl:
+                return self.df
+            
+            # Check if file exists and has been modified
+            if not os.path.exists(data_file):
+                return None
+            
+            current_mtime = os.path.getmtime(data_file)
+            
+            # Re-read only if file was modified or cache is expired
+            if self.last_mtime is None or current_mtime != self.last_mtime or (current_time - self.last_read_time) >= self.cache_ttl:
+                self.df = pd.read_csv(data_file, index_col=0)
+                self.last_mtime = current_mtime
+                self.last_read_time = current_time
+            
+            return self.df
+        except Exception as e:
+            print(f"❌ Error reading data cache: {str(e)}")
+            return None
+
+data_cache = DataCache()
+
 # Load email configuration from external JSON file
 def load_email_config():
     """Load email configuration from email_config.json (not tracked by git)"""
@@ -528,8 +566,8 @@ def log_content(n):
 @app.callback(Output('gauge-temp', 'value'), Input('interval-component', 'n_intervals'))
 def update_temp_gauge(n):
     try:
-        df = pd.read_csv(data_file, index_col=0)
-        if df.empty:
+        df = data_cache.get_data()
+        if df is None or df.empty:
             return 0
         last_series = df["Temperature"].dropna()
         if last_series.empty:
@@ -544,8 +582,8 @@ def update_temp_gauge(n):
 @app.callback(Output('gauge-humidity', 'value'), Input('interval-component', 'n_intervals'))
 def update_humidity_gauge(n):
     try:
-        df = pd.read_csv(data_file, index_col=0)
-        if df.empty:
+        df = data_cache.get_data()
+        if df is None or df.empty:
             return 0
         last_series = df["Humidity"].dropna()
         if last_series.empty:
@@ -560,8 +598,8 @@ def update_humidity_gauge(n):
 @app.callback(Output('sensor-temp-0-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_sensor_temp_0_box(n):
     try:
-        df = pd.read_csv(data_file, index_col=0)
-        if df.empty or "Temp_0" not in df.columns:
+        df = data_cache.get_data()
+        if df is None or df.empty or "Temp_0" not in df.columns:
             return 'Sensor 0: N/A'
         last_series = df["Temp_0"].dropna()
         if last_series.empty:
@@ -576,8 +614,8 @@ def update_sensor_temp_0_box(n):
 @app.callback(Output('sensor-temp-1-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_sensor_temp_1_box(n):
     try:
-        df = pd.read_csv(data_file, index_col=0)
-        if df.empty or "Temp_1" not in df.columns:
+        df = data_cache.get_data()
+        if df is None or df.empty or "Temp_1" not in df.columns:
             return 'Sensor 1: N/A'
         last_series = df["Temp_1"].dropna()
         if last_series.empty:
@@ -592,16 +630,14 @@ def update_sensor_temp_1_box(n):
 @app.callback(Output('set-temp-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_set_temp_box(n):
     try:
-        df = pd.read_csv(data_file, index_col=0)
-        if df.empty or "Set_Temp" not in df.columns:
+        df = data_cache.get_data()
+        if df is None or df.empty or "Set_Temp" not in df.columns:
             return 'Set temperature: N/A'
         last_series = df["Set_Temp"].dropna()
         if last_series.empty:
             return 'Set temperature: N/A'
         value = float(last_series.tail(1).item())
         return f'Set temperature: {value:.2f} °C'
-    except FileNotFoundError:
-        return f'Set temperature: data file not found'
     except Exception:
         return 'Set temperature: N/A'
 
@@ -610,16 +646,14 @@ def update_set_temp_box(n):
 @app.callback(Output('env-temp-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_env_temp_box(n):
     try:
-        df = pd.read_csv(data_file, index_col=0)
-        if df.empty or "Set_Humid" not in df.columns:
+        df = data_cache.get_data()
+        if df is None or df.empty or "Set_Humid" not in df.columns:
             return 'Set humidity: N/A'
         last_series = df["Set_Humid"].dropna()
         if last_series.empty:
             return 'Set humidity: N/A'
         value = float(last_series.tail(1).item())
         return f'Set humidity: {value:.2f} %'
-    except FileNotFoundError:
-        return f'Set humidity: data file not found'
     except Exception:
         return 'Set humidity: N/A'
 
@@ -629,7 +663,11 @@ def update_env_temp_box(n):
 @app.callback(Output('chart_day', 'figure'), Input('interval-component_day', 'n_intervals'))
 def make_chart_day(n):
     try:
-        df = pd.read_csv(data_file, index_col=0)
+        df = data_cache.get_data()
+        if df is None:
+            fig = px.line()
+            fig.update_layout(template='plotly_dark', paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+            return fig
     except Exception:
         fig = px.line()
         fig.update_layout(template='plotly_dark', paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
