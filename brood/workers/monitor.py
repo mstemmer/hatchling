@@ -353,17 +353,29 @@ app.layout = html.Div(children=[
     # Row with Log File (left) and Temperature Gauge (right)
     html.Div([
         html.Div([
-            # 1. Current step box
-            html.Div(id='current-step-box', style={
-                'marginBottom': '8px',
-                'padding': '10px',
-                'border': '1px solid #333',
-                'backgroundColor': '#0b1220',
-                'color': '#eef6ff',
-                'fontWeight': 'bold',
-                'textAlign': 'center',
-                'fontSize': '16px'
-            }),
+            # 1. Current step and incubation day boxes
+            html.Div([
+                html.Div(id='current-step-box', style={
+                    'padding': '10px',
+                    'border': '1px solid #333',
+                    'backgroundColor': '#0b1220',
+                    'color': '#eef6ff',
+                    'fontWeight': 'bold',
+                    'textAlign': 'center',
+                    'fontSize': '16px',
+                    'marginRight': '4px'
+                }, className='six columns'),
+                html.Div(id='incubation-day-box', style={
+                    'padding': '10px',
+                    'border': '1px solid #333',
+                    'backgroundColor': '#0b1220',
+                    'color': '#eef6ff',
+                    'fontWeight': 'bold',
+                    'textAlign': 'center',
+                    'fontSize': '16px',
+                    'marginLeft': '4px'
+                }, className='six columns'),
+            ], className='row', style={'marginBottom': '8px'}),
             # 2. Set temperature and environment temperature boxes
             html.Div([
                 html.Div(id='set-temp-box', style={
@@ -515,6 +527,41 @@ def update_current_step(n):
         return 'Log file not found'
     except Exception as e:
         return f'Phase: Error - {str(e)}'
+
+
+# Update incubation day box with days elapsed since start date
+@app.callback(Output('incubation-day-box', 'children'), Input('interval-component', 'n_intervals'))
+def update_incubation_day(n):
+    try:
+        # Look for init.txt in the parent directory of the data folder
+        init_file = os.path.join(args.folder, '..', 'init.txt')
+        
+        if not os.path.exists(init_file):
+            return 'Incubation Day: N/A'
+        
+        with open(init_file, 'r') as f:
+            init_content = f.read().strip()
+        
+        # Format: YYYY-MM-DD HH:MM:SS|species
+        if '|' not in init_content:
+            return 'Incubation Day: Error'
+        
+        start_datetime_str = init_content.split('|')[0]
+        
+        # Parse the start datetime
+        from datetime import datetime as dt
+        start_date = dt.strptime(start_datetime_str, '%Y-%m-%d %H:%M:%S').date()
+        
+        # Calculate days elapsed
+        current_date = dt.now().date()
+        days_elapsed = (current_date - start_date).days + 1  # +1 because day 1 is the start day
+        
+        return f'Incubation Day: {days_elapsed}'
+    
+    except FileNotFoundError:
+        return 'Incubation Day: N/A'
+    except Exception as e:
+        return f'Incubation Day: Error'
 
 
 @app.callback(Output('program-name-box', 'children'), Input('interval-component', 'n_intervals'))
