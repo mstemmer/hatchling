@@ -529,7 +529,7 @@ def update_current_step(n):
         return f'Phase: Error - {str(e)}'
 
 
-# Update incubation day box with days elapsed since start date
+# Update incubation day box with days elapsed since start time (24-hour counting)
 @app.callback(Output('incubation-day-box', 'children'), Input('interval-component', 'n_intervals'))
 def update_incubation_day(n):
     try:
@@ -549,14 +549,18 @@ def update_incubation_day(n):
         start_datetime_str = init_content.split('|')[0]
         
         # Parse the start datetime
-        from datetime import datetime as dt
-        start_date = dt.strptime(start_datetime_str, '%Y-%m-%d %H:%M:%S').date()
+        from datetime import datetime as dt, timedelta
+        start_datetime = dt.strptime(start_datetime_str, '%Y-%m-%d %H:%M:%S')
         
-        # Calculate days elapsed
-        current_date = dt.now().date()
-        days_elapsed = (current_date - start_date).days + 1  # +1 because day 1 is the start day
+        # Calculate hours elapsed since start
+        current_datetime = dt.now()
+        time_elapsed = current_datetime - start_datetime
+        hours_elapsed = time_elapsed.total_seconds() / 3600
         
-        return f'Incubation Day: {days_elapsed}'
+        # Calculate day number (day 1 starts at hour 0, day 2 at hour 24, etc.)
+        day_number = int(hours_elapsed // 24) + 1
+        
+        return f'Incubation Day: {day_number}'
     
     except FileNotFoundError:
         return 'Incubation Day: N/A'
