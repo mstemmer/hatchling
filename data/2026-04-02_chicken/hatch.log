@@ -1617,3 +1617,194 @@
 2026-04-19 20:30:51 INFO: PID Output limits: (0, 100), Sample time: 0.4s
 2026-04-19 20:30:51 INFO: Controller received updated parameters
 2026-04-19 20:30:52 INFO: Monitor started with PID 188749
+2026-04-19 21:30:51 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-19 21:30:51 CEST)" (scheduled at 2026-04-19 21:30:51.649486+02:00)
+2026-04-19 21:30:52 INFO: Turning eggs
+2026-04-19 21:30:52 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-19 22:30:51 CEST)" executed successfully
+2026-04-19 22:30:51 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-19 23:30:51 CEST)" (scheduled at 2026-04-19 22:30:51.649486+02:00)
+2026-04-19 22:30:52 INFO: Turning eggs
+2026-04-19 22:30:52 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-19 23:30:51 CEST)" executed successfully
+2026-04-19 23:30:51 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 00:30:51 CEST)" (scheduled at 2026-04-19 23:30:51.649486+02:00)
+2026-04-19 23:30:52 INFO: Turning eggs
+2026-04-19 23:30:52 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 00:30:51 CEST)" executed successfully
+2026-04-20 00:00:00 INFO: Day boundary crossed: 2026-04-19 -> 2026-04-20
+2026-04-20 00:00:00 INFO: Created dated CSV file: /home/pi/hatchling/data/2026-04-02_chicken/data_2026-04-20.csv
+2026-04-20 00:00:00 INFO: Created symlink: data.csv -> data_2026-04-20.csv
+2026-04-20 00:00:00 INFO: Rotated to new day's CSV: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-20 00:00:00 INFO: Previous day's file: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-20 00:30:51 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 01:30:51 CEST)" (scheduled at 2026-04-20 00:30:51.649486+02:00)
+2026-04-20 00:30:52 INFO: Turning eggs
+2026-04-20 00:30:52 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 01:30:51 CEST)" executed successfully
+2026-04-20 01:30:51 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 02:30:51 CEST)" (scheduled at 2026-04-20 01:30:51.649486+02:00)
+2026-04-20 01:30:52 INFO: Turning eggs
+2026-04-20 01:30:52 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 02:30:51 CEST)" executed successfully
+2026-04-20 02:30:51 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 03:30:51 CEST)" (scheduled at 2026-04-20 02:30:51.649486+02:00)
+2026-04-20 02:30:52 INFO: Turning eggs
+2026-04-20 02:30:52 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 03:30:51 CEST)" executed successfully
+2026-04-20 03:30:51 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 04:30:51 CEST)" (scheduled at 2026-04-20 03:30:51.649486+02:00)
+2026-04-20 03:30:52 INFO: Turning eggs
+2026-04-20 03:30:52 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 04:30:51 CEST)" executed successfully
+2026-04-20 04:30:51 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 05:30:51 CEST)" (scheduled at 2026-04-20 04:30:51.649486+02:00)
+2026-04-20 04:30:52 INFO: Turning eggs
+2026-04-20 04:30:52 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 05:30:51 CEST)" executed successfully
+2026-04-20 05:30:51 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 06:30:51 CEST)" (scheduled at 2026-04-20 05:30:51.649486+02:00)
+2026-04-20 05:30:52 INFO: Turning eggs
+2026-04-20 05:30:52 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 06:30:51 CEST)" executed successfully
+2026-04-20 06:30:51 INFO: Removed job 773914100aa74c5b9fb551befc394f07
+2026-04-20 06:30:51 INFO: Running job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 06:30:51 CEST)" (scheduled at 2026-04-20 06:30:51.649486+02:00)
+2026-04-20 06:30:52 INFO: Turning eggs
+2026-04-20 06:30:52 INFO: Job "move_eggs (trigger: interval[1:00:00], next run at: 2026-04-20 06:30:51 CEST)" executed successfully
+2026-04-20 06:56:04 INFO: Removed job 1714e35a783c43e7a253387be68b6beb
+2026-04-20 06:56:04 INFO: Running job "BroodLord.next_phase (trigger: date[2026-04-19 20:30:51 CEST], next run at: 2026-04-20 06:56:04 CEST)" (scheduled at 2026-04-20 06:56:04+02:00)
+2026-04-20 06:56:04 INFO: Next phase reached. New parameters: [70, 37.2]
+2026-04-20 06:56:04 INFO: PHASE 2
+2026-04-20 06:56:04 INFO: Job "BroodLord.next_phase (trigger: date[2026-04-19 20:30:51 CEST], next run at: 2026-04-20 06:56:04 CEST)" executed successfully
+2026-04-20 06:56:04 INFO: Controller received updated parameters
+2026-04-21 00:00:00 INFO: Day boundary crossed: 2026-04-20 -> 2026-04-21
+2026-04-21 00:00:00 INFO: Created dated CSV file: /home/pi/hatchling/data/2026-04-02_chicken/data_2026-04-21.csv
+2026-04-21 00:00:00 INFO: Created symlink: data.csv -> data_2026-04-21.csv
+2026-04-21 00:00:00 INFO: Rotated to new day's CSV: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-21 00:00:00 INFO: Previous day's file: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-22 00:00:00 INFO: Day boundary crossed: 2026-04-21 -> 2026-04-22
+2026-04-22 00:00:00 INFO: Created dated CSV file: /home/pi/hatchling/data/2026-04-02_chicken/data_2026-04-22.csv
+2026-04-22 00:00:00 INFO: Created symlink: data.csv -> data_2026-04-22.csv
+2026-04-22 00:00:00 INFO: Rotated to new day's CSV: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-22 00:00:00 INFO: Previous day's file: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-23 00:00:00 INFO: Day boundary crossed: 2026-04-22 -> 2026-04-23
+2026-04-23 00:00:00 INFO: Created dated CSV file: /home/pi/hatchling/data/2026-04-02_chicken/data_2026-04-23.csv
+2026-04-23 00:00:00 INFO: Created symlink: data.csv -> data_2026-04-23.csv
+2026-04-23 00:00:00 INFO: Rotated to new day's CSV: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-23 00:00:00 INFO: Previous day's file: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-24 00:00:00 INFO: Day boundary crossed: 2026-04-23 -> 2026-04-24
+2026-04-24 00:00:00 INFO: Created dated CSV file: /home/pi/hatchling/data/2026-04-02_chicken/data_2026-04-24.csv
+2026-04-24 00:00:00 INFO: Created symlink: data.csv -> data_2026-04-24.csv
+2026-04-24 00:00:00 INFO: Rotated to new day's CSV: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-24 00:00:00 INFO: Previous day's file: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-24 22:31:02 INFO: Fan control: set duty cycle to 0%
+2026-04-24 22:31:02 INFO: Shutting down heater
+2026-04-24 22:31:02 INFO: Close program
+2026-04-24 22:31:05 INFO: Hatchling startup initiated
+2026-04-24 22:31:05 INFO: Starting incubation run from time point: 2026-04-02 06:56:04
+2026-04-24 22:31:05 INFO: Load incubation program: chicken
+2026-04-24 22:31:05 INFO: Fan control: set duty cycle to 70%
+2026-04-24 22:31:06 INFO: Fan control: set duty cycle to 70%
+2026-04-24 22:31:08 INFO: Created symlink: data.csv -> data_2026-04-24.csv
+2026-04-24 22:31:08 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-04-24 22:31:08 INFO: PHASE 1
+2026-04-24 22:31:08 INFO: Additional phases found and added to scheduler
+2026-04-24 22:31:08 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-24 22:31:08 INFO: Controller update scheduled for: 2026-04-20 06:56:04
+2026-04-24 22:31:08 WARNING: Phase change 2 is already in the past. Changing controller to phase 2 immediately.
+2026-04-24 22:31:08 INFO: Next phase reached. New parameters: [70, 37.2]
+2026-04-24 22:31:08 INFO: PHASE 2
+2026-04-24 22:31:08 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-24 22:31:08 INFO: Egg moving is activated and scheduled every 1 hours until 2026-04-20 06:56:04
+2026-04-24 22:31:08 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-04-24 22:31:08 INFO: Added job "move_eggs" to job store "default"
+2026-04-24 22:31:08 INFO: Scheduler started
+2026-04-24 22:31:08 WARNING: Run time of job "BroodLord.next_phase (trigger: date[2026-04-24 22:31:08 CEST], next run at: 2026-04-20 06:56:04 CEST)" was missed by 4 days, 15:35:04.670918
+2026-04-24 22:31:08 INFO: Removed job 896bc12b3db54ceebf13c9ac31edd915
+2026-04-24 22:31:08 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-04-24 22:31:08 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-04-24 22:31:08 INFO: Initializing PID controller
+2026-04-24 22:31:08 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-04-24 22:31:08 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-04-24 22:31:08 INFO: Controller received updated parameters
+2026-04-24 22:31:09 INFO: Controller received updated parameters
+2026-04-24 22:31:09 INFO: Monitor started with PID 215017
+2026-04-24 22:31:24 INFO: Fan control: set duty cycle to 0%
+2026-04-24 22:31:24 INFO: Shutting down heater
+2026-04-24 22:31:24 INFO: Close program
+2026-04-24 22:31:27 INFO: Hatchling startup initiated
+2026-04-24 22:31:27 INFO: Starting incubation run from time point: 2026-04-02 06:56:04
+2026-04-24 22:31:27 INFO: Load incubation program: chicken
+2026-04-24 22:31:27 INFO: Fan control: set duty cycle to 70%
+2026-04-24 22:31:28 INFO: Fan control: set duty cycle to 70%
+2026-04-24 22:31:30 INFO: Created symlink: data.csv -> data_2026-04-24.csv
+2026-04-24 22:31:30 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-04-24 22:31:30 INFO: PHASE 1
+2026-04-24 22:31:30 INFO: Additional phases found and added to scheduler
+2026-04-24 22:31:30 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-24 22:31:30 INFO: Controller update scheduled for: 2026-04-20 06:56:04
+2026-04-24 22:31:30 WARNING: Phase change 2 is already in the past. Changing controller to phase 2 immediately.
+2026-04-24 22:31:30 INFO: Next phase reached. New parameters: [70, 37.5]
+2026-04-24 22:31:30 INFO: PHASE 2
+2026-04-24 22:31:30 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-24 22:31:30 INFO: Egg moving is activated and scheduled every 1 hours until 2026-04-20 06:56:04
+2026-04-24 22:31:30 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-04-24 22:31:30 INFO: Added job "move_eggs" to job store "default"
+2026-04-24 22:31:30 INFO: Scheduler started
+2026-04-24 22:31:30 WARNING: Run time of job "BroodLord.next_phase (trigger: date[2026-04-24 22:31:30 CEST], next run at: 2026-04-20 06:56:04 CEST)" was missed by 4 days, 15:35:26.409024
+2026-04-24 22:31:30 INFO: Removed job 9c8a015c3cbb41a7aa353b3b1afa8d97
+2026-04-24 22:31:31 INFO: Monitor started with PID 215085
+2026-04-24 22:31:35 INFO: Hatchling startup initiated
+2026-04-24 22:31:35 INFO: Starting incubation run from time point: 2026-04-02 06:56:04
+2026-04-24 22:31:35 INFO: Load incubation program: chicken
+2026-04-24 22:31:35 INFO: Fan control: set duty cycle to 70%
+2026-04-24 22:31:36 INFO: Fan control: set duty cycle to 70%
+2026-04-24 22:31:38 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-04-24 22:31:38 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-04-24 22:31:38 INFO: Initializing PID controller
+2026-04-24 22:31:38 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-04-24 22:31:38 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-04-24 22:31:38 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-04-24 22:31:38 INFO: PHASE 1
+2026-04-24 22:31:38 INFO: Additional phases found and added to scheduler
+2026-04-24 22:31:38 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-24 22:31:38 INFO: Controller update scheduled for: 2026-04-20 06:56:04
+2026-04-24 22:31:38 WARNING: Phase change 2 is already in the past. Changing controller to phase 2 immediately.
+2026-04-24 22:31:38 INFO: Next phase reached. New parameters: [70, 37.5]
+2026-04-24 22:31:38 INFO: PHASE 2
+2026-04-24 22:31:38 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-24 22:31:38 INFO: Egg moving is activated and scheduled every 1 hours until 2026-04-20 06:56:04
+2026-04-24 22:31:38 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-04-24 22:31:38 INFO: Added job "move_eggs" to job store "default"
+2026-04-24 22:31:38 INFO: Scheduler started
+2026-04-24 22:31:38 WARNING: Run time of job "BroodLord.next_phase (trigger: date[2026-04-24 22:31:38 CEST], next run at: 2026-04-20 06:56:04 CEST)" was missed by 4 days, 15:35:34.133522
+2026-04-24 22:31:38 INFO: Removed job 938ce2f3d9a54a6db81f759f9cc9f24f
+2026-04-24 22:31:38 INFO: Controller received updated parameters
+2026-04-24 22:31:39 INFO: Controller received updated parameters
+2026-04-24 22:31:43 INFO: Fan control: set duty cycle to 0%
+2026-04-24 22:31:43 INFO: Shutting down heater
+2026-04-24 22:31:43 INFO: Close program
+2026-04-24 22:31:48 INFO: Hatchling startup initiated
+2026-04-24 22:31:48 INFO: Starting incubation run from time point: 2026-04-02 06:56:04
+2026-04-24 22:31:48 INFO: Load incubation program: chicken
+2026-04-24 22:31:48 INFO: Fan control: set duty cycle to 70%
+2026-04-24 22:31:49 INFO: Fan control: set duty cycle to 70%
+2026-04-24 22:31:51 INFO: Setting controller to start phase. Parameters: [50, 37.5]
+2026-04-24 22:31:51 INFO: PHASE 1
+2026-04-24 22:31:51 INFO: Additional phases found and added to scheduler
+2026-04-24 22:31:51 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-24 22:31:51 INFO: Controller update scheduled for: 2026-04-20 06:56:04
+2026-04-24 22:31:51 WARNING: Phase change 2 is already in the past. Changing controller to phase 2 immediately.
+2026-04-24 22:31:51 INFO: Next phase reached. New parameters: [70, 37.5]
+2026-04-24 22:31:51 INFO: PHASE 2
+2026-04-24 22:31:51 INFO: Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-04-24 22:31:51 INFO: Egg moving is activated and scheduled every 1 hours until 2026-04-20 06:56:04
+2026-04-24 22:31:51 INFO: Added job "BroodLord.next_phase" to job store "default"
+2026-04-24 22:31:51 INFO: Added job "move_eggs" to job store "default"
+2026-04-24 22:31:51 INFO: Scheduler started
+2026-04-24 22:31:51 WARNING: Run time of job "BroodLord.next_phase (trigger: date[2026-04-24 22:31:51 CEST], next run at: 2026-04-20 06:56:04 CEST)" was missed by 4 days, 15:35:47.038994
+2026-04-24 22:31:51 INFO: Removed job 6f8ab8f2711b4300a5d808dc9ad3bcab
+2026-04-24 22:31:51 INFO: Found HTU31D Sensor 0 with serial number 0x1d8ee274
+2026-04-24 22:31:51 INFO: Created symlink: data.csv -> data_2026-04-24.csv
+2026-04-24 22:31:51 INFO: Found HTU31D Sensor 1 with serial number 0x1d8ed2b1
+2026-04-24 22:31:51 INFO: Initializing PID controller
+2026-04-24 22:31:51 INFO: PID Parameters - Kp: 120, Ki: 8, Kd: 50
+2026-04-24 22:31:51 INFO: PID Output limits: (0, 100), Sample time: 0.4s
+2026-04-24 22:31:51 INFO: Controller received updated parameters
+2026-04-24 22:31:51 INFO: Controller received updated parameters
+2026-04-24 22:31:51 INFO: Monitor started with PID 215181
+2026-04-25 00:00:00 INFO: Day boundary crossed: 2026-04-24 -> 2026-04-25
+2026-04-25 00:00:00 INFO: Created dated CSV file: /home/pi/hatchling/data/2026-04-02_chicken/data_2026-04-25.csv
+2026-04-25 00:00:00 INFO: Created symlink: data.csv -> data_2026-04-25.csv
+2026-04-25 00:00:00 INFO: Rotated to new day's CSV: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-25 00:00:00 INFO: Previous day's file: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-26 00:00:00 INFO: Day boundary crossed: 2026-04-25 -> 2026-04-26
+2026-04-26 00:00:00 INFO: Created dated CSV file: /home/pi/hatchling/data/2026-04-02_chicken/data_2026-04-26.csv
+2026-04-26 00:00:00 INFO: Created symlink: data.csv -> data_2026-04-26.csv
+2026-04-26 00:00:00 INFO: Rotated to new day's CSV: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-26 00:00:00 INFO: Previous day's file: /home/pi/hatchling/data/2026-04-02_chicken/data.csv
+2026-04-26 21:25:52 INFO: Fan control: set duty cycle to 0%
+2026-04-26 21:25:52 INFO: Shutting down heater
+2026-04-26 21:25:52 INFO: Close program
